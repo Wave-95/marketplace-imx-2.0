@@ -152,6 +152,7 @@ module.exports = {
       dropShadow: { popover: 'rgba(0, 0, 0, 0.1) 0px 0px 1px 0px, rgba(0, 0, 0, 0.1) 0px 4px 10px 0px' },
       maxWidth: { '8xl': '1440px' },
       width: { full: '100%' },
+      height: { headerless: 'calc(100vh - 4rem)' },
     },
     width: { sidebar: '256px' },
   },
