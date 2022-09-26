@@ -511,4 +511,8 @@
   .rounded-button {
     @apply rounded-lg cursor-pointer;
   }
+
+  .header {
+    @apply h-header px-4 lg:px-6 bg-header flex items-center justify-between;
+  }
 }

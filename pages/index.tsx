@@ -13,7 +13,8 @@ export default function Marketplace() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="h-headerless overflow-scroll lg:h-auto lg:overflow-auto">
+        <div className="header border-b border-normal sticky top-16">Hello</div>
+        <div className="h-auto overflow-auto">
           <TestDiv />
           <TestDiv />
           <TestDiv />
