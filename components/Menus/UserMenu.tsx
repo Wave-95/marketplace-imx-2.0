@@ -2,9 +2,8 @@ import { UserContextType, useUser } from '@/providers/UserProvider';
 import { ellipse } from '@/utils/index';
 import Link from 'next/link';
 import React from 'react';
-import { Briefcase, Copy, Disc, Power } from 'react-feather';
+import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';
 import { toast } from 'react-toastify';
-import IconButton from '../Buttons/IconButton';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from '../MenuItem';
 import BaseMenu from './BaseMenu';
@@ -30,7 +29,10 @@ export default function UserMenu({ ...props }) {
   const MenuButtonChild = (
     <div className="btn-secondary h-10 flex space-x-2 items-center justify-start">
       {WalletProviderIcon}
-      <span>{ellipse(address)}</span>
+      <div className="flex items-center">
+        <span className="hidden lg:inline">{ellipse(address)}</span>
+        <ChevronDown />
+      </div>
     </div>
   );
 

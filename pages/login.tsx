@@ -16,8 +16,8 @@ const Login: React.FC = () => {
   const router = useRouter();
   const page_title = `Login | ${collection_name}`;
 
-  const WalletConnectIcon = () => <Image src="/wallet-connect.svg" width="20" height="20" />;
-  const MetamaskIcon = () => <Image src="/metamask.svg" width="20" height="20" />;
+  const WalletConnectIcon = () => <Image src="/wallet-connect.svg" width="25" height="25" />;
+  const MetamaskIcon = () => <Image src="/metamask.svg" width="25" height="25" />;
 
   const connectWallet = async (provider: L1_PROVIDERS) => {
     const walletSDK = await getWalletSDK();
@@ -53,13 +53,13 @@ const Login: React.FC = () => {
             <h2 className="text-page">Please select a wallet provider</h2>
             <div className="flex flex-col space-y-6">
               <IconButton
-                className="min-w-[300px] py-4"
+                className="min-w-[300px] py-4 min-h-[55px]"
                 icon={<MetamaskIcon />}
                 text="Connect MetaMask"
                 handleClick={() => connectWallet(L1_PROVIDERS.METAMASK)}
               />
               <IconButton
-                className="min-w-[300px] py-4"
+                className="min-w-[300px] py-4 min-h-[55px]"
                 icon={<WalletConnectIcon />}
                 text="Connect WalletConnect"
                 handleClick={() => connectWallet(L1_PROVIDERS.WALLET_CONNECT)}

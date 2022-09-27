@@ -31,7 +31,7 @@ const userReducer = (state: State, action: Action) => {
     case 'connect':
       return { ...state, connection: action.payload, isConnected: true };
     case 'disconnect':
-      return { ...state, isConnected: false };
+      return { ...state, ...INITIAL_STATE };
     case 'set_address':
       return { ...state, address: action.payload };
     default: {
