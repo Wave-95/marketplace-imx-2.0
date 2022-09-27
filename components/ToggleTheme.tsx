@@ -1,10 +1,12 @@
 import { useTheme } from '@/providers';
+import { MouseEvent } from 'react';
 import { Moon, Sun } from 'react-feather';
 
 function DarkModeToggle({ ...props }) {
   const { isDarkMode, toggleTheme } = useTheme();
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     localStorage.setItem('marketplace-dark-mode', (!isDarkMode).toString());
     toggleTheme();
 

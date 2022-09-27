@@ -1,4 +1,5 @@
 import { ThemeProvider, ToastProvider } from '@/providers';
+import { UserProvider } from '@/providers/UserProvider';
 import { AppProps } from 'next/app';
 
 import '../styles/globals.css';
@@ -8,7 +9,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <Component {...pageProps} />
+        <UserProvider>
+          <Component {...pageProps} />
+        </UserProvider>
       </ToastProvider>
     </ThemeProvider>
   );
