@@ -4,7 +4,7 @@ import cx from 'classnames';
 interface IconButtonProps {
   icon: React.ReactNode;
   text: string;
-  handleClick: () => void;
+  handleClick?: () => void;
   className?: string;
 }
 

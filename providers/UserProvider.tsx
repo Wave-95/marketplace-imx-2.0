@@ -10,7 +10,7 @@ interface State {
 
 type Action = {
   type: 'connect' | 'disconnect' | 'set_address';
-  payload: any;
+  payload?: any;
 };
 
 type Dispatch = (action: Action) => void;

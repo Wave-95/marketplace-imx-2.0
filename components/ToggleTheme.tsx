@@ -20,8 +20,12 @@ function DarkModeToggle({ ...props }) {
 
   return (
     <div {...props}>
-      <button aria-label="Theme Mode" className="p-2 btn-secondary" onClick={toggleDarkMode}>
-        {isDarkMode ? <Sun /> : <Moon />}
+      <button
+        aria-label="Theme Mode"
+        className="btn-secondary p-2 h-10 w-10 flex items-center justify-center"
+        onClick={toggleDarkMode}
+      >
+        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
     </div>
   );

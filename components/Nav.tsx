@@ -6,7 +6,7 @@ import { UserContextType, useUser } from '@/providers/UserProvider';
 
 export default function Nav({ ...props }) {
   const {
-    state: { isConnected },
+    state: { address },
   } = useUser() as UserContextType;
 
   const LogoHome = () => (
@@ -20,7 +20,7 @@ export default function Nav({ ...props }) {
       <header className="header border-b border-normal">
         <LogoHome />
         <div className="flex items-center space-x-4 ml-auto">
-          {isConnected ? <UserMenu /> : <ConnectWallet />}
+          {address ? <UserMenu /> : <ConnectWallet />}
           <DarkModeToggle className="hidden lg:block" />
         </div>
       </header>

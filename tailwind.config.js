@@ -154,6 +154,9 @@ module.exports = {
       maxWidth: { '8xl': '1440px' },
       height: { header: '4rem', headerless: 'calc(100vh - 4rem)' },
       minHeight: { headerless: 'calc(100vh - 4rem)' },
+      fontSize: {
+        base: '15px',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],

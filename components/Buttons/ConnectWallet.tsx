@@ -10,7 +10,7 @@ export default function ConnectWallet({ ...props }) {
   };
 
   return (
-    <button className="btn-primary" onClick={redirectLogin} {...props}>
+    <button className="btn-primary h-10" onClick={redirectLogin} {...props}>
       Connect Wallet
     </button>
   );
