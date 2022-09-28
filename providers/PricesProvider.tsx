@@ -12,14 +12,14 @@ type Action = {
 
 type Dispatch = (action: Action) => void;
 
-export type PriceContextType = {
+export type PricesContextType = {
   state: State;
   dispatch: Dispatch;
 };
 
 const INITIAL_STATE = {};
 
-const priceReducer = (state: State, action: Action) => {
+const pricesReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'update_price':
       return { ...state, ...action.payload };
@@ -29,10 +29,10 @@ const priceReducer = (state: State, action: Action) => {
   }
 };
 
-const PriceContext = createContext<PriceContextType | null>(null);
+const PricesContext = createContext<PricesContextType | null>(null);
 
-export const PriceProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = useReducer(priceReducer, INITIAL_STATE);
+export const PricesProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = useReducer(pricesReducer, INITIAL_STATE);
 
   const fetchPrices = async () => {
     const fetchEthPricePromise = fetch('https://api.coinbase.com/v2/prices/ETH-USD/buy');
@@ -50,9 +50,9 @@ export const PriceProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const value = { state, dispatch };
-  return <PriceContext.Provider value={value}>{children}</PriceContext.Provider>;
+  return <PricesContext.Provider value={value}>{children}</PricesContext.Provider>;
 };
 
-export const usePrice = () => {
-  return useContext(PriceContext);
+export const usePrices = () => {
+  return useContext(PricesContext);
 };

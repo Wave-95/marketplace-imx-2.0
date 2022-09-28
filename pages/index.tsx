@@ -47,7 +47,7 @@ const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCu
     setIsLoading(false);
   };
 
-  //TODO: Add array dependency
+  //TODO: Add filters dependency after setting up store
   useEffect(() => {
     fetchData();
   }, []);

@@ -1,4 +1,4 @@
-import { Order } from '@imtbl/core-sdk';
+import { CollectionFilter, Order } from '@imtbl/core-sdk';
 import { weiToNumber } from '@/helpers';
 import { FilterOption, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
@@ -38,6 +38,14 @@ export const formatActiveOrders = (activeOrders: Array<Order>): Array<FormattedA
   return activeOrdersFormatted;
 };
 
+export const formatAvailableFilters = (availableFiltersResponse: Array<CollectionFilter>) => {
+  const availableFiltersFormatted = availableFiltersResponse.map((filter) => ({
+    key: filter.key,
+    values: filter?.value?.sort((a, b) => Number(a) - Number(b)) || [],
+  }));
+  return availableFiltersFormatted;
+};
+
 /**
  *
  * React State ➡️ IMX API Request
@@ -54,16 +62,16 @@ export const formatActiveOrders = (activeOrders: Array<Order>): Array<FormattedA
  * the React application can use.
  */
 
-type FormatQueryToFilterStateResponse = {
-  selected: SelectedFilters;
-  orderByKey: OrderByKey;
-};
-
 /**
  * This function takes in the ParsedUrlQuery object and returns an object containing the selected filters and the orderByKey.
  * If no orderByKey was provided, then default to 'newestListing'. If no availableList is provided, honor every query param with
  * the exception of the exclusionList.
  */
+
+type FormatQueryToFilterStateResponse = {
+  selected: SelectedFilters;
+  orderByKey: OrderByKey;
+};
 
 export const formatQueryToFilterState = ({
   query,

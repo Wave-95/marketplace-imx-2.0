@@ -68,6 +68,11 @@ IMX Calls
 -----------
 */
 
+export const getAvailableFilters = async () => {
+  const response = await collectionsApi.listCollectionFilters({ address: token_address });
+  return response.data;
+};
+
 export const listActiveOrders = async (queryParams?: Partial<OrdersApiListOrdersRequest>) => {
   const response = await ordersApi.listOrders({
     sellTokenAddress: token_address,

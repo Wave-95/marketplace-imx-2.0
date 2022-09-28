@@ -1,4 +1,4 @@
-import { PriceProvider, ThemeProvider, ToastProvider, UserProvider } from '@/providers';
+import { FiltersProvider, PricesProvider, ThemeProvider, ToastProvider, UserProvider } from '@/providers';
 import { AppProps } from 'next/app';
 
 import '../styles/globals.css';
@@ -9,9 +9,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider>
       <ToastProvider>
         <UserProvider>
-          <PriceProvider>
-            <Component {...pageProps} />
-          </PriceProvider>
+          <FiltersProvider>
+            <PricesProvider>
+              <Component {...pageProps} />
+            </PricesProvider>
+          </FiltersProvider>
         </UserProvider>
       </ToastProvider>
     </ThemeProvider>
