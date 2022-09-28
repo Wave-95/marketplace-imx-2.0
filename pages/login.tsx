@@ -7,7 +7,7 @@ import LayoutDefault from '@/components/LayoutDefault';
 import { collection_name } from '@/constants/configs';
 import Container from '@/components/Container';
 import IconButton from '@/components/Buttons/IconButton';
-import { coreSdkWorkflows, getWalletSDK } from '../imx-helpers';
+import { coreSdkWorkflows, buildWalletSDK } from '@/helpers/imx';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
 
@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   const MetamaskIcon = () => <Image src="/metamask.svg" width="25" height="25" />;
 
   const connectWallet = async (provider: L1_PROVIDERS) => {
-    const walletSDK = await getWalletSDK();
+    const walletSDK = await buildWalletSDK();
     try {
       await walletSDK.connect({ provider });
       const walletConnection = await walletSDK.getWalletConnection();

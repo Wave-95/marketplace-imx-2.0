@@ -1,5 +1,5 @@
 import { UserContextType, useUser } from '@/providers/UserProvider';
-import { ellipse } from '@/utils/index';
+import { ellipse } from '@/helpers';
 import Link from 'next/link';
 import React from 'react';
 import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';

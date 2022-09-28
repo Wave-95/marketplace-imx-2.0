@@ -1,10 +1,21 @@
-import { getConfig, AssetsApi, CollectionsApi, OrdersApi, TradesApi, TransfersApi, Workflows } from '@imtbl/core-sdk';
+import {
+  getConfig,
+  AssetsApi,
+  BalancesApi,
+  CollectionsApi,
+  OrdersApi,
+  TradesApi,
+  TransfersApi,
+  Workflows,
+  OrdersApiListOrdersRequest,
+} from '@imtbl/core-sdk';
 import { WalletSDK } from '@imtbl/wallet-sdk-web';
 import {
   base_path,
   chain_id,
   core_contract_address,
   registration_contract_address,
+  token_address,
   wallet_sdk_environment,
 } from '@/constants/configs';
 
@@ -26,9 +37,9 @@ const collectionsApi = new CollectionsApi(config.apiConfiguration);
 const ordersApi = new OrdersApi(config.apiConfiguration);
 const tradesApi = new TradesApi(config.apiConfiguration);
 const transfersApi = new TransfersApi(config.apiConfiguration);
-const COLLECTION_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_TOKEN_ADDRESS;
+const balancesApi = new BalancesApi(config.apiConfiguration);
 
-export const getWalletSDK = async () =>
+export const buildWalletSDK = async () =>
   await WalletSDK.build({
     env: wallet_sdk_environment,
     /*
@@ -51,3 +62,19 @@ export const getWalletSDK = async () =>
         */
     chainID: chain_id,
   });
+
+/*
+IMX Calls
+-----------
+*/
+
+export const listActiveOrders = async (queryParams?: Partial<OrdersApiListOrdersRequest>) => {
+  const response = await ordersApi.listOrders({
+    sellTokenAddress: token_address,
+    buyTokenType: 'ETH',
+    includeFees: true,
+    status: 'active',
+    ...queryParams,
+  });
+  return response.data;
+};

@@ -11,11 +11,8 @@
       "@/constants/*": ["constants/*"],
       "@/constants": ["constants"],
 
-      "@/imx-helpers/*": ["imx-helpers/*"],
-      "@/imx-helpers": ["imx-helpers"],
-
-      "@/utils/*": ["utils/*"],
-      "@/utils": ["utils"]
+      "@/helpers/*": ["helpers/*"],
+      "@/helpers": ["helpers"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

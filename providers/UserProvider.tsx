@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { WalletConnection } from '@imtbl/core-sdk';
-import { getWalletSDK } from '@/imx-helpers';
+import { buildWalletSDK } from '@/helpers/imx';
 
 interface State {
   connection: WalletConnection | null;
@@ -46,7 +46,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
 
   const silentConnect = async () => {
-    const walletSDK = await getWalletSDK();
+    const walletSDK = await buildWalletSDK();
     const walletConnection = await walletSDK.getWalletConnection();
     if (walletConnection) {
       const address = await walletConnection?.l1Signer?.getAddress();

@@ -1,5 +1,5 @@
 import { UserContextType, useUser } from '@/providers/UserProvider';
-import { formatCurrency } from '@/utils/index';
+import { formatCurrency } from '@/helpers';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { EthIcon } from '../Icons';
