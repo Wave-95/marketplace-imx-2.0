@@ -43,9 +43,9 @@ const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCu
 export default Marketplace;
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  console.log(query);
+  console.log({ query });
   const filterState = formatQueryToFilterState({ query });
-  console.log(filterState);
+  console.log({ filterState });
   const activeOrdersResponse = await listActiveOrders();
   const { result: activeOrders, cursor } = activeOrdersResponse;
   const activeOrdersFormatted = formatActiveOrders(activeOrders);

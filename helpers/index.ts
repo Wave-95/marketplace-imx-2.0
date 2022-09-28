@@ -11,7 +11,9 @@ export const ellipse = (address: string | null, width: number = 4) => {
 export const formatCurrency = (amount: string, currency = 'ETH') => {
   switch (currency) {
     case 'ETH':
-      return numeral(amount).format('0[.]0[00]');
+      return numeral(amount).format('0[.]0[0000]');
+    case 'USD':
+      return `$${numeral(amount).format('0.00')}`;
     default:
       throw new Error(`Unsupported currency type: ${currency}`);
   }

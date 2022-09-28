@@ -1,12 +1,44 @@
 import React from 'react';
 import cx from 'classnames';
 import BaseCard from './BaseCard';
+import Link from 'next/link';
+import Image from 'next/image';
+import { FormattedActiveOrder } from '@/helpers/formatters';
+import ByUser from '../ByUser';
+import Price from '../Price';
+import { PriceContextType, usePrice } from '@/providers/PriceProvider';
 
 interface AssetCardProps {
+  asset: FormattedActiveOrder;
   className?: string;
 }
 
-const AssetCard: React.FC<AssetCardProps> = ({ className, ...props }) => {
+const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => {
+  const { tokenId, name, imgUrl, buyAmount, buyType, user } = asset;
+  const { state: prices } = usePrice() as PriceContextType;
+  const priceKey = `${buyType}USD`;
+  const rate = prices[priceKey];
+
+  const Asset = () => (
+    <Link href={`/assets/${tokenId}`}>
+      <a>
+        <div className="space-y-2 p-4 pt-0">
+          <div className="relative min-h-[300px] -mt-2">
+            <Image src={imgUrl} quality={100} objectFit="contain" objectPosition="center" layout="fill" />
+          </div>
+          <h4 className="font-medium text-center mt-2">{name}</h4>
+        </div>
+      </a>
+    </Link>
+  );
+
+  const AssetDetails = () => (
+    <div className="flex items-center justify-between p-4 border-t border-normal">
+      <ByUser user={user} text={buyAmount ? 'Sold by' : 'Owned by'} />
+      {buyAmount ? <Price amount={buyAmount} type={buyType} rate={rate} /> : null}
+    </div>
+  );
+
   return (
     <BaseCard
       className={cx(
@@ -15,7 +47,10 @@ const AssetCard: React.FC<AssetCardProps> = ({ className, ...props }) => {
       )}
       {...props}
     >
-      <div className="h-[200px]">Hello</div>
+      <div>
+        <Asset />
+        <AssetDetails />
+      </div>
     </BaseCard>
   );
 };
