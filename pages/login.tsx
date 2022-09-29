@@ -16,8 +16,8 @@ const Login: React.FC = () => {
   const router = useRouter();
   const page_title = `Login | ${collection_name}`;
 
-  const WalletConnectIcon = () => <Image src="/wallet-connect.svg" width="25" height="25" />;
-  const MetamaskIcon = () => <Image src="/metamask.svg" width="25" height="25" />;
+  const WalletConnectIcon = () => <Image src="/wallet-connect.svg" width="25" height="25" alt="wallet-connect-login" />;
+  const MetamaskIcon = () => <Image src="/metamask.svg" width="25" height="25" alt="metamask-login" />;
 
   const connectWallet = async (provider: L1_PROVIDERS) => {
     const walletSDK = await buildWalletSDK();

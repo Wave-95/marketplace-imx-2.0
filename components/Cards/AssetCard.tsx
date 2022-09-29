@@ -24,7 +24,14 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => 
       <a>
         <div className="space-y-2 p-4 pt-0">
           <div className="relative min-h-[300px]">
-            <Image src={imgUrl} quality={100} objectFit="contain" objectPosition="center" layout="fill" />
+            <Image
+              src={imgUrl}
+              quality={100}
+              objectFit="contain"
+              objectPosition="center"
+              layout="fill"
+              alt={`img-token-${tokenId}`}
+            />
           </div>
           <h4 className="font-medium text-center mt-2">{name}</h4>
         </div>

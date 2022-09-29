@@ -1,5 +1,5 @@
 import { useIsomorphicLayoutEffect } from 'hooks';
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
 interface State {
   availHeight: string;
@@ -34,6 +34,11 @@ const dimensionReducer = (state: State, action: Action) => {
 };
 
 const DimensionContext = createContext<DimensionContextType | null>(null);
+
+/**
+ * This provider calculates the avail height for mobile screens on mount due to issues with
+ * mobile browsers having varying screens due to address / nav bars
+ */
 
 export const DimensionProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(dimensionReducer, INITIAL_STATE);

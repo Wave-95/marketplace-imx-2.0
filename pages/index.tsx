@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { collection_name } from '@/constants/configs';
 import AssetViewer from '@/components/AssetViewer';
 import LayoutDefault from '@/components/LayoutDefault';
 import { listActiveOrders } from '@/helpers/imx';
-import {
-  formatActiveOrders,
-  formatFiltersToApiRequest,
-  formatQueryToFilterState,
-  FormattedActiveOrder,
-} from '@/helpers/formatters';
+import { formatActiveOrders, formatFiltersToApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
 import MetadataFilters from '@/components/MetadataFilters';
 import { useFilters } from '../providers';
 import { FiltersContextType } from '@/providers/FiltersProvider';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
+import OrderByMenu from '@/components/Menus/OrderByMenu';
 
 const Marketplace: React.FC = () => {
   const { state: filters } = useFilters() as FiltersContextType;
@@ -76,6 +71,7 @@ const Marketplace: React.FC = () => {
                   <div className="">{isLoading ? <Loading /> : null}</div>
                 </div>
               </div>
+              <OrderByMenu />
             </Header>
             <AssetViewer
               assets={activeOrders}
@@ -91,16 +87,3 @@ const Marketplace: React.FC = () => {
 };
 
 export default Marketplace;
-
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const filterState = formatQueryToFilterState({ query });
-  const filterParams = formatFiltersToApiRequest(filterState);
-
-  const activeOrdersResponse = await listActiveOrders({ ...filterParams });
-  const { result: activeOrders, cursor } = activeOrdersResponse;
-  const activeOrdersFormatted = formatActiveOrders(activeOrders);
-
-  return {
-    props: { initalActiveOrders: activeOrdersFormatted, initialCursor: cursor },
-  };
-};
