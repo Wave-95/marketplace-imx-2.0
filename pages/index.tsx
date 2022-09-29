@@ -14,8 +14,6 @@ import {
 import MetadataFilters from '@/components/MetadataFilters';
 import { useFilters } from '../providers';
 import { FiltersContextType } from '@/providers/FiltersProvider';
-import Header from '@/components/Header';
-import Loading from '@/components/Loading';
 
 const Marketplace: React.FC = () => {
   const { state: filters } = useFilters() as FiltersContextType;
@@ -38,7 +36,7 @@ const Marketplace: React.FC = () => {
   };
 
   const fetchNextData = async () => {
-    console.log('fetching next..');
+    console.log('fetching next...');
     setIsLoading(true);
     const filterParams = formatFiltersToApiRequest(filters);
     const activeOrdersResponse = await listActiveOrders({
@@ -64,19 +62,11 @@ const Marketplace: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="block lg:flex">
+        <div className="flex">
           <div className="hidden lg:block w-sidebar">
             <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" />
           </div>
-          <>
-            <Header className="relative lg:sticky lg:top-16">
-              <div className="flex items-center">
-                <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
-                <div className="">{isLoading ? <Loading /> : null}</div>
-              </div>
-            </Header>
-            <AssetViewer assets={activeOrders} isLoading={isLoading} next={fetchNextData} height="calc(100vh - 8rem)" />
-          </>
+          <AssetViewer assets={activeOrders} isLoading={isLoading} next={fetchNextData} className="flex-1" />
         </div>
       </LayoutDefault>
     </>
