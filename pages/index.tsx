@@ -14,6 +14,8 @@ import {
 import MetadataFilters from '@/components/MetadataFilters';
 import { useFilters } from '../providers';
 import { FiltersContextType } from '@/providers/FiltersProvider';
+import Header from '@/components/Header';
+import Loading from '@/components/Loading';
 
 const Marketplace: React.FC = () => {
   const { state: filters } = useFilters() as FiltersContextType;
@@ -62,16 +64,40 @@ const Marketplace: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="flex">
+        <div className="flex-1 flex overflow-auto lg:h-auto lg:overflow-visible">
           <div className="hidden lg:block w-sidebar">
             <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" />
           </div>
-          <AssetViewer assets={activeOrders} isLoading={isLoading} next={fetchNextData} className="flex-1" />
+          <div className="flex flex-col flex-1 h-full lg:h-auto">
+            <Header className="border-b border-normal lg:sticky lg:top-16 z-[100]">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
+                  <div className="">{isLoading ? <Loading /> : null}</div>
+                </div>
+              </div>
+            </Header>
+            <AssetViewer
+              assets={activeOrders}
+              next={fetchNextData}
+              infiniteScrollHeight="100%"
+              className="flex-1 overflow-auto"
+            />
+          </div>
         </div>
       </LayoutDefault>
     </>
   );
 };
+
+/* <div className="relative header border-b border-normal lg:sticky lg:top-16 z-[100]">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
+            <div className="">{isLoading ? <Loading /> : null}</div>
+          </div>
+        </div>
+      </div> */
 
 export default Marketplace;
 

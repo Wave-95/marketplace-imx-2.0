@@ -4,6 +4,7 @@ import UserMenu from './Menus/UserMenu';
 import ConnectWallet from './Buttons/ConnectWallet';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import Balance from './Buttons/Balance';
+import Header from './Header';
 
 export default function Nav({ ...props }) {
   const {
@@ -17,15 +18,15 @@ export default function Nav({ ...props }) {
   );
 
   return (
-    <div className="sticky top-0 z-[100]" {...props}>
-      <header className="header border-b border-normal">
+    <div className="relative lg:sticky top-0 z-[100]" {...props}>
+      <Header className="border-b border-normal">
         <LogoHome />
         <div className="flex items-center space-x-4 ml-auto">
           <Balance />
           {address ? <UserMenu /> : <ConnectWallet />}
           <DarkModeToggle className="hidden lg:block" />
         </div>
-      </header>
+      </Header>
     </div>
   );
 }
