@@ -64,12 +64,12 @@ const Marketplace: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="flex-1 flex overflow-auto lg:h-auto lg:overflow-visible">
+        <div className="flex-1 flex overflow-auto">
           <div className="hidden lg:block w-sidebar">
             <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" />
           </div>
           <div className="flex flex-col flex-1 h-full lg:h-auto">
-            <Header className="border-b border-normal lg:sticky lg:top-16 z-[100]">
+            <Header className="border-b border-normal sticky z-[100]">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
@@ -89,15 +89,6 @@ const Marketplace: React.FC = () => {
     </>
   );
 };
-
-/* <div className="relative header border-b border-normal lg:sticky lg:top-16 z-[100]">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
-            <div className="">{isLoading ? <Loading /> : null}</div>
-          </div>
-        </div>
-      </div> */
 
 export default Marketplace;
 

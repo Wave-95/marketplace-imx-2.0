@@ -16,5 +16,5 @@ a {
 }
 
 div#infinite-scroll-container > div:first-child {
-  height: auto;
+  height: 100%;
 }
