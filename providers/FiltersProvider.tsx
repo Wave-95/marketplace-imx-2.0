@@ -3,8 +3,9 @@ import { getAvailableFilters } from '@/helpers/imx';
 import { CollectionFilter } from '@imtbl/core-sdk';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useReducer } from 'react';
+import { removeStringFromArray } from '../helpers';
 
-export type FilterValues = Array<string | number>;
+export type FilterValues = string[];
 
 export type FilterOption = {
   key: string;
@@ -19,7 +20,7 @@ export type SelectedFilters = {
 
 export type OrderByKey = 'lowestPrice' | 'highestPrice' | 'newestListing' | 'oldestListing';
 
-type State = {
+export type FilterState = {
   available: Array<FilterOption>;
   selected: SelectedFilters;
   orderByKey: OrderByKey;
@@ -38,8 +39,8 @@ type Action = {
 
 type Dispatch = (action: Action) => void;
 
-type FiltersContextType = {
-  state: State;
+export type FiltersContextType = {
+  state: FilterState;
   dispatch: Dispatch;
 };
 
@@ -49,7 +50,7 @@ const INITIAL_STATE = {
   orderByKey: 'newestListing',
 };
 
-const filtersReducer = (state: State, action: Action) => {
+const filtersReducer = (state: FilterState, action: Action) => {
   switch (action.type) {
     case 'set_available_filters':
       return { ...state, available: action.payload };
@@ -60,27 +61,27 @@ const filtersReducer = (state: State, action: Action) => {
     case 'set_order_by_key':
       return { ...state, orderByKey: action.payload };
 
-    // case 'select_filter': {
-    //   const { label, value } = action.payload;
-    //   if (Array.isArray(state.selected[label])) {
-    //     const newValues = [].concat(state.selected[label]);
-    //     !newValues.includes(value) && newValues.push(value);
-    //     return { ...state, selected: { ...state.selected, [label]: newValues } };
-    //   } else {
-    //     return { ...state, selected: { ...state.selected, [label]: [value] } };
-    //   }
-    // }
+    case 'select_filter': {
+      const { label, value } = action.payload;
+      if (Array.isArray(state.selected[label])) {
+        const newValues = new Array(...state.selected[label]);
+        !newValues.includes(value) && newValues.push(value);
+        return { ...state, selected: { ...state.selected, [label]: newValues } };
+      } else {
+        return { ...state, selected: { ...state.selected, [label]: [value] } };
+      }
+    }
 
-    // case 'deselect_filter': {
-    //   const { label, value } = action.payload;
-    //   if (Array.isArray(state.selected[label])) {
-    //     const newValues = [].concat(state.selected[label]);
-    //     if (newValues.includes(value)) {
-    //       removeStringFromArray(newValues, value);
-    //     }
-    //     return { ...state, selected: { ...state.selected, [label]: newValues } };
-    //   }
-    // }
+    case 'deselect_filter': {
+      const { label, value } = action.payload;
+      if (Array.isArray(state.selected[label])) {
+        const newValues = new Array(...state.selected[label]);
+        if (newValues.includes(value)) {
+          removeStringFromArray(newValues, value);
+        }
+        return { ...state, selected: { ...state.selected, [label]: newValues } };
+      }
+    }
 
     case 'clear_selected_filters':
       return { ...state, selected: {} };

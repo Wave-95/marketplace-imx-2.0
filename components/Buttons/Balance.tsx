@@ -1,7 +1,7 @@
-import { UserContextType, useUser } from '@/providers/UserProvider';
-import { formatCurrency } from '@/helpers';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { UserContextType, useUser } from '@/providers/UserProvider';
+import { formatCurrency } from '@/helpers/formatters';
 import { EthIcon } from '../Icons';
 
 const Balance: React.FC = ({ ...props }) => {

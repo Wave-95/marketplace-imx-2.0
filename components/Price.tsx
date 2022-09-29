@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatCurrency } from '../helpers';
+import { formatCurrency } from '@/helpers/formatters';
 import { EthIcon } from './Icons';
 
 interface PriceProps {

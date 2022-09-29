@@ -478,7 +478,7 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@imtbl/core-sdk@^0.7.0":
+"@imtbl/core-sdk@0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@imtbl/core-sdk/-/core-sdk-0.7.0.tgz#ae8a8b07f6681e3bbc0819c0ce0037e3975f3dce"
   integrity sha512-Zy5IDljuc78a504SISg8lsHzXxwMj5BqbgWZe4HKqLy9Yj9vPwpPnqAichAtxpF3n7O6J318L9qR7XhoFJ7yKA==

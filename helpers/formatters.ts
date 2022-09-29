@@ -1,8 +1,9 @@
-import { CollectionFilter, Order } from '@imtbl/core-sdk';
-import { weiToNumber } from '@/helpers';
-import { FilterOption, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
+import { CollectionFilter, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
+import { FilterOption, FilterState, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
-import { order_by_keys, order_by_key_default } from '../constants';
+import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
+import numeral from 'numeral';
+import { utils } from 'ethers';
 
 /**
  * IMX API Response ➡️ React State
@@ -29,7 +30,7 @@ export const formatActiveOrders = (activeOrders: Array<Order>): Array<FormattedA
       tokenId: order.sell.data.token_id,
       name: order?.sell?.data?.properties?.name,
       imgUrl: order?.sell?.data?.properties?.image_url || '',
-      buyAmount: weiToNumber(order.buy.data.quantity),
+      buyAmount: formatWeiToNumber(order.buy.data.quantity),
       buyType: order.buy.type,
       timestamp: order.timestamp,
       user: order.user,
@@ -53,6 +54,29 @@ export const formatAvailableFilters = (availableFiltersResponse: Array<Collectio
  * These are formatters that convert the application's state (e.g. context objects)
  * into a useable API request format.
  */
+
+export const formatFiltersToApiRequest = ({
+  selected,
+  orderByKey,
+}: {
+  selected: SelectedFilters;
+  orderByKey: OrderByKey;
+}) => {
+  const newSelected: { [key: string]: FilterValues } = {};
+  Object.assign(newSelected, selected);
+
+  for (const [key, value] of Object.entries(newSelected)) {
+    if (Array.isArray(value) && value.length === 0) {
+      delete newSelected[key];
+    }
+  }
+  const sellMetadata = JSON.stringify(newSelected);
+
+  const orderBy = order_by_config[orderByKey].orderBy as OrdersApiListOrdersRequest['orderBy'];
+  const direction = order_by_config[orderByKey].direction as OrdersApiListOrdersRequest['direction'];
+
+  return { sellMetadata, orderBy, direction };
+};
 
 /**
  *
@@ -83,7 +107,7 @@ export const formatQueryToFilterState = ({
   exclusionList?: string[];
 }): FormatQueryToFilterStateResponse => {
   let { orderBy, ...rest } = query;
-  const newQueryObj = convertObjectValuesToArrays(rest);
+  const newQueryObj = formatObjValsToArrays(rest);
 
   //Get orderByKey
   if (Array.isArray(orderBy)) {
@@ -115,7 +139,7 @@ export const formatQueryToFilterState = ({
   }
 
   return {
-    selected: newQueryObj,
+    selected: newQueryObj as SelectedFilters,
     orderByKey,
   };
 };
@@ -152,7 +176,7 @@ type ObjectWithArrayValues = {
   [key: string]: any[];
 };
 
-export const convertObjectValuesToArrays = (obj: Object): ObjectWithArrayValues => {
+export const formatObjValsToArrays = (obj: Object): ObjectWithArrayValues => {
   const newObj: ObjectWithArrayValues = {};
 
   for (const [key, value] of Object.entries(obj)) {
@@ -164,4 +188,26 @@ export const convertObjectValuesToArrays = (obj: Object): ObjectWithArrayValues 
     }
   }
   return newObj;
+};
+
+export const formatAddressEllipse = (address: string | null, width: number = 4) => {
+  if (!address) {
+    return '';
+  }
+  return `${address.slice(0, width)}...${address.slice(-width)}`;
+};
+
+export const formatCurrency = (amount: string, currency = 'ETH') => {
+  switch (currency) {
+    case 'ETH':
+      return numeral(amount).format('0[.]0[0000]');
+    case 'USD':
+      return `$${numeral(amount).format('0.00')}`;
+    default:
+      throw new Error(`Unsupported currency type: ${currency}`);
+  }
+};
+
+export const formatWeiToNumber = (num: string) => {
+  return utils.formatEther(num);
 };

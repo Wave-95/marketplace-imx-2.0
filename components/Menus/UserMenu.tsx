@@ -1,5 +1,4 @@
 import { UserContextType, useUser } from '@/providers/UserProvider';
-import { ellipse } from '@/helpers';
 import Link from 'next/link';
 import React from 'react';
 import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';
@@ -7,6 +6,7 @@ import { toast } from 'react-toastify';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from '../MenuItem';
 import BaseMenu from './BaseMenu';
+import { formatAddressEllipse } from '@/helpers/formatters';
 
 export default function UserMenu({ ...props }) {
   const {
@@ -30,7 +30,7 @@ export default function UserMenu({ ...props }) {
     <div className="btn-secondary h-10 flex space-x-2 items-center justify-start">
       {WalletProviderIcon}
       <div className="flex items-center">
-        <span className="hidden lg:inline">{ellipse(address)}</span>
+        <span className="hidden lg:inline">{formatAddressEllipse(address)}</span>
         <ChevronDown />
       </div>
     </div>
@@ -38,7 +38,7 @@ export default function UserMenu({ ...props }) {
 
   const CopyAddress = (
     <MenuItem icon={<Copy size={20} />} onClick={handleCopyAddress}>
-      <span>{ellipse(address)}</span>
+      <span>{formatAddressEllipse(address)}</span>
     </MenuItem>
   );
 

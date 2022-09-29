@@ -4,27 +4,30 @@ import Head from 'next/head';
 import { collection_name } from '@/constants/configs';
 import AssetViewer from '@/components/AssetViewer';
 import LayoutDefault from '@/components/LayoutDefault';
-import MetadataFilter from '@/components/MetadataFilter';
 import { listActiveOrders } from '@/helpers/imx';
-import { formatActiveOrders, formatQueryToFilterState, FormattedActiveOrder } from '@/helpers/formatters';
+import {
+  formatActiveOrders,
+  formatFiltersToApiRequest,
+  formatQueryToFilterState,
+  FormattedActiveOrder,
+} from '@/helpers/formatters';
+import MetadataFilters from '@/components/MetadataFilters';
+import { useFilters } from '../providers';
+import { FiltersContextType } from '@/providers/FiltersProvider';
 
-interface MarketplaceProps {
-  initalActiveOrders: Array<FormattedActiveOrder>;
-  initialCursor: string;
-}
-
-const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCursor }) => {
-  const [activeOrders, setActiveOrders] = useState(initalActiveOrders);
-  const [cursor, setCursor] = useState(initialCursor);
+const Marketplace: React.FC = () => {
+  const { state: filters } = useFilters() as FiltersContextType;
+  const [activeOrders, setActiveOrders] = useState<FormattedActiveOrder[]>([]);
+  const [cursor, setCursor] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
   const page_title = `Marketplace | ${collection_name}`;
 
   const fetchData = async () => {
     setIsLoading(true);
-    // const filterParams = filtersToApiRequest(filters);
+    const filterParams = formatFiltersToApiRequest(filters);
     const activeOrdersResponse = await listActiveOrders({
-      // ...filterParams,
+      ...filterParams,
     });
     const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
     setActiveOrders(activeOrdersFormatted);
@@ -35,9 +38,9 @@ const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCu
   const fetchNextData = async () => {
     console.log('fetching next...');
     setIsLoading(true);
-    // const filterParams = filtersToApiRequest(filters);
+    const filterParams = formatFiltersToApiRequest(filters);
     const activeOrdersResponse = await listActiveOrders({
-      // ...filterParams,
+      ...filterParams,
       cursor,
     });
     const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
@@ -47,10 +50,9 @@ const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCu
     setIsLoading(false);
   };
 
-  //TODO: Add filters dependency after setting up store
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filters]);
 
   return (
     <>
@@ -62,7 +64,7 @@ const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCu
       <LayoutDefault>
         <div className="flex">
           <div className="hidden lg:block w-sidebar">
-            <MetadataFilter className="sticky top-16 border-r border-normal h-headerless" />
+            <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" />
           </div>
           <AssetViewer assets={activeOrders} isLoading={isLoading} next={fetchNextData} className="flex-1" />
         </div>
@@ -74,10 +76,10 @@ const Marketplace: React.FC<MarketplaceProps> = ({ initalActiveOrders, initialCu
 export default Marketplace;
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  console.log({ query });
   const filterState = formatQueryToFilterState({ query });
-  console.log({ filterState });
-  const activeOrdersResponse = await listActiveOrders();
+  const filterParams = formatFiltersToApiRequest(filterState);
+
+  const activeOrdersResponse = await listActiveOrders({ ...filterParams });
   const { result: activeOrders, cursor } = activeOrdersResponse;
   const activeOrdersFormatted = formatActiveOrders(activeOrders);
 

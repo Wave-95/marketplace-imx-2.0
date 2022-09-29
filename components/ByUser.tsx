@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { ellipse } from '../helpers';
+import { formatAddressEllipse } from '@/helpers/formatters';
 
 interface ByUserProps {
   text: string;
@@ -16,7 +16,7 @@ const ByUser: React.FC<ByUserProps> = ({ text, user, ...props }) => {
           <span className="text-base font-medium leading-normal truncate">
             <Link href={`/users/${user}`}>
               <a className="hover:text-accent text-primary focusring decoration-1" target="_blank" rel="noreferrer">
-                {ellipse(user)}
+                {formatAddressEllipse(user)}
               </a>
             </Link>
           </span>
