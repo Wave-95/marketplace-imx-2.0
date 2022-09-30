@@ -10,6 +10,7 @@ import IconButton from '@/components/Buttons/IconButton';
 import { client, buildWalletSDK } from '@/helpers/imx';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
+import { WalletConnection } from '@imtbl/core-sdk';
 
 const Login: React.FC = () => {
   const { dispatch } = useUser() as UserContextType;
@@ -24,8 +25,14 @@ const Login: React.FC = () => {
     try {
       await walletSDK.connect({ provider });
       const walletConnection = await walletSDK.getWalletConnection();
-      //TODO: Use registerOffchain when walletConnection type is fixed
-      // walletConnection && (await client.registerOffchain(walletConnection));
+      //TODO: Remove re-casting when wallet-sdk update is released
+      if (walletConnection) {
+        const walletConnectionNew: WalletConnection = {
+          ethSigner: walletConnection?.l1Signer,
+          starkSigner: walletConnection?.l2Signer,
+        };
+        walletConnection && (await client.registerOffchain(walletConnectionNew));
+      }
       const address = await walletConnection?.l1Signer?.getAddress();
       dispatch({ type: 'connect', payload: walletConnection });
       dispatch({ type: 'set_address', payload: address });
