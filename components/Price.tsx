@@ -10,7 +10,7 @@ interface PriceProps {
 
 const Price: React.FC<PriceProps> = ({ amount, type, rate, ...props }) => {
   const priceFormatted = amount && formatCurrency(amount, type);
-  const convertedRate = rate && Number(priceFormatted) * rate;
+  const convertedRate = rate && Number(amount) * rate;
   const priceUSDFormatted = convertedRate && formatCurrency(convertedRate.toString(), 'USD');
 
   let CurrencyIcon = null;
