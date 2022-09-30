@@ -19,7 +19,7 @@ switch (imx_env) {
     break;
 }
 
-const client = new ImmutableX(config);
+export const client = new ImmutableX(config);
 
 export const buildWalletSDK = async () =>
   await WalletSDK.build({

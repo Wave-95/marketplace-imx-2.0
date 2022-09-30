@@ -7,7 +7,7 @@ import LayoutDefault from '@/components/LayoutDefault';
 import { collection_name } from '@/constants/configs';
 import Container from '@/components/Container';
 import IconButton from '@/components/Buttons/IconButton';
-import { coreSdkWorkflows, buildWalletSDK } from '@/helpers/imx';
+import { client, buildWalletSDK } from '@/helpers/imx';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
 
@@ -24,7 +24,8 @@ const Login: React.FC = () => {
     try {
       await walletSDK.connect({ provider });
       const walletConnection = await walletSDK.getWalletConnection();
-      walletConnection && (await coreSdkWorkflows.registerOffchain(walletConnection));
+      //TODO: Use registerOffchain when walletConnection type is fixed
+      // walletConnection && (await client.registerOffchain(walletConnection));
       const address = await walletConnection?.l1Signer?.getAddress();
       dispatch({ type: 'connect', payload: walletConnection });
       dispatch({ type: 'set_address', payload: address });
