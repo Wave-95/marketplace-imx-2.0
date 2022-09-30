@@ -64,7 +64,7 @@ const Marketplace: React.FC = () => {
             <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" />
           </div>
           <div className="flex flex-col flex-1 h-full lg:h-auto">
-            <Header className="border-b border-normal sticky z-[100]">
+            <Header className="border-b border-normal sticky z-[10]">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
