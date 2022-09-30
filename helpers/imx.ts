@@ -1,43 +1,25 @@
-import {
-  getConfig,
-  AssetsApi,
-  BalancesApi,
-  CollectionsApi,
-  OrdersApi,
-  TradesApi,
-  TransfersApi,
-  Workflows,
-  OrdersApiListOrdersRequest,
-} from '@imtbl/core-sdk';
+import { Config, ImmutableX, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
 import { WalletSDK } from '@imtbl/wallet-sdk-web';
-import {
-  base_path,
-  chain_id,
-  core_contract_address,
-  registration_contract_address,
-  token_address,
-  wallet_sdk_environment,
-} from '@/constants/configs';
+import { chain_id, imx_env, token_address, wallet_sdk_environment } from '@/constants/configs';
 
 /*
 IMX Config & SDK Setup
 ---------
 */
-export const config = getConfig({
-  coreContractAddress: core_contract_address,
-  registrationContractAddress: registration_contract_address,
-  chainID: chain_id,
-  basePath: base_path,
-});
+let config = null;
+switch (imx_env) {
+  case 'PRODUCTION':
+    config = Config.PRODUCTION;
+    break;
+  case 'ROPSTEN':
+    config = Config.ROPSTEN;
+    break;
+  default:
+    config = Config.SANDBOX;
+    break;
+}
 
-export const coreSdkWorkflows = new Workflows(config);
-
-const assetsApi = new AssetsApi(config.apiConfiguration);
-const collectionsApi = new CollectionsApi(config.apiConfiguration);
-const ordersApi = new OrdersApi(config.apiConfiguration);
-const tradesApi = new TradesApi(config.apiConfiguration);
-const transfersApi = new TransfersApi(config.apiConfiguration);
-const balancesApi = new BalancesApi(config.apiConfiguration);
+const client = new ImmutableX(config);
 
 export const buildWalletSDK = async () =>
   await WalletSDK.build({
@@ -69,17 +51,17 @@ IMX Calls
 */
 
 export const getAvailableFilters = async () => {
-  const response = await collectionsApi.listCollectionFilters({ address: token_address });
-  return response.data;
+  const response = await client.listCollectionFilters({ address: token_address });
+  return response;
 };
 
 export const listActiveOrders = async (queryParams?: Partial<OrdersApiListOrdersRequest>) => {
-  const response = await ordersApi.listOrders({
+  const response = await client.listOrders({
     sellTokenAddress: token_address,
     buyTokenType: 'ETH',
     includeFees: true,
     status: 'active',
     ...queryParams,
   });
-  return response.data;
+  return response;
 };
