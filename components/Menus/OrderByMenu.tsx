@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import BaseMenu from './BaseMenu';
 import { order_by_config } from '@/constants/index';
 import { FiltersContextType, OrderByKey, useFilters } from '@/providers/FiltersProvider';
+import { Check } from 'react-feather';
 
 const OrderByMenu: React.FC = () => {
   const [orderByLabel, setOrderByLabel] = useState(order_by_config.newestListing.label);
@@ -22,9 +23,17 @@ const OrderByMenu: React.FC = () => {
   const ButtonChild = <div className="btn-secondary min-w-[125px]">{orderByLabel}</div>;
 
   const MenuItems = Object.values(order_by_config).map(({ label }, index) => {
+    const isSelected = label === orderByLabel;
     return (
       <div className="p-2 menu-item" onClick={selectOrderBy(index)} key={`order-by-option-${index}`}>
-        {label}
+        <div className="flex justify-start items-center space-x-3">
+          <span>{label}</span>
+          {isSelected ? (
+            <div className="text-accent">
+              <Check />
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   });
