@@ -481,19 +481,19 @@
 
 @layer components {
   .btn-primary {
-    @apply py-2 px-4 max-h-12 text-button-primary-normal bg-button-primary-normal text-sm rounded-lg hover:opacity-90 active:scale-[0.98] border-normal;
+    @apply py-2 px-4 max-h-9 lg:max-h-10 text-xs lg:text-sm text-button-primary-normal bg-button-primary-normal rounded-lg hover:opacity-90 active:scale-[0.98] border-normal;
   }
 
   .btn-secondary {
-    @apply py-2 px-4 max-h-12 text-button-secondary-normal dark:text-button-secondary-active bg-button-secondary-normal dark:bg-button-secondary-active border-button-secondary-normal dark:border-button-secondary-active hover:bg-button-secondary-hover text-sm font-semibold rounded-lg hover:opacity-90 active:scale-[0.98];
+    @apply py-2 px-4 max-h-9 lg:max-h-10 text-xs lg:text-sm text-button-secondary-normal dark:text-button-secondary-active bg-button-secondary-normal dark:bg-button-secondary-active border-button-secondary-normal dark:border-button-secondary-active hover:bg-button-secondary-hover font-semibold rounded-lg hover:opacity-90 active:scale-[0.98];
   }
 
   .btn-tertiary {
-    @apply text-button-tertiary-normal hover:text-button-tertiary-active bg-button-tertiary-normal border-button-tertiary-normal hover:border-button-tertiary-active hover:bg-button-tertiary-hover;
+    @apply max-h-9 lg:max-h-10 text-xs lg:text-sm text-button-tertiary-normal hover:text-button-tertiary-active bg-button-tertiary-normal border-button-tertiary-normal hover:border-button-tertiary-active hover:bg-button-tertiary-hover;
   }
 
   .btn-quaternary {
-    @apply text-button-quaternary-normal hover:text-button-quaternary-active bg-button-quaternary-normal hover:bg-button-quaternary-active border-button-quaternary-normal hover:border-button-quaternary-active border;
+    @apply max-h-9 lg:max-h-10 text-xs lg:text-sm text-button-quaternary-normal hover:text-button-quaternary-active bg-button-quaternary-normal hover:bg-button-quaternary-active border-button-quaternary-normal hover:border-button-quaternary-active border;
   }
 
   .card {

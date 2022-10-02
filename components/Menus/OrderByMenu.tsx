@@ -21,18 +21,18 @@ const OrderByMenu: React.FC = () => {
   };
 
   const ButtonChild = (
-    <div className="btn-secondary min-w-[125px] flex items-center space-x-2">
+    <div className="btn-secondary min-w-[125px] flex items-center space-x-2 pr-2 h-10">
       <span>{orderByLabel}</span>
-      <ChevronDown />
+      <ChevronDown size={15} />
     </div>
   );
 
   const MenuItems = Object.values(order_by_config).map(({ label }, index) => {
     const isSelected = label === orderByLabel;
     return (
-      <div className="p-2 menu-item" onClick={selectOrderBy(index)} key={`order-by-option-${index}`}>
-        <div className="flex justify-start items-center space-x-3">
-          <span>{label}</span>
+      <div className="p-2 menu-item w-full" onClick={selectOrderBy(index)} key={`order-by-option-${index}`}>
+        <div className="flex justify-start items-center space-x-3 text-xs lg:text-sm">
+          <span className="whitespace-nowrap">{label}</span>
           {isSelected ? (
             <div className="text-accent">
               <Check />

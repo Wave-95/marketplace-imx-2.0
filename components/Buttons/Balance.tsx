@@ -24,7 +24,7 @@ const Balance: React.FC = ({ ...props }) => {
         <EthIcon />
         <Link href="/balances">
           <a>
-            <button className="btn-secondary">Balances</button>
+            <button className="btn-secondary text-xs lg:text-base h-10">Balances</button>
           </a>
         </Link>
       </div>

@@ -27,12 +27,12 @@ export default function UserMenu({ ...props }) {
   };
 
   const MenuButtonChild = (
-    <div className="btn-secondary h-10 flex space-x-2 items-center justify-start">
+    <div className="btn-secondary h-10 flex space-x-1 lg:space-x-2 items-center justify-start pr-2">
       {WalletProviderIcon}
       <div className="flex items-center">
-        <span className="hidden lg:inline">{formatAddressEllipse(address)}</span>
-        <ChevronDown />
+        <span className="hidden lg:inline text-xs lg:text-base">{formatAddressEllipse(address)}</span>
       </div>
+      <ChevronDown size={15} />
     </div>
   );
 

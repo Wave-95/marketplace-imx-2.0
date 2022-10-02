@@ -11,7 +11,7 @@ const BaseMenu: React.FC<BaseMenuProps> = ({ buttonChild, menuItems, ...props })
     <div {...props}>
       <Menu as="div" className="relative inline-block text-left">
         <Menu.Button>{buttonChild}</Menu.Button>
-        <Menu.Items className="absolute z-[999] right-0 mt-2 origin-top-right flex flex-col gap-1 p-2 space-y-1 border min-w-[12rem] rounded-popover bg-popover border-popover items-start">
+        <Menu.Items className="absolute z-[999] right-0 mt-2 origin-top-right min-w-[10rem] flex flex-col gap-1 p-2 space-y-1 border rounded-popover bg-popover border-popover items-start">
           {menuItems.map((component, key) => {
             return (
               <Menu.Item as="div" key={key} className="w-full">
