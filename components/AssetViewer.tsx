@@ -1,9 +1,7 @@
-import { collection_name } from '@/constants/configs';
 import { FormattedActiveOrder } from '@/helpers/formatters';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import AssetCard from './Cards/AssetCard';
-import Loading from './Loading';
 
 interface AssetViewerProps {
   assets: Array<FormattedActiveOrder>;
@@ -25,14 +23,5 @@ const AssetViewer: React.FC<AssetViewerProps> = ({ assets, next, className, infi
     </div>
   );
 };
-
-/* <div className="relative header border-b border-normal lg:sticky lg:top-16 z-[100]">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
-            <div className="">{isLoading ? <Loading /> : null}</div>
-          </div>
-        </div>
-      </div> */
 
 export default AssetViewer;

@@ -40,7 +40,7 @@ const Login: React.FC = () => {
     } catch (e) {
       if (e instanceof Error) {
         if (e.message === 'The MetaMask provider was not found.') {
-          return toast.error('Please install the MetaMask browser extension before connecting.');
+          return toast.error('Please ensure MetaMask is installed on your device before connecting.');
         }
         console.error(e.message);
         toast.error('Could not connect to wallet provider.');

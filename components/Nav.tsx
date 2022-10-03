@@ -21,10 +21,10 @@ export default function Nav({ ...props }) {
     <div className="relative lg:sticky top-0 z-[100]" {...props}>
       <Header className="border-b border-normal">
         <LogoHome />
-        <div className="flex items-center space-x-4 ml-auto">
+        <div className="flex items-center space-x-2 lg:space-x-4 ml-auto">
           <Balance />
           {address ? <UserMenu /> : <ConnectWallet />}
-          <DarkModeToggle className="hidden lg:block" />
+          <DarkModeToggle />
         </div>
       </Header>
     </div>
