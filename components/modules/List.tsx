@@ -15,6 +15,7 @@ import { formatFees } from '@/helpers/formatters';
 
 type ListProps = {
   asset: Asset;
+  className?: string;
 };
 const List: React.FC<ListProps> = ({ asset, ...props }) => {
   const { token_id, user, fees } = asset;

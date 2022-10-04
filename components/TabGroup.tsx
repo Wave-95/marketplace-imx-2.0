@@ -1,6 +1,6 @@
 import { Tab } from '@headlessui/react';
 import cx from 'classnames';
-import React from 'react';
+import React, { FormEventHandler } from 'react';
 
 type TabGroupProps = {
   tabDetails: {
@@ -9,7 +9,7 @@ type TabGroupProps = {
   tabListClassName?: string;
   selectedIndex?: number;
   className?: string;
-  onChange?: (index: number) => void;
+  onChange?: FormEventHandler<HTMLDivElement> & ((index: number) => void);
 };
 
 const TabGroup: React.FC<TabGroupProps> = ({ selectedIndex, onChange, tabDetails, tabListClassName, ...props }) => {

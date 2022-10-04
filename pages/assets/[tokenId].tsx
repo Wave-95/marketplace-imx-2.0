@@ -10,7 +10,7 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
-import React, { useEffect, useState } from 'react';
+import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Transfer from '@/components/modules/Transfer';
 import { isSameAddress } from '@/helpers/index';
@@ -30,7 +30,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const {
     state: { address },
   } = useUser() as UserContextType;
-  const { image_url, metadata, name, user, fees } = asset;
+  const { image_url, metadata, name, user } = asset;
   const router = useRouter();
   const { query } = router;
   const page_title = `Asset | ${name}`;
@@ -42,10 +42,11 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   useEffect(() => {
     //Gets current tab selection from url query params and sets it
     const { tab } = query;
-    setSelectedIndex(Number(tab));
+    const index = typeof tab === 'string' ? Number(tab) : 0;
+    setSelectedIndex(index);
   }, [query]);
 
-  const handleTabChange = (index: number) => {
+  const handleTabChange: FormEventHandler<HTMLDivElement> & ((index: number) => void) = (index) => {
     router.replace({ pathname: `/assets/${tokenId}`, query: { tab: index.toString() } }, undefined, { shallow: true });
   };
 

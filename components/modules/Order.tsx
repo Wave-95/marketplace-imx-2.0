@@ -28,8 +28,6 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   } = useUser() as UserContextType;
   const router = useRouter();
 
-  console.log(order);
-
   const handleBuy = async () => {
     setLoading(true);
     try {
