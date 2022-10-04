@@ -1,15 +1,17 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { WalletConnection } from '@imtbl/core-sdk';
+import { Balance, WalletConnection } from '@imtbl/core-sdk';
 import { buildWalletSDK } from '@/helpers/imx';
+import { FormattedBalances } from '@/helpers/formatters';
 
 interface State {
   connection: WalletConnection | null;
   address: string | null;
   isConnected: boolean;
+  balances: FormattedBalances;
 }
 
 type Action = {
-  type: 'connect' | 'disconnect' | 'set_address';
+  type: 'connect' | 'disconnect' | 'set_address' | 'set_balances';
   payload?: any;
 };
 
@@ -24,6 +26,7 @@ const INITIAL_STATE = {
   connection: null,
   address: null,
   isConnected: false,
+  balances: [],
 };
 
 const userReducer = (state: State, action: Action) => {
@@ -34,6 +37,8 @@ const userReducer = (state: State, action: Action) => {
       return { ...state, ...INITIAL_STATE };
     case 'set_address':
       return { ...state, address: action.payload };
+    case 'set_balances':
+      return { ...state, balances: action.payload };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

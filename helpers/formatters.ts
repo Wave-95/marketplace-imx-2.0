@@ -1,4 +1,4 @@
-import { CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
+import { Balance, CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
 import { FilterOption, FilterState, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
 import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
@@ -45,6 +45,17 @@ export const formatAvailableFilters = (availableFiltersResponse: Array<Collectio
     values: filter?.value?.sort((a, b) => Number(a) - Number(b)) || [],
   }));
   return availableFiltersFormatted;
+};
+
+export type FormattedBalances = {
+  [key: string]: Omit<Balance, 'symbol'>;
+};
+export const formatBalances = (balancesResponse: Balance[]): FormattedBalances => {
+  const balancesObj = {} as any;
+  balancesResponse.forEach(({ symbol, ...rest }) => {
+    balancesObj[symbol] = { ...rest };
+  });
+  return balancesObj;
 };
 
 export const formatFees = (fees: Fee[]) => {

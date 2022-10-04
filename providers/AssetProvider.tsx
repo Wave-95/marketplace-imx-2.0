@@ -3,6 +3,7 @@ import { createContext, useContext, useReducer } from 'react';
 
 export type AssetState = {
   asset: Asset;
+  history: any[];
 };
 
 type Action = {
@@ -20,6 +21,7 @@ export type AssetContextType = {
 
 const INITIAL_STATE = {
   asset: {} as Asset,
+  history: [],
 };
 
 const assetReducer = (state: AssetState, action: Action) => {
