@@ -37,10 +37,7 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className }) => {
         <div className="font-medium">Filters</div>
         <Counter number={getNumSelectedFilters(selectedFilters)} />
       </div>
-      <div
-        className="h-8 px-3 -mr-1 text-sm btn-quaternary flex items-center font-medium hover:cursor-pointer"
-        onClick={clearAllFilters}
-      >
+      <div className="h-8 px-3 -mr-1 text-sm btn-quaternary flex items-center font-medium hover:cursor-pointer" onClick={clearAllFilters}>
         <span>Clear all</span>
       </div>
     </div>
@@ -50,9 +47,7 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className }) => {
     return (
       <div className="relative flex-1">
         <div className="flex flex-col lg:absolute lg:w-full lg:h-full lg:overflow-scroll divide-y divide-normal">
-          {availableFilters.map(({ key, values }) => (
-            <FilterGroup label={key} values={values} key={key} />
-          ))}
+          {availableFilters.map(({ key, values }) => (key ? <FilterGroup label={key} values={values} key={key} /> : null))}
         </div>
       </div>
     );
@@ -74,9 +69,7 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className }) => {
                     type="checkbox"
                     className="w-4 h-4 border rounded cursor-pointer border-active text-accent focus:ring-accent bg-page"
                     checked={isFilteredSelected}
-                    onChange={
-                      isFilteredSelected ? handleDeselectFilter(label, value) : handleSelectFilter(label, value)
-                    }
+                    onChange={isFilteredSelected ? handleDeselectFilter(label, value) : handleSelectFilter(label, value)}
                   />
                   <span className="text-[0.75rem] btn-secondary px-2 py-1 capitalize">{value}</span>
                 </label>

@@ -27,6 +27,7 @@ const Marketplace: React.FC = () => {
       ...filterParams,
     });
     const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
+    console.log({ filters, filterParams, activeOrdersResponse, activeOrdersFormatted });
     setActiveOrders(activeOrdersFormatted);
     setCursor(activeOrdersResponse.cursor);
     setIsLoading(false);
@@ -73,12 +74,7 @@ const Marketplace: React.FC = () => {
               </div>
               <OrderByMenu />
             </Header>
-            <AssetViewer
-              assets={activeOrders}
-              next={fetchNextData}
-              infiniteScrollHeight="100%"
-              className="flex-1 overflow-auto"
-            />
+            <AssetViewer assets={activeOrders} next={fetchNextData} infiniteScrollHeight="100%" className="flex-1 overflow-auto" />
           </div>
         </div>
       </LayoutDefault>

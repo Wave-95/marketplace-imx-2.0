@@ -39,7 +39,7 @@ export const formatActiveOrders = (activeOrders: Array<Order>): Array<FormattedA
   return activeOrdersFormatted;
 };
 
-export const formatAvailableFilters = (availableFiltersResponse: Array<CollectionFilter>) => {
+export const formatAvailableFilters = (availableFiltersResponse: Array<CollectionFilter>): FilterOption[] => {
   const availableFiltersFormatted = availableFiltersResponse.map((filter) => ({
     key: filter.key,
     values: filter?.value?.sort((a, b) => Number(a) - Number(b)) || [],
@@ -84,13 +84,7 @@ export const formatFees = (fees: Fee[]) => {
  * into a useable API request format.
  */
 
-export const formatFiltersToApiRequest = ({
-  selected,
-  orderByKey,
-}: {
-  selected: SelectedFilters;
-  orderByKey: OrderByKey;
-}) => {
+export const formatFiltersToApiRequest = ({ selected, orderByKey }: { selected: SelectedFilters; orderByKey: OrderByKey }) => {
   const newSelected: { [key: string]: FilterValues } = {};
   Object.assign(newSelected, selected);
 
@@ -133,7 +127,7 @@ export const formatQueryToFilterState = ({
   exclusionList,
 }: {
   query: ParsedUrlQuery;
-  availableFilters?: Array<FilterOption>;
+  availableFilters?: FilterOption[];
   exclusionList?: string[];
 }): FormatQueryToFilterStateResponse => {
   let { orderBy, ...rest } = query;
