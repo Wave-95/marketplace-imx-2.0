@@ -4,7 +4,7 @@ import React from 'react';
 import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';
 import { toast } from 'react-toastify';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
-import MenuItem from '../MenuItem';
+import MenuItem from './MenuItem';
 import BaseMenu from './BaseMenu';
 import { formatAddressEllipse } from '@/helpers/formatters';
 

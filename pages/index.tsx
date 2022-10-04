@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { collection_name } from '@/constants/configs';
-import AssetViewer from '@/components/AssetViewer';
+import AssetViewer from '@/components/modules/AssetViewer';
 import LayoutDefault from '@/components/LayoutDefault';
 import { listActiveOrders } from '@/helpers/imx';
 import { formatActiveOrders, formatFiltersToApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
-import MetadataFilters from '@/components/MetadataFilters';
+import MetadataFilters from '@/components/modules/MetadataFilters';
 import { useFilters } from '../providers';
 import { FiltersContextType } from '@/providers/FiltersProvider';
 import Header from '@/components/Header';

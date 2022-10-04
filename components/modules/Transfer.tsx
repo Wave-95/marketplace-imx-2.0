@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import TextField from './TextField';
-import { useUser } from '../providers';
+import TextField from '../TextField';
+import { useUser } from '../../providers';
 import { UserContextType } from '@/providers/UserProvider';
-import { isAddressSame, refreshData } from '../helpers';
+import { isAddressSame, refreshData } from '../../helpers';
 import { toast } from 'react-toastify';
 import { client } from '@/helpers/imx';
 import { token_address } from '@/constants/configs';

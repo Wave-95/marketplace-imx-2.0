@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import cx from 'classnames';
-import TextField from './TextField';
-import { useUser } from '../providers';
+import TextField from '../TextField';
+import { useUser } from '../../providers';
 import { UserContextType } from '@/providers/UserProvider';
-import { isAddressSame, refreshData } from '../helpers';
+import { isAddressSame, refreshData } from '../../helpers';
 import { client } from '@/helpers/imx';
 import { toast } from 'react-toastify';
 import { token_address } from '@/constants/configs';
-import { TokenAmount } from '@imtbl/core-sdk';
 import web3 from 'web3';
 import { useRouter } from 'next/router';
 
-type SellProps = {
+type ListProps = {
   tokenId: string;
   className?: string;
   owner: string;
 };
-const Sell: React.FC<SellProps> = ({ tokenId, owner, ...props }) => {
+const List: React.FC<ListProps> = ({ tokenId, owner, ...props }) => {
   const {
     state: { address, connection },
   } = useUser() as UserContextType;
@@ -42,7 +40,7 @@ const Sell: React.FC<SellProps> = ({ tokenId, owner, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="mb-4 mt-4 font-semibold text-lg">Sell</div>
+      <div className="mb-4 mt-4 font-semibold text-lg">List</div>
       <div>
         <TextField label="Price" value={amount} onChange={handleChange} disabled={!isAddressSame(address, owner)} />
       </div>
@@ -53,4 +51,4 @@ const Sell: React.FC<SellProps> = ({ tokenId, owner, ...props }) => {
   );
 };
 
-export default Sell;
+export default List;

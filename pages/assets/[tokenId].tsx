@@ -1,6 +1,6 @@
 import ByUser from '@/components/ByUser';
 import LayoutDefault from '@/components/LayoutDefault';
-import Metadata from '@/components/Metadata';
+import Metadata from '@/components/modules/Metadata';
 import Price from '@/components/Price';
 import TabGroup from '@/components/TabGroup';
 import { formatWeiToNumber } from '@/helpers/formatters';
@@ -17,9 +17,9 @@ import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import Transfer from '@/components/Transfer';
+import Transfer from '@/components/modules/Transfer';
 import { isAddressSame, refreshData } from '@/helpers/index';
-import Sell from '@/components/Sell';
+import List from '@/components/modules/List';
 
 type AssetPageProps = {
   tokenId: string;
@@ -145,7 +145,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
     <div>
       {metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" /> : null}
       {isAddressSame(address, user) && !activeOrder ? (
-        <Sell tokenId={tokenId} owner={user} className="lg:px-8 p-4" />
+        <List tokenId={tokenId} owner={user} className="lg:px-8 p-4" />
       ) : null}
     </div>
   );

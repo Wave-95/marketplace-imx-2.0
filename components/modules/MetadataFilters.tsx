@@ -2,7 +2,7 @@ import { FiltersContextType, FilterValues, useFilters } from '@/providers/Filter
 import { useRouter } from 'next/router';
 import React from 'react';
 import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/helpers';
-import Counter from './Counter';
+import Counter from '../Counter';
 import cx from 'classnames';
 
 interface MetadataFiltersProps {
