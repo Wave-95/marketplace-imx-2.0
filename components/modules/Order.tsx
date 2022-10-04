@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import { Order, WalletConnection } from '@imtbl/core-sdk';
 import ByUser from '../ByUser';
@@ -6,10 +6,11 @@ import Price from '../Price';
 import { formatWeiToNumber } from '@/helpers/formatters';
 import { PricesContextType, usePrices } from '@/providers/PricesProvider';
 import { UserContextType, useUser } from '@/providers/UserProvider';
-import { isSameAddress, refreshData } from '@/helpers/index';
+import { isSameAddress } from '@/helpers/index';
 import { client } from '@/helpers/imx';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import Loading from '../Loading';
 
 type OrderProps = {
   className?: string;
@@ -17,6 +18,7 @@ type OrderProps = {
 };
 
 const Order: React.FC<OrderProps> = ({ className, order }) => {
+  const [loading, setLoading] = useState(false);
   const { order_id, user, buy: { type, data: { quantity } = {} } = {} } = order || ({} as Order);
   const {
     state: { ETHUSD },
@@ -26,14 +28,17 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   } = useUser() as UserContextType;
   const router = useRouter();
 
+  console.log(order);
+
   const handleBuy = async () => {
+    setLoading(true);
     try {
       if (connection && address) {
         await client.createTrade(connection as WalletConnection, {
           order_id,
           user: address,
         });
-        refreshData(router);
+        router.reload();
       }
     } catch (e: any) {
       if (e.message.match(/user rejected signing/)) {
@@ -41,6 +46,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
       }
       toast.error('There was an issue purchasing the item.');
     }
+    setLoading(false);
   };
 
   const handleCancel = async () => {
@@ -49,7 +55,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
         await client.cancelOrder(connection as WalletConnection, {
           order_id,
         });
-        refreshData(router);
+        router.reload();
       }
     } catch (e: any) {
       if (e.message.match(/user rejected signing/)) {
@@ -64,6 +70,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   };
 
   const isOwner = isSameAddress(address, user);
+  const buttonText = connection ? (isOwner ? 'Cancel Listing' : 'Buy Now') : 'Connect to Buy';
 
   return (
     <div className={cx('', className)}>
@@ -76,7 +83,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
           className="max-h-12 w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-button transition duration-[100ms] ease-out"
           onClick={connection ? (isOwner ? handleCancel : handleBuy) : redirectLogin}
         >
-          {connection ? (isOwner ? 'Cancel Listing' : 'Buy Now') : 'Connect to Buy'}
+          {loading ? <Loading /> : buttonText}
         </button>
       </div>
     </div>

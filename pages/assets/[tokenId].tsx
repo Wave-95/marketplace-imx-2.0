@@ -30,7 +30,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const {
     state: { address },
   } = useUser() as UserContextType;
-  const { image_url, metadata, name, user } = asset;
+  const { image_url, metadata, name, user, fees } = asset;
   const router = useRouter();
   const { query } = router;
   const page_title = `Asset | ${name}`;
@@ -102,7 +102,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const Details = () => (
     <div>
       {metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" /> : null}
-      {showList ? <List tokenId={tokenId} owner={user} className="lg:px-8 p-4" /> : null}
+      {showList ? <List asset={asset} className="lg:px-8 p-4" /> : null}
     </div>
   );
 

@@ -1,4 +1,4 @@
-import { CollectionFilter, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
+import { CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
 import { FilterOption, FilterState, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
 import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
@@ -45,6 +45,24 @@ export const formatAvailableFilters = (availableFiltersResponse: Array<Collectio
     values: filter?.value?.sort((a, b) => Number(a) - Number(b)) || [],
   }));
   return availableFiltersFormatted;
+};
+
+export const formatFees = (fees: Fee[]) => {
+  const results = {
+    royalty: { label: 'IMX Royalty Fees', value: 0 },
+    protocol: { label: 'IMX Transfer Fees', value: 0 },
+    ecosystem: { label: 'Marketplace Commission', value: 0 },
+  };
+
+  fees.forEach((fee) => {
+    if (Object.keys(results).includes(fee.type)) {
+      results[fee.type as keyof typeof results].value += fee.percentage;
+    }
+  });
+
+  const formattedFees = Object.values(results).filter((fee) => fee.value > 0);
+
+  return formattedFees;
 };
 
 /**
