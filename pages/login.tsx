@@ -31,12 +31,12 @@ const Login: React.FC = () => {
           ethSigner: walletConnection?.l1Signer,
           starkSigner: walletConnection?.l2Signer,
         };
-        walletConnection && (await client.registerOffchain(walletConnectionNew));
+        await client.registerOffchain(walletConnectionNew);
+        const address = await walletConnectionNew?.ethSigner?.getAddress();
+        dispatch({ type: 'connect', payload: walletConnectionNew });
+        dispatch({ type: 'set_address', payload: address });
+        router.push('/');
       }
-      const address = await walletConnection?.l1Signer?.getAddress();
-      dispatch({ type: 'connect', payload: walletConnection });
-      dispatch({ type: 'set_address', payload: address });
-      router.push('/');
     } catch (e) {
       if (e instanceof Error) {
         if (e.message === 'The MetaMask provider was not found.') {

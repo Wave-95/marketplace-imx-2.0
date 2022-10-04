@@ -14,7 +14,7 @@ export default function UserMenu({ ...props }) {
     dispatch,
   } = useUser() as UserContextType;
   const walletConnection = connection as any;
-  const walletProvider = walletConnection?.l1Signer?.provider?.connection?.url;
+  const walletProvider = walletConnection?.ethSigner?.provider?.connection?.url;
   const WalletProviderIcon = walletProvider === 'metamask' ? <MetamaskIcon /> : <WalletConnectIcon />;
 
   const handleCopyAddress = () => {

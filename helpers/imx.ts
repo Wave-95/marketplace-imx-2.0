@@ -49,6 +49,21 @@ export const buildWalletSDK = async () =>
 IMX Calls
 -----------
 */
+export const getActiveOrder = async (tokenId: string) => {
+  const response = await client.listOrders({
+    sellTokenAddress: token_address,
+    sellTokenId: tokenId,
+    includeFees: true,
+    status: 'active',
+  });
+  const activeOrder = response.result.pop();
+  return activeOrder;
+};
+
+export const getAsset = async (tokenId: string) => {
+  const response = await client.getAsset({ tokenAddress: token_address, tokenId, includeFees: true });
+  return response;
+};
 
 export const getAvailableFilters = async () => {
   const response = await client.listCollectionFilters({ address: token_address });

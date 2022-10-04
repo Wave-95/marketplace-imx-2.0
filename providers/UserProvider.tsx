@@ -49,8 +49,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const walletSDK = await buildWalletSDK();
     const walletConnection = await walletSDK.getWalletConnection();
     if (walletConnection) {
-      const address = await walletConnection?.l1Signer?.getAddress();
-      dispatch({ type: 'connect', payload: walletConnection });
+      const walletConnectionNew: WalletConnection = {
+        ethSigner: walletConnection.l1Signer,
+        starkSigner: walletConnection.l2Signer,
+      };
+      const address = await walletConnectionNew?.ethSigner?.getAddress();
+      dispatch({ type: 'connect', payload: walletConnectionNew });
       dispatch({ type: 'set_address', payload: address });
     }
   };

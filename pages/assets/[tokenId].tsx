@@ -1,0 +1,178 @@
+import ByUser from '@/components/ByUser';
+import LayoutDefault from '@/components/LayoutDefault';
+import Metadata from '@/components/Metadata';
+import Price from '@/components/Price';
+import TabGroup from '@/components/TabGroup';
+import { formatWeiToNumber } from '@/helpers/formatters';
+import { client, getActiveOrder, getAsset } from '@/helpers/imx';
+import { DimensionContextType, useDimension } from '@/providers/DimensionProvider';
+import { PricesContextType, usePrices } from '@/providers/PricesProvider';
+import { UserContextType, useUser } from '@/providers/UserProvider';
+import { Asset, Order, WalletConnection } from '@imtbl/core-sdk';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import { ParsedUrlQuery } from 'querystring';
+import React from 'react';
+import cx from 'classnames';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+
+type AssetPageProps = {
+  tokenId: string;
+  asset: Asset;
+  activeOrder: Order | null;
+};
+
+const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) => {
+  const {
+    state: { availHeight },
+  } = useDimension() as DimensionContextType;
+  const {
+    state: { address, connection },
+  } = useUser() as UserContextType;
+  const {
+    state: { ETHUSD },
+  } = usePrices() as PricesContextType;
+  const { image_url, metadata, name, user } = asset;
+  const { order_id, buy: { type, data: { quantity } = {} } = {} } = activeOrder || ({} as Order);
+  const router = useRouter();
+  const page_title = `Asset | ${name}`;
+
+  const handleBuy = async () => {
+    try {
+      if (connection && address) {
+        console.log(connection);
+        await client.createTrade(connection as WalletConnection, {
+          order_id,
+          user: address,
+        });
+      }
+    } catch (e) {
+      console.error(e.message);
+      toast.error('There was an issue purchasing the item.');
+    }
+  };
+
+  const redirectLogin = () => {
+    router.push('/login');
+  };
+
+  console.log({ tokenId, asset, activeOrder });
+
+  const ImgDesktop = () => (
+    <div className="flex-1 hidden lg:flex justify-center items-center">
+      {image_url ? (
+        <div className="w-full min-h-[400px] relative">
+          <Image
+            src={image_url}
+            alt={`img-token-${tokenId}`}
+            quality={100}
+            objectFit="contain"
+            objectPosition="center"
+            layout="fill"
+          />
+        </div>
+      ) : (
+        <p>No image found</p>
+      )}
+    </div>
+  );
+
+  const ImgMobile = () => (
+    <div className="lg:hidden justify-center items-center">
+      {image_url ? (
+        <div className="w-full min-h-[300px] relative mt-16">
+          <Image
+            src={image_url}
+            alt={`img-token-${tokenId}`}
+            quality={100}
+            objectFit="contain"
+            objectPosition="center"
+            layout="fill"
+          />
+        </div>
+      ) : (
+        <p>No image found</p>
+      )}
+    </div>
+  );
+  const metadataToDisplay = [
+    'set',
+    'type',
+    'rarity',
+    'god',
+    'tribe',
+    'attack',
+    'health',
+    'mana',
+  ] as keyof typeof metadata;
+
+  const Details = () => (
+    <div>{metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:p-8 p-4" /> : null}</div>
+  );
+
+  const tabDetails = {
+    Details: <Details />,
+    History: null,
+  };
+
+  const PurchaseSection = ({ className }: { className?: string }) => (
+    <div className={cx('p-3 pt-4 space-y-4 border-t border-normal lg:bg-page bg-bar backdrop-blur-lg', className)}>
+      <div className="grid grid-cols-2 px-1">
+        <ByUser text={'Sold by'} user={user} />
+        <Price amount={formatWeiToNumber(quantity)} type={type} rate={ETHUSD} />
+      </div>
+      <button
+        className="w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-button transition duration-[100ms] ease-out"
+        onClick={connection ? handleBuy : redirectLogin}
+      >
+        {connection ? 'Buy Now' : 'Connect to Buy'}
+      </button>
+    </div>
+  );
+
+  return (
+    <>
+      <Head>
+        <title>{page_title}</title>
+        <meta name="description" content="Description goes here" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <LayoutDefault>
+        <div className="flex-1 flex overflow-auto">
+          <ImgDesktop />
+          <div
+            className={`border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l h-[calc(${availHeight}-4rem)]`}
+          >
+            <ImgMobile />
+            <div className="p-4 space-y-6 lg:p-8">
+              <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
+              <ByUser text={'Owned By'} user={user} />
+            </div>
+            <TabGroup tabDetails={tabDetails} className="flex-1" tabListClassName="lg:justify-start lg:pl-8" />
+            {activeOrder ? <PurchaseSection className="hidden lg:block" /> : null}
+          </div>
+        </div>
+        {activeOrder ? <PurchaseSection className="lg:hidden block" /> : null}
+      </LayoutDefault>
+    </>
+  );
+};
+
+export default AssetPage;
+
+interface Params extends ParsedUrlQuery {
+  tokenId: string;
+}
+
+export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params }) => {
+  const { tokenId } = params!;
+  const assetResponse = await getAsset(tokenId);
+  const activeOrderResponse = await getActiveOrder(tokenId);
+  console.log(assetResponse, activeOrderResponse);
+
+  return {
+    props: { tokenId, asset: assetResponse, activeOrder: activeOrderResponse || null },
+  };
+};

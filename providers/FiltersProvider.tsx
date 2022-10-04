@@ -115,7 +115,7 @@ export const FiltersProvider = ({ children }: { children: React.ReactNode }) => 
     if (router.isReady) {
       initializeFilters();
     }
-  }, [router.isReady]);
+  }, [router.isReady, query]);
 
   const value = { state, dispatch };
   return <FiltersContext.Provider value={value}>{children}</FiltersContext.Provider>;
