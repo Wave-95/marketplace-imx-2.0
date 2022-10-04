@@ -22,6 +22,13 @@ export const getNumSelectedFilters = (selectedFilters: SelectedFilters) => {
   return filterCount;
 };
 
+export const isAddressSame = (addr1?: string | null, addr2?: string | null) => {
+  if (typeof addr1 === 'string' && typeof addr2 === 'string') {
+    return addr1.toLowerCase() === addr2.toLowerCase();
+  }
+  return false;
+};
+
 export const isFilterSelected = (selectedFilters: SelectedFilters, label: string, value: string) => {
   const values = selectedFilters[label];
   if (Array.isArray(values)) {
@@ -29,6 +36,10 @@ export const isFilterSelected = (selectedFilters: SelectedFilters, label: string
   } else {
     return false;
   }
+};
+
+export const refreshData = (router: NextRouter) => {
+  router.replace(router.asPath);
 };
 
 type ToggleRouterQueryParams = {

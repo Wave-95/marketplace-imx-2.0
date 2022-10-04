@@ -17,6 +17,9 @@ import React from 'react';
 import cx from 'classnames';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import Transfer from '@/components/Transfer';
+import { isAddressSame, refreshData } from '@/helpers/index';
+import Sell from '@/components/Sell';
 
 type AssetPageProps = {
   tokenId: string;
@@ -42,11 +45,11 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const handleBuy = async () => {
     try {
       if (connection && address) {
-        console.log(connection);
         await client.createTrade(connection as WalletConnection, {
           order_id,
           user: address,
         });
+        refreshData(router);
       }
     } catch (e) {
       if (e instanceof Error) {
@@ -55,11 +58,25 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
     }
   };
 
+  const handleCancel = async () => {
+    try {
+      if (connection && address) {
+        await client.cancelOrder(connection as WalletConnection, {
+          order_id,
+        });
+        refreshData(router);
+      }
+    } catch (e: any) {
+      if (e.message.match(/user rejected signing/)) {
+        return toast.error('You have rejected the transaction.');
+      }
+      toast.error('There was an issue cancelling the listing.');
+    }
+  };
+
   const redirectLogin = () => {
     router.push('/login');
   };
-
-  console.log({ tokenId, asset, activeOrder });
 
   const ImgDesktop = () => (
     <div className="flex-1 hidden lg:flex justify-center items-center">
@@ -110,12 +127,18 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   ] as keyof typeof metadata;
 
   const Details = () => (
-    <div>{metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:p-8 p-4" /> : null}</div>
+    <div>
+      {metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" /> : null}
+      {isAddressSame(address, user) && !activeOrder ? (
+        <Sell tokenId={tokenId} owner={user} className="lg:px-8 p-4" />
+      ) : null}
+    </div>
   );
 
   const tabDetails = {
     Details: <Details />,
     History: null,
+    Transfer: <Transfer tokenId={tokenId} owner={user} className="lg:px-8 p-4" />,
   };
 
   const PurchaseSection = ({ className }: { className?: string }) => (
@@ -125,10 +148,10 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
         {quantity && type ? <Price amount={formatWeiToNumber(quantity)} type={type} rate={ETHUSD} /> : null}
       </div>
       <button
-        className="w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-button transition duration-[100ms] ease-out"
-        onClick={connection ? handleBuy : redirectLogin}
+        className="max-h-12 w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-button transition duration-[100ms] ease-out"
+        onClick={connection ? (isAddressSame(address, user) ? handleCancel : handleBuy) : redirectLogin}
       >
-        {connection ? 'Buy Now' : 'Connect to Buy'}
+        {connection ? (isAddressSame(address, user) ? 'Cancel Listing' : 'Buy Now') : 'Connect to Buy'}
       </button>
     </div>
   );
@@ -171,7 +194,6 @@ export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = as
   const { tokenId } = params!;
   const assetResponse = await getAsset(tokenId);
   const activeOrderResponse = await getActiveOrder(tokenId);
-  console.log(assetResponse, activeOrderResponse);
 
   return {
     props: { tokenId, asset: assetResponse, activeOrder: activeOrderResponse || null },

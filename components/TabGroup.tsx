@@ -15,7 +15,7 @@ const TabGroup: React.FC<TabGroupProps> = ({ tabDetails, tabListClassName, ...pr
     <Tab.Group as="div" {...props}>
       <Tab.List
         className={cx(
-          'flex items-center justify-center w-full px-2 space-x-4 border-b border-normal',
+          'flex items-center justify-center w-full px-2 space-x-6 border-b border-normal',
           tabListClassName
         )}
       >

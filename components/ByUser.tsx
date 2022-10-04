@@ -3,6 +3,7 @@ import React from 'react';
 import { formatAddressEllipse } from '@/helpers/formatters';
 import { useUser } from '../providers';
 import { UserContextType } from '@/providers/UserProvider';
+import { isAddressSame } from '../helpers';
 
 interface ByUserProps {
   label: string;
@@ -13,7 +14,7 @@ const ByUser: React.FC<ByUserProps> = ({ label, user, ...props }) => {
   const {
     state: { address },
   } = useUser() as UserContextType;
-  const isSame = address?.toLowerCase() === user.toLowerCase();
+  const isSame = isAddressSame(address, user);
   const text = isSame ? 'You' : formatAddressEllipse(user);
 
   return (

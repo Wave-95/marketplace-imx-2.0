@@ -50,6 +50,9 @@ module.exports = {
         },
         dialog: 'var(--colors-bg-dialog)',
         header: 'var(--colors-bg-header)',
+        input: {
+          normal: 'var(--colors-background-input-normal)',
+        },
         page: 'var(--colors-bg-page)',
         popover: 'var(--colors-bg-popover)',
       },
@@ -96,6 +99,11 @@ module.exports = {
             disabled: 'var(--colors-border-card-secondary-disabled)',
           },
         },
+        input: {
+          normal: 'var(--colors-border-input-normal)',
+          disabled: 'var(--colors-border-input-disabled)',
+          focus: 'var(--colors-border-input-focus)',
+        },
         popover: 'var(--colors-border-popover)',
         tab: {
           active: 'var(--colors-border-tab-active)',
@@ -106,6 +114,7 @@ module.exports = {
         badge: {
           neutral: 'var(--colors-text-badge-neutral)',
         },
+        disabled: 'var(--colors-text-disabled)',
         on: {
           accent: 'var(--colors-text-on-accent)',
         },
