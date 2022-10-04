@@ -11,6 +11,7 @@ import { client } from '@/helpers/imx';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Loading from '../Loading';
+import { OrderContextType, useOrder } from '@/providers/OrderProvider';
 
 type OrderProps = {
   className?: string;
@@ -26,6 +27,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   const {
     state: { address, connection },
   } = useUser() as UserContextType;
+  const { dispatch: dispatchOrder } = useOrder() as OrderContextType;
   const router = useRouter();
 
   const handleBuy = async () => {
@@ -39,6 +41,8 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
         router.reload();
       }
     } catch (e: any) {
+      setLoading(false);
+
       if (e.message.match(/user rejected signing/)) {
         return toast.error('You have rejected the transaction.');
       }
@@ -48,19 +52,22 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   };
 
   const handleCancel = async () => {
+    setLoading(true);
     try {
       if (connection && address) {
         await client.cancelOrder(connection as WalletConnection, {
           order_id,
         });
-        router.reload();
+        dispatchOrder({ type: 'clear_order' });
       }
     } catch (e: any) {
       if (e.message.match(/user rejected signing/)) {
+        setLoading(false);
         return toast.error('You have rejected the transaction.');
       }
       toast.error('There was an issue cancelling the listing.');
     }
+    setLoading(false);
   };
 
   const redirectLogin = () => {

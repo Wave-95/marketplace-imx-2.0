@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import TextField from '../TextField';
-import { usePrices, useUser } from '../../providers';
+import { useOrder, usePrices, useUser } from '../../providers';
 import { UserContextType } from '@/providers/UserProvider';
 import { isSameAddress, refreshData } from '../../helpers';
 import { client } from '@/helpers/imx';
@@ -12,11 +12,14 @@ import { Asset } from '@imtbl/core-sdk';
 import Price from '../Price';
 import { PricesContextType } from '@/providers/PricesProvider';
 import { formatFees } from '@/helpers/formatters';
+import { OrderContextType } from '@/providers/OrderProvider';
+import Loading from '../Loading';
 
 type ListProps = {
   asset: Asset;
   className?: string;
 };
+
 const List: React.FC<ListProps> = ({ asset, ...props }) => {
   const { token_id, user, fees } = asset;
   const {
@@ -25,8 +28,9 @@ const List: React.FC<ListProps> = ({ asset, ...props }) => {
   const {
     state: { ETHUSD },
   } = usePrices() as PricesContextType;
+  const { dispatch: dispatchOrder } = useOrder() as OrderContextType;
   const [amount, setAmount] = useState('0');
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   //Add marketplace maker fee
   let totalFees;
@@ -47,6 +51,7 @@ const List: React.FC<ListProps> = ({ asset, ...props }) => {
   };
 
   const handleList = (amount: string) => async () => {
+    setLoading(true);
     const amountWei = web3.utils.toWei(amount);
     //https://docs.x.immutable.com/docs/fees/
     const makerFees =
@@ -55,13 +60,18 @@ const List: React.FC<ListProps> = ({ asset, ...props }) => {
         : undefined;
     if (connection) {
       try {
-        await client.createOrder(connection, {
+        const { order_id } = await client.createOrder(connection, {
           buy: { type: 'ETH', amount: amountWei },
           sell: { type: 'ERC721', tokenId: token_id, tokenAddress: token_address },
           fees: makerFees,
         });
-        refreshData(router);
+        setTimeout(async () => {
+          const order = await client.getOrder({ id: order_id.toString(), includeFees: true });
+          dispatchOrder({ type: 'set_order', payload: order });
+          setLoading(false);
+        }, 2000);
       } catch (e: any) {
+        setLoading(false);
         if (e.message.match(/user rejected signing/)) {
           return toast.error('You have rejected the transaction.');
         }
@@ -69,6 +79,7 @@ const List: React.FC<ListProps> = ({ asset, ...props }) => {
       }
     } else {
       toast.error('Please make sure your wallet is connected.');
+      setLoading(false);
     }
   };
 
@@ -103,8 +114,11 @@ const List: React.FC<ListProps> = ({ asset, ...props }) => {
         </div>
       </div>
 
-      <button className="btn-primary w-full h-12 max-h-12 mt-8 font-medium text-lg" onClick={handleList(amount)}>
-        List Asset
+      <button
+        className="btn-primary w-full h-12 max-h-12 mt-8 font-medium text-lg flex items-center justify-center"
+        onClick={handleList(amount)}
+      >
+        {loading ? <Loading /> : 'List Asset'}
       </button>
     </div>
   );

@@ -5,7 +5,6 @@ import TabGroup from '@/components/TabGroup';
 import { getActiveOrder, getAsset } from '@/helpers/imx';
 import { DimensionContextType, useDimension } from '@/providers/DimensionProvider';
 import { UserContextType, useUser } from '@/providers/UserProvider';
-import { Asset, Order } from '@imtbl/core-sdk';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -16,28 +15,36 @@ import Transfer from '@/components/modules/Transfer';
 import { isSameAddress } from '@/helpers/index';
 import List from '@/components/modules/List';
 import OrderModule from '@/components/modules/Order';
+import { AssetContextType, useAsset } from '@/providers/AssetProvider';
+import { OrderContextType, useOrder } from '@/providers/OrderProvider';
 
 type AssetPageProps = {
   tokenId: string;
-  asset: Asset;
-  activeOrder: Order | null;
 };
 
-const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) => {
+const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
   const {
     state: { availHeight },
   } = useDimension() as DimensionContextType;
   const {
     state: { address },
   } = useUser() as UserContextType;
+  const {
+    state: { asset },
+    dispatch: dispatchAsset,
+  } = useAsset() as AssetContextType;
+  const {
+    state: { order },
+    dispatch: dispatchOrder,
+  } = useOrder() as OrderContextType;
   const { image_url, metadata, name, user } = asset;
   const router = useRouter();
   const { query } = router;
   const page_title = `Asset | ${name}`;
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const showOrder = activeOrder && selectedIndex === 0;
-  const showList = isSameAddress(address, user) && !activeOrder;
+  const showOrder = order && selectedIndex === 0;
+  const showList = isSameAddress(address, user) && !order;
 
   useEffect(() => {
     //Gets current tab selection from url query params and sets it
@@ -45,6 +52,14 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
     const index = typeof tab === 'string' ? Number(tab) : 0;
     setSelectedIndex(index);
   }, [query]);
+
+  useEffect(() => {
+    getAsset(tokenId).then((data) => dispatchAsset({ type: 'set_asset', payload: data }));
+  }, [tokenId]);
+
+  useEffect(() => {
+    getActiveOrder(tokenId).then((data) => dispatchOrder({ type: 'set_order', payload: data }));
+  }, [tokenId]);
 
   const handleTabChange: FormEventHandler<HTMLDivElement> & ((index: number) => void) = (index) => {
     router.replace({ pathname: `/assets/${tokenId}`, query: { tab: index.toString() } }, undefined, { shallow: true });
@@ -138,10 +153,10 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
               className="flex-1"
               tabListClassName="lg:justify-start lg:pl-8"
             />
-            {showOrder && <OrderModule className="hidden lg:block" order={activeOrder} />}
+            {showOrder && <OrderModule className="hidden lg:block" order={order} />}
           </div>
         </div>
-        {showOrder && <OrderModule className="lg:hidden block" order={activeOrder} />}
+        {showOrder && <OrderModule className="lg:hidden block" order={order} />}
       </LayoutDefault>
     </>
   );
@@ -155,10 +170,8 @@ interface Params extends ParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params }) => {
   const { tokenId } = params!;
-  const assetResponse = await getAsset(tokenId);
-  const activeOrderResponse = await getActiveOrder(tokenId);
 
   return {
-    props: { tokenId, asset: assetResponse, activeOrder: activeOrderResponse || null },
+    props: { tokenId },
   };
 };

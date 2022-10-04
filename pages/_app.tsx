@@ -1,6 +1,8 @@
 import {
+  AssetProvider,
   DimensionProvider,
   FiltersProvider,
+  OrderProvider,
   PricesProvider,
   ThemeProvider,
   ToastProvider,
@@ -17,11 +19,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       <DimensionProvider>
         <ToastProvider>
           <UserProvider>
-            <FiltersProvider>
-              <PricesProvider>
-                <Component {...pageProps} />
-              </PricesProvider>
-            </FiltersProvider>
+            <AssetProvider>
+              <OrderProvider>
+                <FiltersProvider>
+                  <PricesProvider>
+                    <Component {...pageProps} />
+                  </PricesProvider>
+                </FiltersProvider>
+              </OrderProvider>
+            </AssetProvider>
           </UserProvider>
         </ToastProvider>
       </DimensionProvider>
