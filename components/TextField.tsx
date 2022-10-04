@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import cx from 'classnames';
 
 type TextFieldProps = {
   label: string;
@@ -6,6 +7,7 @@ type TextFieldProps = {
   placeholder?: string;
   onChange: React.ChangeEventHandler;
   disabled?: boolean;
+  className?: string;
 };
 const TextField: React.FC<TextFieldProps> = ({
   label,
@@ -13,10 +15,11 @@ const TextField: React.FC<TextFieldProps> = ({
   placeholder = '',
   onChange,
   disabled = false,
+  className,
   ...props
 }) => {
   return (
-    <div className="flex flex-col space-y-1.5" {...props}>
+    <div className={cx('flex flex-col space-y-1.5', className)} {...props}>
       <label className="text-secondary text-sm">{label}</label>
       <input
         type="text"

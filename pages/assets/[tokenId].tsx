@@ -13,7 +13,7 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -40,7 +40,19 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const { image_url, metadata, name, user } = asset;
   const { order_id, buy: { type, data: { quantity } = {} } = {} } = activeOrder || ({} as Order);
   const router = useRouter();
+  const { query } = router;
   const page_title = `Asset | ${name}`;
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleTabChange = (index: number) => {
+    router.replace({ pathname: `/assets/${tokenId}`, query: { tab: index.toString() } }, undefined, { shallow: true });
+  };
+
+  useEffect(() => {
+    const { tab } = query;
+    setSelectedIndex(Number(tab));
+  }, [query]);
 
   const handleBuy = async () => {
     try {
@@ -51,10 +63,11 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
         });
         refreshData(router);
       }
-    } catch (e) {
-      if (e instanceof Error) {
-        toast.error('There was an issue purchasing the item.');
+    } catch (e: any) {
+      if (e.message.match(/user rejected signing/)) {
+        return toast.error('You have rejected the transaction.');
       }
+      toast.error('There was an issue purchasing the item.');
     }
   };
 
@@ -81,7 +94,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const ImgDesktop = () => (
     <div className="flex-1 hidden lg:flex justify-center items-center">
       {image_url ? (
-        <div className="w-full min-h-[400px] relative">
+        <div className="w-full min-h-[500px] relative">
           <Image
             src={image_url}
             alt={`img-token-${tokenId}`}
@@ -115,6 +128,8 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
       )}
     </div>
   );
+
+  //Choose which metadata keys and in which order to display to user
   const metadataToDisplay = [
     'set',
     'type',
@@ -137,7 +152,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
 
   const tabDetails = {
     Details: <Details />,
-    History: null,
+    History: <div></div>,
     Transfer: <Transfer tokenId={tokenId} owner={user} className="lg:px-8 p-4" />,
   };
 
@@ -174,7 +189,13 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
               <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
               <ByUser label={'Owned By'} user={user} />
             </div>
-            <TabGroup tabDetails={tabDetails} className="flex-1" tabListClassName="lg:justify-start lg:pl-8" />
+            <TabGroup
+              selectedIndex={selectedIndex}
+              onChange={handleTabChange}
+              tabDetails={tabDetails}
+              className="flex-1"
+              tabListClassName="lg:justify-start lg:pl-8"
+            />
             {activeOrder ? <PurchaseSection className="hidden lg:block" /> : null}
           </div>
         </div>

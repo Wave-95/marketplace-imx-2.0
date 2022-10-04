@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { client } from '@/helpers/imx';
 import { token_address } from '@/constants/configs';
 import { useRouter } from 'next/router';
+import { AlertCircle, AlertTriangle } from 'react-feather';
 
 type TransferProps = {
   tokenId: string;
@@ -41,18 +42,39 @@ const Transfer: React.FC<TransferProps> = ({ tokenId, owner, ...props }) => {
     refreshData(router);
   };
 
+  const TransferWarning = () =>
+    address ? (
+      !isAddressSame(address, owner) ? (
+        <div className="space-x-2 flex items-center mt-2">
+          <AlertTriangle size={15} />
+          <span className="text-sm">You must own this asset to transfer</span>
+        </div>
+      ) : null
+    ) : (
+      <div className="space-x-2 flex items-center mt-2">
+        <AlertCircle size={15} />
+        <span className="text-sm">Please connect your wallet to see if you own this asset</span>
+      </div>
+    );
+
   return (
     <div {...props}>
-      <div className="mb-4 mt-4 font-semibold text-lg">Transfer</div>
+      <div className="mt-4 font-semibold text-lg">Transfer</div>
+      <TransferWarning />
       <div>
         <TextField
           label="Recipient ETH address"
           value={recipientAddress}
           onChange={handleChange}
           disabled={!isAddressSame(address, owner)}
+          className="mt-4"
         />
       </div>
-      <button className="btn-primary w-full h-12 max-h-12 mt-4 font-medium text-lg" onClick={handleTransfer}>
+      <button
+        disabled={!isAddressSame(address, owner)}
+        className="btn-primary w-full h-12 max-h-12 mt-4 font-medium text-lg"
+        onClick={handleTransfer}
+      >
         Transfer Asset
       </button>
     </div>

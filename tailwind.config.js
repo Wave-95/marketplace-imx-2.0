@@ -124,7 +124,12 @@ module.exports = {
         tertiary: 'var(--colors-text-tertiary)',
         quaternary: 'var(--colors-text-quaternary)',
         button: {
-          primary: { normal: 'var(--colors-text-button-primary-normal)' },
+          primary: {
+            normal: 'var(--colors-text-button-primary-normal)',
+            hover: 'var(--colors-text-button-primary-hover)',
+            active: 'var(--colors-text-button-primary-active)',
+            disabled: 'var(--colors-text-button-primary-disabled)',
+          },
           secondary: {
             normal: 'var(--colors-text-button-secondary-normal)',
             hover: 'var(--colors-text-button-secondary-hover)',

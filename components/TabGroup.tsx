@@ -1,5 +1,6 @@
 import { Tab } from '@headlessui/react';
 import cx from 'classnames';
+import React from 'react';
 
 type TabGroupProps = {
   tabDetails: {
@@ -8,11 +9,12 @@ type TabGroupProps = {
   tabListClassName?: string;
   selectedIndex?: number;
   className?: string;
+  onChange?: (index: number) => void;
 };
 
-const TabGroup: React.FC<TabGroupProps> = ({ tabDetails, tabListClassName, ...props }) => {
+const TabGroup: React.FC<TabGroupProps> = ({ selectedIndex, onChange, tabDetails, tabListClassName, ...props }) => {
   return (
-    <Tab.Group as="div" {...props}>
+    <Tab.Group as="div" {...props} selectedIndex={selectedIndex} onChange={onChange}>
       <Tab.List
         className={cx(
           'flex items-center justify-center w-full px-2 space-x-6 border-b border-normal',
@@ -21,7 +23,7 @@ const TabGroup: React.FC<TabGroupProps> = ({ tabDetails, tabListClassName, ...pr
       >
         {Object.keys(tabDetails).map((tabLabel) => (
           <Tab
-            as="div"
+            as="button"
             key={tabLabel}
             className={({ selected }) =>
               cx(

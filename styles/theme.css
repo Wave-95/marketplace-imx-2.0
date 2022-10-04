@@ -481,7 +481,7 @@
 
 @layer components {
   .btn-primary {
-    @apply py-2 px-4 max-h-9 lg:max-h-10 text-xs lg:text-sm text-button-primary-normal bg-button-primary-normal rounded-lg hover:opacity-90 active:scale-[0.98] border-normal;
+    @apply py-2 px-4 max-h-9 lg:max-h-10 text-xs lg:text-sm text-button-primary-normal bg-button-primary-normal rounded-lg hover:opacity-90 active:scale-[0.98] border-normal disabled:text-button-primary-disabled disabled:bg-button-primary-disabled disabled:border-button-primary-disabled disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
