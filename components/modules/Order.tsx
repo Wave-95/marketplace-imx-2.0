@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import { Order, WalletConnection } from '@imtbl/core-sdk';
+import web3 from 'web3';
 import ByUser from '../ByUser';
 import Price from '../Price';
 import { formatWeiToNumber } from '@/helpers/formatters';
 import { PricesContextType, usePrices } from '@/providers/PricesProvider';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { isSameAddress } from '@/helpers/index';
-import { client } from '@/helpers/imx';
+import { client, getAsset } from '@/helpers/imx';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Loading from '../Loading';
 import { OrderContextType, useOrder } from '@/providers/OrderProvider';
+import { AssetContextType, useAsset } from '@/providers/AssetProvider';
 
 type OrderProps = {
   className?: string;
@@ -20,17 +22,31 @@ type OrderProps = {
 
 const Order: React.FC<OrderProps> = ({ className, order }) => {
   const [loading, setLoading] = useState(false);
-  const { order_id, user, buy: { type, data: { quantity } = {} } = {} } = order || ({} as Order);
+  const {
+    order_id,
+    user,
+    buy: { type, data: { quantity } = {} } = {},
+    sell: { data: { token_id } = {} } = {},
+  } = order || ({} as Order);
   const {
     state: { ETHUSD },
   } = usePrices() as PricesContextType;
   const {
-    state: { address, connection },
+    state: { address, connection, balances },
   } = useUser() as UserContextType;
   const { dispatch: dispatchOrder } = useOrder() as OrderContextType;
+  const { dispatch: dispatchAsset } = useAsset() as AssetContextType;
   const router = useRouter();
 
   const handleBuy = async () => {
+    const balanceETH = balances?.ETH?.balance;
+    const balanceETHBN = web3.utils.toBN(balanceETH);
+    const quantityBN = web3.utils.toBN(quantity as string);
+
+    if (balanceETHBN.lt(quantityBN)) {
+      return toast.error('Insufficient funds to purchase asset.');
+    }
+
     setLoading(true);
     try {
       if (connection && address) {
@@ -38,7 +54,11 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
           order_id,
           user: address,
         });
-        router.reload();
+        dispatchOrder({ type: 'clear_order' });
+        setTimeout(() => {
+          token_id && getAsset(token_id).then((data) => dispatchAsset({ type: 'set_asset', payload: data }));
+          setLoading(false);
+        }, 2000);
       }
     } catch (e: any) {
       setLoading(false);

@@ -11,7 +11,7 @@ const Balance: React.FC = ({ ...props }) => {
     dispatch,
   } = useUser() as UserContextType;
 
-  const balanceETH = balances?.ETH?.balance;
+  const balanceETH = balances?.ETH?.balance || '0';
 
   useEffect(() => {
     if (address) {
