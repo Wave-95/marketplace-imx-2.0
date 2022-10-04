@@ -54,11 +54,11 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
           order_id,
           user: address,
         });
-        dispatchOrder({ type: 'clear_order' });
         setTimeout(() => {
           token_id && getAsset(token_id).then((data) => dispatchAsset({ type: 'set_asset', payload: data }));
           setLoading(false);
-        }, 2000);
+          dispatchOrder({ type: 'clear_order' });
+        }, 4000);
       }
     } catch (e: any) {
       setLoading(false);

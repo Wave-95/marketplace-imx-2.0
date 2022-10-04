@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Transfer from '@/components/modules/Transfer';
+import AssetTransfer from '@/components/modules/AssetTransfer';
 import { isSameAddress } from '@/helpers/index';
 import List from '@/components/modules/List';
 import OrderModule from '@/components/modules/Order';
@@ -118,14 +118,14 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
   const Details = () => (
     <div>
       {metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" /> : null}
-      {showList ? <List asset={asset} className="lg:px-8 p-4" /> : null}
+      {showList ? <List className="lg:px-8 p-4" /> : null}
     </div>
   );
 
   const tabDetails = {
     Details: <Details />,
     History: <div></div>,
-    Transfer: <Transfer tokenId={tokenId} owner={user} className="lg:px-8 p-4" />,
+    Transfer: <AssetTransfer tokenId={tokenId} owner={user} className="lg:px-8 p-4" />,
   };
 
   return (

@@ -1,26 +1,27 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import TextField from '../TextField';
-import { useOrder, usePrices, useUser } from '../../providers';
+import { useAsset, useOrder, usePrices, useUser } from '../../providers';
 import { UserContextType } from '@/providers/UserProvider';
 import { isSameAddress, refreshData } from '../../helpers';
 import { client } from '@/helpers/imx';
 import { toast } from 'react-toastify';
 import { marketplace_royalty_address, marketplace_royalty_percentage, token_address } from '@/constants/configs';
 import web3 from 'web3';
-import { useRouter } from 'next/router';
-import { Asset } from '@imtbl/core-sdk';
 import Price from '../Price';
 import { PricesContextType } from '@/providers/PricesProvider';
 import { formatFees } from '@/helpers/formatters';
 import { OrderContextType } from '@/providers/OrderProvider';
 import Loading from '../Loading';
+import { AssetContextType } from '@/providers/AssetProvider';
 
 type ListProps = {
-  asset: Asset;
   className?: string;
 };
 
-const List: React.FC<ListProps> = ({ asset, ...props }) => {
+const List: React.FC<ListProps> = ({ ...props }) => {
+  const {
+    state: { asset },
+  } = useAsset() as AssetContextType;
   const { token_id, user, fees } = asset;
   const {
     state: { address, connection },

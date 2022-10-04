@@ -10,12 +10,12 @@ import { token_address } from '@/constants/configs';
 import { useRouter } from 'next/router';
 import { AlertTriangle } from 'react-feather';
 
-type TransferProps = {
+type AssetTransferProps = {
   tokenId: string;
   className?: string;
   owner: string;
 };
-const Transfer: React.FC<TransferProps> = ({ tokenId, owner, ...props }) => {
+const AssetTransfer: React.FC<AssetTransferProps> = ({ tokenId, owner, ...props }) => {
   const {
     state: { address, connection },
   } = useUser() as UserContextType;
@@ -78,4 +78,4 @@ const Transfer: React.FC<TransferProps> = ({ tokenId, owner, ...props }) => {
   );
 };
 
-export default Transfer;
+export default AssetTransfer;
