@@ -22,7 +22,7 @@ export const getNumSelectedFilters = (selectedFilters: SelectedFilters) => {
   return filterCount;
 };
 
-export const isAddressSame = (addr1?: string | null, addr2?: string | null) => {
+export const isSameAddress = (addr1?: string | null, addr2?: string | null) => {
   if (typeof addr1 === 'string' && typeof addr2 === 'string') {
     return addr1.toLowerCase() === addr2.toLowerCase();
   }
