@@ -11,8 +11,13 @@ import { client, buildWalletSDK } from '@/helpers/imx';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
 import { WalletConnection } from '@imtbl/core-sdk';
+import { GetServerSideProps } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
-const Login: React.FC = () => {
+type LoginProps = {
+  referer: string;
+};
+const Login: React.FC<LoginProps> = ({ referer }) => {
   const { dispatch } = useUser() as UserContextType;
   const router = useRouter();
   const page_title = `Login | ${collection_name}`;
@@ -35,7 +40,7 @@ const Login: React.FC = () => {
         const address = await walletConnectionNew?.ethSigner?.getAddress();
         dispatch({ type: 'connect', payload: walletConnectionNew });
         dispatch({ type: 'set_address', payload: address });
-        router.push('/');
+        router.push(referer);
       }
     } catch (e) {
       if (e instanceof Error) {
@@ -81,3 +86,11 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
+export const getServerSideProps: GetServerSideProps<LoginProps, ParsedUrlQuery> = async ({ req }) => {
+  const referer = req.headers.referer || '/';
+
+  return {
+    props: { referer },
+  };
+};
