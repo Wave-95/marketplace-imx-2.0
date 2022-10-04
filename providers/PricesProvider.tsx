@@ -34,7 +34,7 @@ const PricesContext = createContext<PricesContextType | null>(null);
 export const PricesProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(pricesReducer, INITIAL_STATE);
 
-  const fetchPrices = async () => {
+  const fetchAndSetPrices = async () => {
     const fetchEthPricePromise = fetch('https://api.coinbase.com/v2/prices/ETH-USD/buy');
     const responses = await Promise.all([fetchEthPricePromise]);
     const dataPromises = responses.map((response) => response.json());
@@ -44,9 +44,8 @@ export const PricesProvider = ({ children }: { children: React.ReactNode }) => {
     dispatch({ type: 'update_price', payload: pricesFormatted });
   };
 
-  //Builds wallet SDK on mount and checks for existing wallet connection
   useEffect(() => {
-    fetchPrices();
+    setInterval(fetchAndSetPrices, 1000 * 60);
   }, []);
 
   const value = { state, dispatch };

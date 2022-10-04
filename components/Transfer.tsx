@@ -47,13 +47,13 @@ const Transfer: React.FC<TransferProps> = ({ tokenId, owner, ...props }) => {
       !isAddressSame(address, owner) ? (
         <div className="space-x-2 flex items-center mt-2">
           <AlertTriangle size={15} />
-          <span className="text-sm">You must own this asset to transfer</span>
+          <span className="text-sm">You must own this asset to transfer it.</span>
         </div>
       ) : null
     ) : (
       <div className="space-x-2 flex items-center mt-2">
         <AlertCircle size={15} />
-        <span className="text-sm">Please connect your wallet to see if you own this asset</span>
+        <span className="text-sm">Please connect your wallet to see if you own this asset.</span>
       </div>
     );
 
