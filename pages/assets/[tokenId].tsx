@@ -49,8 +49,9 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
         });
       }
     } catch (e) {
-      console.error(e.message);
-      toast.error('There was an issue purchasing the item.');
+      if (e instanceof Error) {
+        toast.error('There was an issue purchasing the item.');
+      }
     }
   };
 
@@ -120,8 +121,8 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
   const PurchaseSection = ({ className }: { className?: string }) => (
     <div className={cx('p-3 pt-4 space-y-4 border-t border-normal lg:bg-page bg-bar backdrop-blur-lg', className)}>
       <div className="grid grid-cols-2 px-1">
-        <ByUser text={'Sold by'} user={user} />
-        <Price amount={formatWeiToNumber(quantity)} type={type} rate={ETHUSD} />
+        <ByUser label={'Sold by'} user={user} />
+        {quantity && type ? <Price amount={formatWeiToNumber(quantity)} type={type} rate={ETHUSD} /> : null}
       </div>
       <button
         className="w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-button transition duration-[100ms] ease-out"
@@ -148,7 +149,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, asset, activeOrder }) =>
             <ImgMobile />
             <div className="p-4 space-y-6 lg:p-8">
               <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
-              <ByUser text={'Owned By'} user={user} />
+              <ByUser label={'Owned By'} user={user} />
             </div>
             <TabGroup tabDetails={tabDetails} className="flex-1" tabListClassName="lg:justify-start lg:pl-8" />
             {activeOrder ? <PurchaseSection className="hidden lg:block" /> : null}
