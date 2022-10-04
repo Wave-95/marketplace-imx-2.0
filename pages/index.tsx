@@ -49,7 +49,7 @@ const Marketplace: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, [filters]);
+  }, [filters.selected, filters.orderByKey]);
 
   return (
     <>

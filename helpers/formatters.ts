@@ -94,17 +94,18 @@ export const formatFiltersToApiRequest = ({
   const newSelected: { [key: string]: FilterValues } = {};
   Object.assign(newSelected, selected);
 
+  //Delete any filter keys that have empty arrays
   for (const [key, value] of Object.entries(newSelected)) {
     if (Array.isArray(value) && value.length === 0) {
       delete newSelected[key];
     }
   }
-  const sellMetadata = JSON.stringify(newSelected);
+  const sellMetadata = Object.keys(newSelected).length > 0 ? JSON.stringify(newSelected) : undefined;
 
   const orderBy = order_by_config[orderByKey].orderBy as OrdersApiListOrdersRequest['orderBy'];
   const direction = order_by_config[orderByKey].direction as OrdersApiListOrdersRequest['direction'];
 
-  return { sellMetadata, orderBy, direction };
+  return { ...(sellMetadata && { sellMetadata }), orderBy, direction };
 };
 
 /**

@@ -54,6 +54,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
   }, [query]);
 
   useEffect(() => {
+    dispatchAsset({ type: 'clear_asset' });
     getAsset(tokenId).then((data) => dispatchAsset({ type: 'set_asset', payload: data }));
   }, [tokenId]);
 

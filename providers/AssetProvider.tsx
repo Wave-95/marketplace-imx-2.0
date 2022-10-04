@@ -28,6 +28,8 @@ const assetReducer = (state: AssetState, action: Action) => {
   switch (action.type) {
     case 'set_asset':
       return { ...state, asset: action.payload };
+    case 'clear_asset':
+      return { ...state, ...INITIAL_STATE };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

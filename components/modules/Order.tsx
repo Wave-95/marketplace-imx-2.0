@@ -68,7 +68,6 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
       }
       toast.error('There was an issue purchasing the item.');
     }
-    setLoading(false);
   };
 
   const handleCancel = async () => {
