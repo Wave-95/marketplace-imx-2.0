@@ -99,7 +99,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
           {quantity && type ? <Price amount={formatWeiToNumber(quantity)} type={type} rate={ETHUSD} /> : null}
         </div>
         <button
-          className="max-h-12 w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-button transition duration-[100ms] ease-out"
+          className="max-h-12 w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-lg transition duration-[100ms] ease-out"
           onClick={connection ? (isOwner ? handleCancel : handleBuy) : redirectLogin}
         >
           {loading ? <Loading /> : buttonText}

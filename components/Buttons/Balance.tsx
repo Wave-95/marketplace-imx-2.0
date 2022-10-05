@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { UserContextType, useUser } from '@/providers/UserProvider';
-import { formatBalances, formatCurrency, formatWeiToNumber } from '@/helpers/formatters';
+import { formatBalances, formatWeiToNumber } from '@/helpers/formatters';
 import { EthIcon } from '../Icons';
 import { client } from '@/helpers/imx';
 import numeral from 'numeral';
@@ -26,7 +26,7 @@ const Balance: React.FC = ({ ...props }) => {
   if (!address) return null;
 
   return (
-    <div className="flex items-stretch justify-between h-10 border rounded-button border-normal" {...props}>
+    <div className="h-10 border rounded-lg border-normal" {...props}>
       <div className="flex items-center justify-center px-4 pr-0 space-x-2">
         <span>{balanceETHFormatted}</span>
         <EthIcon />

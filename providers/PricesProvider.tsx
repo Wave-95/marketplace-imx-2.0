@@ -36,12 +36,16 @@ export const PricesProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchAndSetPrices = async () => {
     const fetchEthPricePromise = fetch('https://api.coinbase.com/v2/prices/ETH-USD/buy');
-    const responses = await Promise.all([fetchEthPricePromise]);
-    const dataPromises = responses.map((response) => response.json());
-    const dataObjects = await Promise.all(dataPromises);
-    const prices = dataObjects.map((obj) => obj.data);
-    const pricesFormatted = formatCryptoPricesToState(prices);
-    dispatch({ type: 'update_price', payload: pricesFormatted });
+    try {
+      const responses = await Promise.all([fetchEthPricePromise]);
+      const dataPromises = responses.map((response) => response.json());
+      const dataObjects = await Promise.all(dataPromises);
+      const prices = dataObjects.map((obj) => obj.data);
+      const pricesFormatted = formatCryptoPricesToState(prices);
+      dispatch({ type: 'update_price', payload: pricesFormatted });
+    } catch (e: any) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
