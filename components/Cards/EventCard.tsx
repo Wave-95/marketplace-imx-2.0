@@ -12,9 +12,9 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ icon, title, timestamp, className, ...props }) => {
   return (
-    <BaseCard className={cx('!flex-row items-center space-x-5 px-4 py-2 w-full', className)} {...props}>
+    <BaseCard className={cx('!flex-row items-center space-x-5 px-4 py-2 w-full min-h-[5rem]', className)} {...props}>
       {icon}
-      <div className="space-y-1.5">
+      <div className="space-y-1.5 w-full">
         <div className="text-sm">{title}</div>
         <div className="items-center space-x-1 text-xs text-secondary">
           <span>{toLocalTime(timestamp)}</span>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import TextField from '../TextField';
-import { useAsset, useUser } from '../../providers';
+import { useAsset, usePrices, useUser } from '../../providers';
 import { UserContextType } from '@/providers/UserProvider';
 import { isSameAddress, refreshData } from '../../helpers';
 import { toast } from 'react-toastify';
@@ -14,6 +14,9 @@ import EventCard from '../Cards/EventCard';
 import { ListOrdersResponse, ListTradesResponse, ListTransfersResponse, Order, Transfer } from '@imtbl/core-sdk';
 import dayjs from 'dayjs';
 import UserLink from '../Links/UserLink';
+import Price from '../Price';
+import { PricesContextType } from '@/providers/PricesProvider';
+import { formatWeiToNumber } from '@/helpers/formatters';
 
 type AssetHistoryProps = {
   className?: string;
@@ -28,6 +31,9 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
     },
     dispatch,
   } = useAsset() as AssetContextType;
+  const {
+    state: { ETHUSD },
+  } = usePrices() as PricesContextType;
   const [loading, setLoading] = useState(false);
   const [remainingEvents, setRemainingEvents] = useState<Array<Transfer | Order>>([]);
 
@@ -55,7 +61,21 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
   const renderRemainingEvents = () => {
     return remainingEvents.map((event) => {
       if ('order_id' in event) {
-        return event.timestamp ? <EventCard title="Trade" timestamp={event.timestamp} icon={<ShoppingCart />} /> : null;
+        const {
+          sell: {
+            data: { quantity },
+          },
+        } = event;
+        const TradeTitle = (
+          <div className="flex items-center justify-between w-full">
+            <div>
+              <span>{'Purchased by '}</span>
+              <UserLink user={event.user} accentOn />
+            </div>
+            <Price amount={formatWeiToNumber(quantity)} type="ETH" rate={ETHUSD} />
+          </div>
+        );
+        return event.timestamp ? <EventCard title={TradeTitle} timestamp={event.timestamp} icon={<ShoppingCart />} /> : null;
       }
 
       if ('receiver' in event) {
@@ -69,6 +89,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
         );
         return event.timestamp ? <EventCard title={TransferTitle} timestamp={event.timestamp} icon={<Send />} /> : null;
       }
+      return null;
     });
   };
 
