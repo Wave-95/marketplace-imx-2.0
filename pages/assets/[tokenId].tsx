@@ -46,15 +46,9 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
   const router = useRouter();
   const page_title = `Asset | ${name || collection_name}`;
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(Number(tab));
   const showOrder = order && selectedIndex !== 2;
   const showList = isSameAddress(address, user) && !order;
-
-  useEffect(() => {
-    //Gets current tab selection from url query params and sets it
-    const index = typeof tab === 'string' ? Number(tab) : 0;
-    setSelectedIndex(index);
-  }, [tab]);
 
   useEffect(() => {
     dispatchAsset({ type: 'clear_asset' });
@@ -66,7 +60,10 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
   }, [tokenId]);
 
   const handleTabChange: FormEventHandler<HTMLDivElement> & ((index: number) => void) = (index) => {
-    router.replace({ pathname: `/assets/${tokenId}`, query: { tab: index.toString() } }, undefined, { shallow: true });
+    if (typeof index === 'number') {
+      setSelectedIndex(index);
+      router.replace({ pathname: `/assets/${tokenId}`, query: { tab: index.toString() } }, undefined, { shallow: true });
+    }
   };
 
   const handleCopyLink = () => {
@@ -81,7 +78,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
   const AssetImage = ({ className }: { className?: string }) => (
     <div className={className}>
       {image_url ? (
-        <div className="w-full min-h-[300px] lg:min-h-[500px] relative mt-16">
+        <div className="min-w-[200px] min-h-[300px] lg:min-w-[400px] lg:min-h-[500px] relative mt-16">
           <Image
             src={image_url}
             alt={`img-token-${tokenId}`}
@@ -102,7 +99,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
   const metadataToDisplay = ['set', 'type', 'rarity', 'god', 'tribe', 'attack', 'health', 'mana'] as keyof typeof metadata;
 
   const Details = () => (
-    <div>
+    <>
       <div className="lg:px-8 p-4">
         <div className="mb-4 mt-4 font-semibold text-lg">Description</div>
         <p className="text-secondary text-sm">
@@ -110,16 +107,15 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
           enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
       </div>
-
       {metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" /> : null}
       {showList ? <List className="lg:px-8 p-4" /> : null}
-    </div>
+    </>
   );
 
   const tabDetails = {
     Details: <Details />,
     History: <div></div>,
-    Transfer: <AssetTransfer tokenId={tokenId} owner={user} className="lg:px-8 p-4" />,
+    Transfer: <AssetTransfer className="lg:px-8 p-4" />,
   };
 
   return (
@@ -133,7 +129,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
         <div className="flex-1 flex overflow-auto">
           <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
           <div
-            className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l h-[calc(${availHeight}-4rem)]`}
+            className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l h-[calc(${availHeight}-4rem)] overflow-auto`}
           >
             <div className="absolute top-8 right-8">
               <div className="flex items-center space-x-4">
@@ -173,8 +169,12 @@ interface Params extends ParsedUrlQuery {
   tab?: string;
 }
 
-export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params }) => {
-  const { tokenId, tab = '0' } = params!;
+export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params, query }) => {
+  const { tokenId } = params!;
+  let { tab = '0' } = query;
+  if (Array.isArray(tab)) {
+    tab = tab.pop() || '0';
+  }
   return {
     props: { tokenId, tab },
   };
