@@ -15,7 +15,19 @@ export default function UserMenu({ ...props }) {
   } = useUser() as UserContextType;
   const walletConnection = connection as any;
   const walletProvider = walletConnection?.ethSigner?.provider?.connection?.url;
-  const WalletProviderIcon = walletProvider === 'metamask' ? <MetamaskIcon /> : <WalletConnectIcon />;
+  let WalletProviderIcon;
+
+  switch (walletProvider) {
+    case 'metamask':
+      WalletProviderIcon = <MetamaskIcon />;
+      break;
+    case 'walletConnect':
+      WalletProviderIcon = <WalletConnectIcon />;
+      break;
+    default:
+      WalletProviderIcon = null;
+      break;
+  }
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(address as string);

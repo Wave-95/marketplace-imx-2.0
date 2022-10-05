@@ -13,3 +13,5 @@ export const token_address = process.env.NEXT_PUBLIC_TOKEN_ADDRESS || '0xc618505
 export const marketplace_royalty_address = process.env.NEXT_PUBLIC_MARKETPLACE_ROYALTY_ADDRESS || null;
 
 export const marketplace_royalty_percentage = process.env.NEXT_PUBLIC_MARKETPLACE_ROYALTY_PERCENTAGE || null;
+
+export const magic_public_api_key = process.env.NEXT_PUBLIC_MAGIC_PUBLIC_API_KEY || 'pk_live_B95A9794EED1E24C';
