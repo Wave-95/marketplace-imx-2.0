@@ -80,3 +80,32 @@ export const listActiveOrders = async (queryParams?: Partial<OrdersApiListOrders
   });
   return response;
 };
+
+export const listERC721Trades = async (tokenId: string) => {
+  const response = await client.listTrades({
+    partyBTokenAddress: token_address,
+    partyBTokenId: tokenId,
+  });
+  return response;
+};
+
+export const listERC721FilledOrders = async (tokenId: string) => {
+  const response = await client.listOrders({
+    buyTokenAddress: token_address,
+    buyTokenId: tokenId,
+    sellTokenAddress: '',
+    sellTokenType: 'ETH',
+    includeFees: true,
+    status: 'filled',
+  });
+  return response;
+};
+
+export const listERC721Transfers = async (tokenId: string) => {
+  const response = await client.listTransfers({
+    tokenAddress: token_address,
+    tokenId,
+    status: 'success',
+  });
+  return response;
+};

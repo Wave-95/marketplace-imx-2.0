@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 import { Heart, Link } from 'react-feather';
 import { collection_name } from '@/constants/configs';
 import Skeleton from '@/components/Skeleton';
+import AssetHistory from '@/components/modules/AssetHistory';
 
 interface AssetPageProps extends ParsedUrlQuery {
   tokenId: string;
@@ -114,7 +115,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
 
   const tabDetails = {
     Details: <Details />,
-    History: <div></div>,
+    History: <AssetHistory className="lg:px-8 p-4" />,
     Transfer: <AssetTransfer className="lg:px-8 p-4" />,
   };
 

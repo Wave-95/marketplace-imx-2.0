@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
 import numeral from 'numeral';
 import web3utils from 'web3-utils';
+import dayjs from 'dayjs';
 
 /**
  * IMX API Response ➡️ React State
@@ -195,6 +196,10 @@ export const formatCryptoPricesToState = (pricesResponse: CoinbasePriceResponse[
  * Generic Formatters
  * -----------------------------
  */
+
+export const toLocalTime = (timestampUTC: string) => {
+  return dayjs(timestampUTC).format('MM/DD/YYYY, hh:mm:ss');
+};
 
 type ObjectWithArrayValues = {
   [key: string]: any[];
