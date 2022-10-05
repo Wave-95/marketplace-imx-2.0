@@ -17,8 +17,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <DimensionProvider>
-        <ToastProvider>
-          <UserProvider>
+        <UserProvider>
+          <ToastProvider>
             <AssetProvider>
               <OrderProvider>
                 <FiltersProvider>
@@ -28,8 +28,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </FiltersProvider>
               </OrderProvider>
             </AssetProvider>
-          </UserProvider>
-        </ToastProvider>
+          </ToastProvider>
+        </UserProvider>
       </DimensionProvider>
     </ThemeProvider>
   );

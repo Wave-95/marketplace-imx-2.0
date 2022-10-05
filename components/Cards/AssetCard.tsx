@@ -24,14 +24,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => 
       <a>
         <div className="space-y-2 p-4 pt-0">
           <div className="relative min-h-[300px]">
-            <Image
-              src={imgUrl}
-              quality={100}
-              objectFit="contain"
-              objectPosition="center"
-              layout="fill"
-              alt={`img-token-${tokenId}`}
-            />
+            <Image src={imgUrl} quality={100} objectFit="contain" objectPosition="center" layout="fill" alt={`img-token-${tokenId}`} />
           </div>
           <h4 className="font-medium text-center mt-2">{name}</h4>
         </div>
@@ -42,16 +35,13 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => 
   const AssetDetails = () => (
     <div className="flex items-center justify-between p-4 border-t border-normal">
       <ByUser user={user} label={buyAmount ? 'Sold by' : 'Owned by'} />
-      {buyAmount ? <Price amount={buyAmount} type={buyType} rate={rate} /> : null}
+      {buyAmount && buyType ? <Price amount={buyAmount} type={buyType} rate={rate} /> : null}
     </div>
   );
 
   return (
     <BaseCard
-      className={cx(
-        'hover:-translate-y-0.5 active:translate-y-0 hover:bg-card-secondary-hover active:bg-card-secondary-active',
-        className
-      )}
+      className={cx('hover:-translate-y-0.5 active:translate-y-0 hover:bg-card-secondary-hover active:bg-card-secondary-active', className)}
       {...props}
     >
       <div>

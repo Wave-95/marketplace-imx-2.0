@@ -4,6 +4,7 @@ import { UserContextType, useUser } from '@/providers/UserProvider';
 import { formatBalances, formatCurrency, formatWeiToNumber } from '@/helpers/formatters';
 import { EthIcon } from '../Icons';
 import { client } from '@/helpers/imx';
+import numeral from 'numeral';
 
 const Balance: React.FC = ({ ...props }) => {
   const {
@@ -12,6 +13,7 @@ const Balance: React.FC = ({ ...props }) => {
   } = useUser() as UserContextType;
 
   const balanceETH = balances?.ETH?.balance || '0';
+  const balanceETHFormatted = numeral(formatWeiToNumber(balanceETH)).format('0[.]0[00]a');
 
   useEffect(() => {
     if (address) {
@@ -26,7 +28,7 @@ const Balance: React.FC = ({ ...props }) => {
   return (
     <div className="flex items-stretch justify-between h-10 border rounded-button border-normal" {...props}>
       <div className="flex items-center justify-center px-4 pr-0 space-x-2">
-        <span>{formatCurrency(formatWeiToNumber(balanceETH))}</span>
+        <span>{balanceETHFormatted}</span>
         <EthIcon />
         <Link href="/balances">
           <a>

@@ -27,7 +27,6 @@ const Marketplace: React.FC = () => {
       ...filterParams,
     });
     const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
-    console.log({ filters, filterParams, activeOrdersResponse, activeOrdersFormatted });
     setActiveOrders(activeOrdersFormatted);
     setCursor(activeOrdersResponse.cursor);
     setIsLoading(false);

@@ -22,11 +22,12 @@ import { Heart, Link } from 'react-feather';
 import { collection_name } from '@/constants/configs';
 import Skeleton from '@/components/Skeleton';
 
-type AssetPageProps = {
+interface AssetPageProps extends ParsedUrlQuery {
   tokenId: string;
-};
+  tab?: string;
+}
 
-const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
+const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
   const {
     state: { availHeight },
   } = useDimension() as DimensionContextType;
@@ -43,19 +44,17 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
   } = useOrder() as OrderContextType;
   const { image_url, metadata, name, user } = asset;
   const router = useRouter();
-  const { query } = router;
   const page_title = `Asset | ${name || collection_name}`;
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const showOrder = order && selectedIndex === 0;
+  const showOrder = order && selectedIndex !== 2;
   const showList = isSameAddress(address, user) && !order;
 
   useEffect(() => {
     //Gets current tab selection from url query params and sets it
-    const { tab } = query;
     const index = typeof tab === 'string' ? Number(tab) : 0;
     setSelectedIndex(index);
-  }, [query]);
+  }, [tab]);
 
   useEffect(() => {
     dispatchAsset({ type: 'clear_asset' });
@@ -171,12 +170,12 @@ export default AssetPage;
 
 interface Params extends ParsedUrlQuery {
   tokenId: string;
+  tab?: string;
 }
 
 export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params }) => {
-  const { tokenId } = params!;
-
+  const { tokenId, tab = '0' } = params!;
   return {
-    props: { tokenId },
+    props: { tokenId, tab },
   };
 };

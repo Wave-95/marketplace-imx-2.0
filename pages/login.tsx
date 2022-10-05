@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
       </Head>
       <LayoutDefault>
         <Container className="items-center justify-center min-h-headerless">
-          <div className="flex flex-col items-center max-w-lg mb-[12rem] space-y-8 prose">
+          <div className="flex flex-col items-center max-w-lg mb-[12rem] space-y-8">
             <h2 className="text-page">Please select a wallet provider</h2>
             <div className="flex flex-col space-y-6">
               <IconButton
