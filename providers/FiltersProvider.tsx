@@ -92,7 +92,7 @@ const filtersReducer = (state: FilterState, action: Action) => {
   }
 };
 
-const FiltersContext = createContext<FiltersContextType | null>(null);
+const FiltersContext = createContext<FiltersContextType | {}>({});
 
 export const FiltersProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(filtersReducer, INITIAL_STATE);

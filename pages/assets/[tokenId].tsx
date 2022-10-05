@@ -19,6 +19,8 @@ import { AssetContextType, useAsset } from '@/providers/AssetProvider';
 import { OrderContextType, useOrder } from '@/providers/OrderProvider';
 import { toast } from 'react-toastify';
 import { Heart, Link } from 'react-feather';
+import { collection_name } from '@/constants/configs';
+import Skeleton from '@/components/Skeleton';
 
 type AssetPageProps = {
   tokenId: string;
@@ -42,7 +44,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
   const { image_url, metadata, name, user } = asset;
   const router = useRouter();
   const { query } = router;
-  const page_title = `Asset | ${name}`;
+  const page_title = `Asset | ${name || collection_name}`;
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const showOrder = order && selectedIndex === 0;
@@ -77,26 +79,22 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
     //TODO: Custom code here
   };
 
-  const ImgDesktop = () => (
-    <div className="flex-1 hidden lg:flex justify-center items-center">
+  const AssetImage = ({ className }: { className?: string }) => (
+    <div className={className}>
       {image_url ? (
-        <div className="w-full min-h-[500px] relative">
-          <Image src={image_url} alt={`img-token-${tokenId}`} quality={100} objectFit="contain" objectPosition="center" layout="fill" />
+        <div className="w-full min-h-[300px] lg:min-h-[500px] relative mt-16">
+          <Image
+            src={image_url}
+            alt={`img-token-${tokenId}`}
+            quality={100}
+            objectFit="contain"
+            objectPosition="center"
+            layout="fill"
+            priority
+          />
         </div>
       ) : (
-        <p>No image found</p>
-      )}
-    </div>
-  );
-
-  const ImgMobile = () => (
-    <div className="lg:hidden justify-center items-center">
-      {image_url ? (
-        <div className="w-full min-h-[300px] relative mt-16">
-          <Image src={image_url} alt={`img-token-${tokenId}`} quality={100} objectFit="contain" objectPosition="center" layout="fill" />
-        </div>
-      ) : (
-        <p>No image found</p>
+        <Skeleton className="w-[200px] h-[300px] lg:w-[300px] lg:h-[500px] rounded-lg mt-16" />
       )}
     </div>
   );
@@ -134,7 +132,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
       </Head>
       <LayoutDefault>
         <div className="flex-1 flex overflow-auto">
-          <ImgDesktop />
+          <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
           <div
             className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l h-[calc(${availHeight}-4rem)]`}
           >
@@ -148,7 +146,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId }) => {
                 </div>
               </div>
             </div>
-            <ImgMobile />
+            <AssetImage className="lg:hidden flex justify-center items-center" />
             <div className="p-4 space-y-6 lg:p-8">
               <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
               <ByUser label={'Owned By'} user={user} />

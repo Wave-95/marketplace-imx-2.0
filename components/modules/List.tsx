@@ -6,7 +6,7 @@ import { isSameAddress, refreshData } from '../../helpers';
 import { client } from '@/helpers/imx';
 import { toast } from 'react-toastify';
 import { marketplace_royalty_address, marketplace_royalty_percentage, token_address } from '@/constants/configs';
-import web3 from 'web3';
+import web3utils from 'web3-utils';
 import Price from '../Price';
 import { PricesContextType } from '@/providers/PricesProvider';
 import { formatFees } from '@/helpers/formatters';
@@ -53,7 +53,7 @@ const List: React.FC<ListProps> = ({ ...props }) => {
 
   const handleList = (amount: string) => async () => {
     setLoading(true);
-    const amountWei = web3.utils.toWei(amount);
+    const amountWei = web3utils.toWei(amount);
     //https://docs.x.immutable.com/docs/fees/
     const makerFees =
       marketplace_royalty_address && marketplace_royalty_percentage

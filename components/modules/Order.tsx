@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import { Order, WalletConnection } from '@imtbl/core-sdk';
-import web3 from 'web3';
+import web3utils from 'web3-utils';
 import ByUser from '../ByUser';
 import Price from '../Price';
 import { formatWeiToNumber } from '@/helpers/formatters';
@@ -22,12 +22,7 @@ type OrderProps = {
 
 const Order: React.FC<OrderProps> = ({ className, order }) => {
   const [loading, setLoading] = useState(false);
-  const {
-    order_id,
-    user,
-    buy: { type, data: { quantity } = {} } = {},
-    sell: { data: { token_id } = {} } = {},
-  } = order || ({} as Order);
+  const { order_id, user, buy: { type, data: { quantity } = {} } = {}, sell: { data: { token_id } = {} } = {} } = order || ({} as Order);
   const {
     state: { ETHUSD },
   } = usePrices() as PricesContextType;
@@ -40,8 +35,8 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
 
   const handleBuy = async () => {
     const balanceETH = balances?.ETH?.balance;
-    const balanceETHBN = web3.utils.toBN(balanceETH);
-    const quantityBN = web3.utils.toBN(quantity as string);
+    const balanceETHBN = web3utils.toBN(balanceETH);
+    const quantityBN = web3utils.toBN(quantity as string);
 
     if (balanceETHBN.lt(quantityBN)) {
       return toast.error('Insufficient funds to purchase asset.');

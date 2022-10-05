@@ -1,9 +1,9 @@
 import { Balance, CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
-import { FilterOption, FilterState, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
+import { FilterOption, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
 import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
 import numeral from 'numeral';
-import { utils } from 'ethers';
+import web3utils from 'web3-utils';
 
 /**
  * IMX API Response ➡️ React State
@@ -233,5 +233,5 @@ export const formatCurrency = (amount: string, currency = 'ETH') => {
 };
 
 export const formatWeiToNumber = (num: string) => {
-  return utils.formatEther(num);
+  return web3utils.fromWei(num);
 };
