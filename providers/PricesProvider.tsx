@@ -49,6 +49,7 @@ export const PricesProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    fetchAndSetPrices();
     setInterval(fetchAndSetPrices, 1000 * 60);
   }, []);
 
