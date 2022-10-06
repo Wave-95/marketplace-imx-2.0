@@ -7,6 +7,7 @@ interface PriceProps {
   type: string;
   rate?: number;
   showLabel?: boolean;
+  className?: string;
 }
 
 const Price: React.FC<PriceProps> = ({ amount, type, rate, showLabel = true, ...props }) => {
@@ -25,9 +26,7 @@ const Price: React.FC<PriceProps> = ({ amount, type, rate, showLabel = true, ...
   }
 
   const PriceUSD = () =>
-    priceUSDFormatted ? (
-      <div className="mr-1 text-xs leading-none text-secondary">{`≃${priceUSDFormatted}`}</div>
-    ) : null;
+    priceUSDFormatted ? <div className="mr-1 text-xs leading-none text-secondary">{`≃${priceUSDFormatted}`}</div> : null;
 
   return (
     <div {...props}>

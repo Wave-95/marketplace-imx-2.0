@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import cx from 'classnames';
-import TextField from '../TextField';
-import { useAsset, usePrices, useUser } from '../../providers';
-import { UserContextType } from '@/providers/UserProvider';
-import { isSameAddress, refreshData } from '../../helpers';
-import { toast } from 'react-toastify';
-import { client, getAsset, listERC721FilledOrders, listERC721Trades, listERC721Transfers } from '@/helpers/imx';
-import { token_address } from '@/constants/configs';
-import { AlertTriangle, Box, Send, ShoppingCart, Star } from 'react-feather';
+import { Order, Transfer } from '@imtbl/core-sdk';
+import dayjs from 'dayjs';
+import { useAsset, usePrices } from '../../providers';
+import { listERC721FilledOrders, listERC721Transfers } from '@/helpers/imx';
+import { Box, Send, ShoppingCart } from 'react-feather';
 import { AssetContextType } from '@/providers/AssetProvider';
 import Loading from '../Loading';
 import EventCard from '../Cards/EventCard';
-import { ListOrdersResponse, ListTradesResponse, ListTransfersResponse, Order, Transfer } from '@imtbl/core-sdk';
-import dayjs from 'dayjs';
 import UserLink from '../Links/UserLink';
 import Price from '../Price';
 import { PricesContextType } from '@/providers/PricesProvider';
@@ -23,13 +17,9 @@ type AssetHistoryProps = {
 };
 const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
   const {
-    state: { address, connection },
-  } = useUser() as UserContextType;
-  const {
     state: {
-      asset: { token_id, user, created_at },
+      asset: { token_id, created_at },
     },
-    dispatch,
   } = useAsset() as AssetContextType;
   const {
     state: { ETHUSD },
@@ -59,7 +49,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
   }, [token_id]);
 
   const renderRemainingEvents = () => {
-    return remainingEvents.map((event) => {
+    return remainingEvents.map((event, idx) => {
       if ('order_id' in event) {
         const {
           sell: {
@@ -72,10 +62,12 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
               <span>{'Purchased by '}</span>
               <UserLink user={event.user} accentOn />
             </div>
-            <Price amount={formatWeiToNumber(quantity)} type="ETH" rate={ETHUSD} />
+            <Price amount={formatWeiToNumber(quantity)} type="ETH" rate={ETHUSD} className="hidden lg:block" />
           </div>
         );
-        return event.timestamp ? <EventCard title={TradeTitle} timestamp={event.timestamp} icon={<ShoppingCart />} /> : null;
+        return event.timestamp ? (
+          <EventCard title={TradeTitle} timestamp={event.timestamp} icon={<ShoppingCart />} key={`event-${idx}`} />
+        ) : null;
       }
 
       if ('receiver' in event) {
@@ -87,7 +79,9 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
             <UserLink user={event.receiver} accentOn />
           </>
         );
-        return event.timestamp ? <EventCard title={TransferTitle} timestamp={event.timestamp} icon={<Send />} /> : null;
+        return event.timestamp ? (
+          <EventCard title={TransferTitle} timestamp={event.timestamp} icon={<Send />} key={`event-${idx}`} />
+        ) : null;
       }
       return null;
     });

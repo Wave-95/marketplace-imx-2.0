@@ -55,8 +55,7 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
           ethSigner: walletConnection?.l1Signer,
           starkSigner: walletConnection?.l2Signer,
         };
-        const response = await client.registerOffchain(walletConnectionNew);
-        console.log(response);
+        await client.registerOffchain(walletConnectionNew);
         const address = await walletConnectionNew?.ethSigner?.getAddress();
         dispatch({ type: 'connect', payload: walletConnectionNew });
         dispatch({ type: 'set_address', payload: address });

@@ -22,7 +22,6 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className, isMobile =
   const [_w, availHeight] = useWindowSize();
   const router = useRouter();
   const mobileHeight = `calc(${availHeight}px - 8rem)`;
-  console.log(mobileHeight);
 
   const handleSelectFilter = (label: string, value: string) => () => {
     dispatch({ type: 'select_filter', payload: { label, value } });
