@@ -6,17 +6,25 @@ import LayoutDefault from '@/components/LayoutDefault';
 import { listActiveOrders } from '@/helpers/imx';
 import { formatActiveOrders, formatFiltersToApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
 import MetadataFilters from '@/components/modules/MetadataFilters';
-import { useFilters } from '../providers';
+import { useDimension, useFilters } from '../providers';
 import { FiltersContextType } from '@/providers/FiltersProvider';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import OrderByMenu from '@/components/Menus/OrderByMenu';
+import { Filter } from 'react-feather';
+import { DimensionContextType } from '@/providers/DimensionProvider';
+import Counter from '@/components/Counter';
+import { getNumSelectedFilters } from '../helpers';
 
 const Marketplace: React.FC = () => {
   const { state: filters } = useFilters() as FiltersContextType;
+  const {
+    state: { availHeight },
+  } = useDimension() as DimensionContextType;
   const [activeOrders, setActiveOrders] = useState<FormattedActiveOrder[]>([]);
   const [cursor, setCursor] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [openMobileFilters, setOpenMobileFilters] = useState(false);
 
   const page_title = `Marketplace | ${collection_name}`;
 
@@ -51,6 +59,14 @@ const Marketplace: React.FC = () => {
     fetchData();
   }, [filters.selected, filters.orderByKey]);
 
+  const MobileFiltersButton = () => (
+    <div className="btn-secondary space-x-2 flex items-center h-10 lg:hidden mr-3" onClick={() => setOpenMobileFilters(!openMobileFilters)}>
+      <Filter size={15} />
+      <span>{openMobileFilters ? 'Close' : 'Filters'}</span>
+      <Counter number={getNumSelectedFilters(filters.selected)} />
+    </div>
+  );
+
   return (
     <>
       <Head>
@@ -59,6 +75,14 @@ const Marketplace: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
+        {openMobileFilters ? (
+          <MetadataFilters
+            className={`lg:hidden absolute w-full z-[10] top-[8rem]`}
+            height={`calc(${availHeight}px - 8rem)`}
+            isMobile
+            closeMobile={() => setOpenMobileFilters(false)}
+          />
+        ) : null}
         <div className="flex-1 flex overflow-auto">
           <div className="hidden lg:block w-sidebar">
             <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" />
@@ -68,6 +92,7 @@ const Marketplace: React.FC = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
+                  <MobileFiltersButton />
                   <div className="">{isLoading ? <Loading /> : null}</div>
                 </div>
               </div>

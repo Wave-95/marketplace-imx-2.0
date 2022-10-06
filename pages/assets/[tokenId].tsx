@@ -133,9 +133,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
           <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
 
           <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
-          <div
-            className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l h-[calc(${availHeight}-4rem)] overflow-auto`}
-          >
+          <div className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l overflow-auto`}>
             <div className="absolute top-8 right-8">
               <div className="flex items-center space-x-4">
                 <div className="btn-secondary p-2 cursor-pointer" onClick={handleFavorite}>

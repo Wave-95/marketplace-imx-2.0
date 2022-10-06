@@ -6,10 +6,14 @@ import Counter from '../Counter';
 import cx from 'classnames';
 
 interface MetadataFiltersProps {
+  id?: string;
   className?: string;
+  isMobile?: boolean;
+  height?: string;
+  closeMobile?: () => void;
 }
 
-const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className }) => {
+const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className, isMobile = false, height, closeMobile, ...props }) => {
   const {
     state: { available: availableFilters, selected: selectedFilters },
     dispatch,
@@ -45,13 +49,24 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className }) => {
 
   const FilterBody = () => {
     return (
-      <div className="relative flex-1">
+      <div className="relative flex-1 overflow-auto">
         <div className="flex flex-col lg:absolute lg:w-full lg:h-full lg:overflow-scroll divide-y divide-normal">
           {availableFilters.map(({ key, values }) => (key ? <FilterGroup label={key} values={values} key={key} /> : null))}
         </div>
       </div>
     );
   };
+
+  const FilterFooter = () => (
+    <div className="h-16 bg-page border-t border-normal sticky bottom-0 px-6 items-center grid grid-cols-2 gap-4">
+      <button className="flex-1 btn-secondary text-center h-12 font-semibold" onClick={clearAllFilters}>
+        Clear all
+      </button>
+      <button className="flex-1 btn-primary text-center h-12 font-semibold" onClick={closeMobile}>
+        OK
+      </button>
+    </div>
+  );
 
   const FilterGroup = ({ label, values, ...props }: { label: string; values: FilterValues }) => {
     return (
@@ -82,9 +97,17 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className }) => {
   };
 
   return (
-    <div className={cx('flex flex-col', className)}>
-      <FilterHeader />
+    <div className={cx('flex flex-col bg-page', className)} id="metadata-filter" {...props}>
+      {isMobile ? null : <FilterHeader />}
       <FilterBody />
+      {isMobile ? <FilterFooter /> : null}
+      {height ? (
+        <style global jsx>{`
+          div#metadata-filter {
+            height: ${height};
+          }
+        `}</style>
+      ) : null}
     </div>
   );
 };
