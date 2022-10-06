@@ -3,7 +3,6 @@ import LayoutDefault from '@/components/LayoutDefault';
 import Metadata from '@/components/modules/Metadata';
 import TabGroup from '@/components/TabGroup';
 import { getActiveOrder, getAsset } from '@/helpers/imx';
-import { DimensionContextType, useDimension } from '@/providers/DimensionProvider';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -31,9 +30,6 @@ interface AssetPageProps extends ParsedUrlQuery {
 }
 
 const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
-  const {
-    state: { availHeight },
-  } = useDimension() as DimensionContextType;
   const {
     state: { address },
   } = useUser() as UserContextType;

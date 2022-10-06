@@ -1,5 +1,4 @@
 export { AssetProvider, useAsset } from './AssetProvider';
-export { DimensionProvider, useDimension } from './DimensionProvider';
 export { FiltersProvider, useFilters } from './FiltersProvider';
 export { OrderProvider, useOrder } from './OrderProvider';
 export { PricesProvider, usePrices } from './PricesProvider';

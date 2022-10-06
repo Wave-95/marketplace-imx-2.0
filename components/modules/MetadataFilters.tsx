@@ -4,6 +4,7 @@ import React from 'react';
 import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/helpers';
 import Counter from '../Counter';
 import cx from 'classnames';
+import useWindowSize from 'hooks';
 
 interface MetadataFiltersProps {
   id?: string;
@@ -18,7 +19,10 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className, isMobile =
     state: { available: availableFilters, selected: selectedFilters },
     dispatch,
   } = useFilters() as FiltersContextType;
+  const [_w, availHeight] = useWindowSize();
   const router = useRouter();
+  const mobileHeight = `calc(${availHeight}px - 8rem)`;
+  console.log(mobileHeight);
 
   const handleSelectFilter = (label: string, value: string) => () => {
     dispatch({ type: 'select_filter', payload: { label, value } });
@@ -101,10 +105,10 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className, isMobile =
       {isMobile ? null : <FilterHeader />}
       <FilterBody />
       {isMobile ? <FilterFooter /> : null}
-      {height ? (
+      {isMobile ? (
         <style global jsx>{`
           div#metadata-filter {
-            height: ${height};
+            height: ${mobileHeight};
           }
         `}</style>
       ) : null}

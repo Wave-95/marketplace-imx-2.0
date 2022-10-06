@@ -6,21 +6,17 @@ import LayoutDefault from '@/components/LayoutDefault';
 import { listActiveOrders } from '@/helpers/imx';
 import { formatActiveOrders, formatFiltersToApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
 import MetadataFilters from '@/components/modules/MetadataFilters';
-import { useDimension, useFilters } from '../providers';
+import { useFilters } from '../providers';
 import { FiltersContextType } from '@/providers/FiltersProvider';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import OrderByMenu from '@/components/Menus/OrderByMenu';
 import { Filter } from 'react-feather';
-import { DimensionContextType } from '@/providers/DimensionProvider';
 import Counter from '@/components/Counter';
 import { getNumSelectedFilters } from '../helpers';
 
 const Marketplace: React.FC = () => {
   const { state: filters } = useFilters() as FiltersContextType;
-  const {
-    state: { availHeight },
-  } = useDimension() as DimensionContextType;
   const [activeOrders, setActiveOrders] = useState<FormattedActiveOrder[]>([]);
   const [cursor, setCursor] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +74,6 @@ const Marketplace: React.FC = () => {
         {openMobileFilters ? (
           <MetadataFilters
             className={`lg:hidden absolute w-full z-[10] top-[8rem]`}
-            height={`calc(${availHeight}px - 8rem)`}
             isMobile
             closeMobile={() => setOpenMobileFilters(false)}
           />

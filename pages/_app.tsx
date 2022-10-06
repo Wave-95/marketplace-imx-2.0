@@ -1,22 +1,15 @@
-import {
-  AssetProvider,
-  DimensionProvider,
-  FiltersProvider,
-  OrderProvider,
-  PricesProvider,
-  ThemeProvider,
-  ToastProvider,
-  UserProvider,
-} from '@/providers';
+import { AssetProvider, FiltersProvider, OrderProvider, PricesProvider, ThemeProvider, ToastProvider, UserProvider } from '@/providers';
+import useWindowSize from 'hooks';
 import { AppProps } from 'next/app';
 
 import '../styles/globals.css';
 import '../styles/theme.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [_w, availHeight] = useWindowSize();
   return (
-    <ThemeProvider>
-      <DimensionProvider>
+    <>
+      <ThemeProvider>
         <UserProvider>
           <ToastProvider>
             <AssetProvider>
@@ -30,8 +23,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             </AssetProvider>
           </ToastProvider>
         </UserProvider>
-      </DimensionProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+      <style global jsx>{`
+        div#__next {
+          height: ${availHeight}px;
+        }
+      `}</style>
+    </>
   );
 }
 
