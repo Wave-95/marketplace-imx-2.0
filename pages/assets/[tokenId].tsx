@@ -22,13 +22,15 @@ import { Heart, Link } from 'react-feather';
 import { collection_name } from '@/constants/configs';
 import Skeleton from '@/components/Skeleton';
 import AssetHistory from '@/components/modules/AssetHistory';
+import Back from '@/components/Buttons/Back';
 
 interface AssetPageProps extends ParsedUrlQuery {
   tokenId: string;
   tab?: string;
+  referer?: string;
 }
 
-const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
+const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
   const {
     state: { availHeight },
   } = useDimension() as DimensionContextType;
@@ -127,7 +129,9 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="flex-1 flex overflow-auto">
+        <div className="flex-1 flex overflow-auto relative">
+          <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
+
           <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
           <div
             className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l h-[calc(${availHeight}-4rem)] overflow-auto`}
@@ -142,6 +146,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab }) => {
                 </div>
               </div>
             </div>
+            <Back referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />
             <AssetImage className="lg:hidden flex justify-center items-center" />
             <div className="p-4 space-y-6 lg:p-8">
               <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
@@ -170,13 +175,15 @@ interface Params extends ParsedUrlQuery {
   tab?: string;
 }
 
-export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params, query }) => {
+export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params, query, req }) => {
+  const referer = req.headers.referer || '/';
+
   const { tokenId } = params!;
   let { tab = '0' } = query;
   if (Array.isArray(tab)) {
     tab = tab.pop() || '0';
   }
   return {
-    props: { tokenId, tab },
+    props: { tokenId, tab, referer },
   };
 };
