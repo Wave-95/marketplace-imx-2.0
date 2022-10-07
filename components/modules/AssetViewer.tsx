@@ -1,10 +1,10 @@
-import { FormattedActiveOrder } from '@/helpers/formatters';
+import { FormattedActiveOrder, FormattedAsset } from '@/helpers/formatters';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import AssetCard from '../Cards/AssetCard';
 
 interface AssetViewerProps {
-  assets: Array<FormattedActiveOrder>;
+  assets: FormattedActiveOrder[] | FormattedAsset[];
   next: () => void;
   className?: string;
   infiniteScrollHeight: string;

@@ -55,11 +55,11 @@ export default function UserMenu({ ...props }) {
   );
 
   const MyAssets = (
-    <MenuItem icon={<Briefcase size={20} />}>
-      <Link href={`/users/${address}`}>
+    <Link href={`/users/${address}`}>
+      <MenuItem icon={<Briefcase size={20} />}>
         <a>My Assets</a>
-      </Link>
-    </MenuItem>
+      </MenuItem>
+    </Link>
   );
 
   const Disconnect = (

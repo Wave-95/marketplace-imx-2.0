@@ -1,4 +1,4 @@
-import { Balance, CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
+import { AssetWithOrders, Balance, CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
 import { FilterOption, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
 import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
@@ -38,6 +38,25 @@ export const formatActiveOrders = (activeOrders: Array<Order>): Array<FormattedA
     };
   });
   return activeOrdersFormatted;
+};
+
+export type FormattedAsset = {
+  tokenId: string;
+  name: string;
+  imgUrl: string;
+  user: string;
+};
+
+export const formatAssets = (assets: Array<AssetWithOrders>): Array<FormattedAsset> => {
+  const assetsFormatted = assets.map((asset) => {
+    return {
+      tokenId: asset.token_id,
+      name: asset.name || '',
+      imgUrl: asset.image_url || '',
+      user: asset.user,
+    };
+  });
+  return assetsFormatted;
 };
 
 export const formatAvailableFilters = (availableFiltersResponse: Array<CollectionFilter>): FilterOption[] => {
@@ -85,7 +104,7 @@ export const formatFees = (fees: Fee[]) => {
  * into a useable API request format.
  */
 
-export const formatFiltersToApiRequest = ({ selected, orderByKey }: { selected: SelectedFilters; orderByKey: OrderByKey }) => {
+export const formatFiltersToOrdersApiRequest = ({ selected, orderByKey }: { selected: SelectedFilters; orderByKey: OrderByKey }) => {
   const newSelected: { [key: string]: FilterValues } = {};
   Object.assign(newSelected, selected);
 
@@ -101,6 +120,21 @@ export const formatFiltersToApiRequest = ({ selected, orderByKey }: { selected: 
   const direction = order_by_config[orderByKey].direction as OrdersApiListOrdersRequest['direction'];
 
   return { ...(sellMetadata && { sellMetadata }), orderBy, direction };
+};
+
+export const formatFiltersToAssetsApiRequest = ({ selected }: { selected: SelectedFilters }) => {
+  const newSelected: { [key: string]: FilterValues } = {};
+  Object.assign(newSelected, selected);
+
+  //Delete any filter keys that have empty arrays
+  for (const [key, value] of Object.entries(newSelected)) {
+    if (Array.isArray(value) && value.length === 0) {
+      delete newSelected[key];
+    }
+  }
+  const metadata = Object.keys(newSelected).length > 0 ? JSON.stringify(newSelected) : undefined;
+
+  return { ...(metadata && { metadata }) };
 };
 
 /**

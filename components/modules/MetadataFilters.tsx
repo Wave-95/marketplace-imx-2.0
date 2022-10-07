@@ -10,18 +10,27 @@ interface MetadataFiltersProps {
   id?: string;
   className?: string;
   isMobile?: boolean;
+  showHeader?: boolean;
+  showFooter?: boolean;
   height?: string;
   closeMobile?: () => void;
 }
 
-const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className, isMobile = false, height, closeMobile, ...props }) => {
+const MetadataFilters: React.FC<MetadataFiltersProps> = ({
+  className,
+  isMobile = false,
+  height,
+  showHeader,
+  showFooter,
+  closeMobile,
+  ...props
+}) => {
   const {
     state: { available: availableFilters, selected: selectedFilters },
     dispatch,
   } = useFilters() as FiltersContextType;
   const [_w, availHeight] = useWindowSize();
   const router = useRouter();
-  const mobileHeight = `calc(${availHeight}px - 8rem)`;
 
   const handleSelectFilter = (label: string, value: string) => () => {
     dispatch({ type: 'select_filter', payload: { label, value } });
@@ -100,14 +109,14 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({ className, isMobile =
   };
 
   return (
-    <div className={cx('flex flex-col bg-page', className)} id="metadata-filter" {...props}>
-      {isMobile ? null : <FilterHeader />}
+    <div className={cx('flex flex-col bg-page border border-normal', className)} id="metadata-filter" {...props}>
+      {showHeader ? <FilterHeader /> : null}
       <FilterBody />
       {isMobile ? <FilterFooter /> : null}
-      {isMobile ? (
+      {height ? (
         <style global jsx>{`
           div#metadata-filter {
-            height: ${mobileHeight};
+            height: ${height};
           }
         `}</style>
       ) : null}

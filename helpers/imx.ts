@@ -1,4 +1,4 @@
-import { Config, ImmutableX, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
+import { AssetsApiListAssetsRequest, Config, ImmutableX, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
 import { WalletSDK } from '@imtbl/wallet-sdk-web';
 import { chain_id, imx_env, token_address, wallet_sdk_environment } from '@/constants/configs';
 
@@ -76,6 +76,15 @@ export const listActiveOrders = async (queryParams?: Partial<OrdersApiListOrders
     buyTokenType: 'ETH',
     includeFees: true,
     status: 'active',
+    ...queryParams,
+  });
+  return response;
+};
+
+export const listAssetsByAddress = async (address: string, queryParams?: Partial<AssetsApiListAssetsRequest>) => {
+  const response = await client.listAssets({
+    user: address,
+    collection: token_address,
     ...queryParams,
   });
   return response;

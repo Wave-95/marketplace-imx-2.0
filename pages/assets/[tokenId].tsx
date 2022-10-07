@@ -23,11 +23,11 @@ import Skeleton from '@/components/Skeleton';
 import AssetHistory from '@/components/modules/AssetHistory';
 import Back from '@/components/Buttons/Back';
 
-interface AssetPageProps extends ParsedUrlQuery {
+type AssetPageProps = {
   tokenId: string;
   tab?: string;
   referer?: string;
-}
+};
 
 const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
   const {

@@ -3,18 +3,24 @@ import cx from 'classnames';
 import BaseCard from './BaseCard';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FormattedActiveOrder } from '@/helpers/formatters';
+import { FormattedActiveOrder, FormattedAsset } from '@/helpers/formatters';
 import ByUser from '../ByUser';
 import Price from '../Price';
 import { PricesContextType, usePrices } from '@/providers/PricesProvider';
 
 interface AssetCardProps {
-  asset: FormattedActiveOrder;
+  asset: FormattedActiveOrder | FormattedAsset;
   className?: string;
 }
 
 const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => {
-  const { tokenId, name, imgUrl, buyAmount, buyType, user } = asset;
+  let buyAmount = '';
+  let buyType = 'ETH';
+  if ('buyAmount' in asset) {
+    buyAmount = asset.buyAmount;
+    buyType = asset.buyType;
+  }
+  const { tokenId, name, imgUrl, user } = asset;
   const { state: prices } = usePrices() as PricesContextType;
   const priceKey = `${buyType}USD`;
   const rate = prices[priceKey];

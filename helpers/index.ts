@@ -52,11 +52,12 @@ export const toggleRouterQuery = ({ label, value, router }: ToggleRouterQueryPar
   const newQuery = formatObjValsToArrays(query);
   //Remove dynamic routes from new query obj to prevent nextjs interpolation error
   const dynamicRoutes = pathname.match(/(?<=\[).+?(?=\])/);
-  if (Array.isArray(dynamicRoutes)) {
-    dynamicRoutes.forEach((route) => {
-      delete newQuery[route];
-    });
-  }
+  console.log(dynamicRoutes);
+  // if (Array.isArray(dynamicRoutes)) {
+  //   dynamicRoutes.forEach((route) => {
+  //     delete newQuery[route];
+  //   });
+  // }
   if (Array.isArray(newQuery[label])) {
     if (newQuery[label].includes(value)) {
       removeStringFromArray(newQuery[label], value);
@@ -66,6 +67,7 @@ export const toggleRouterQuery = ({ label, value, router }: ToggleRouterQueryPar
   } else {
     newQuery[label] = [value];
   }
+  console.log(pathname, newQuery);
   return router.replace({ pathname, query: newQuery }, undefined, { shallow: true });
 };
 
