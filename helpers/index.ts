@@ -50,14 +50,6 @@ type ToggleRouterQueryParams = {
 export const toggleRouterQuery = ({ label, value, router }: ToggleRouterQueryParams) => {
   const { pathname, query } = router;
   const newQuery = formatObjValsToArrays(query);
-  //Remove dynamic routes from new query obj to prevent nextjs interpolation error
-  const dynamicRoutes = pathname.match(/(?<=\[).+?(?=\])/);
-  console.log(dynamicRoutes);
-  // if (Array.isArray(dynamicRoutes)) {
-  //   dynamicRoutes.forEach((route) => {
-  //     delete newQuery[route];
-  //   });
-  // }
   if (Array.isArray(newQuery[label])) {
     if (newQuery[label].includes(value)) {
       removeStringFromArray(newQuery[label], value);

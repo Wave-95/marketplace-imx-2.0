@@ -6,7 +6,7 @@ import OrderByMenu from '@/components/Menus/OrderByMenu';
 import AssetViewer from '@/components/modules/AssetViewer';
 import MetadataFilters from '@/components/modules/MetadataFilters';
 import TabGroup from '@/components/TabGroup';
-import { collection_name } from '@/constants/configs';
+import { base_path, collection_name } from '@/constants/configs';
 import {
   formatActiveOrders,
   formatAddressEllipse,
@@ -58,7 +58,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
     toast.success('Address copied.');
   };
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(router.asPath);
+    navigator.clipboard.writeText(`${base_path}${router.asPath}`);
     toast.success('User link copied.');
   };
 
@@ -76,8 +76,21 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
       ...filterParams,
     });
     const assetsFormatted = formatAssets(assetsResponse.result);
-    console.log(assetsFormatted);
     setAssets(assetsFormatted);
+    setAssetsCursor(assetsResponse.cursor);
+    setIsLoading(false);
+  };
+
+  const fetchNextAssets = async () => {
+    setIsLoading(true);
+    const filterParams = formatFiltersToAssetsApiRequest(filters);
+    const assetsResponse = await listAssetsByAddress(address, {
+      ...filterParams,
+      cursor: assetsCursor,
+    });
+    const assetsFormatted = formatAssets(assetsResponse.result);
+    const totalAssets = assets.concat(assetsFormatted);
+    setAssets(totalAssets);
     setAssetsCursor(assetsResponse.cursor);
     setIsLoading(false);
   };
@@ -85,31 +98,29 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   const fetchOrders = async () => {
     setIsLoading(true);
     const filterParams = formatFiltersToOrdersApiRequest(filters);
-    console.log(filterParams);
     const activeOrdersResponse = await listActiveOrders({
       user: address,
       ...filterParams,
     });
     const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
-    console.log(activeOrdersFormatted);
     setOrders(activeOrdersFormatted);
     setOrdersCursor(activeOrdersResponse.cursor);
     setIsLoading(false);
   };
 
-  const fetchNextData = async () => {
-    // console.log('fetching next...');
-    // setIsLoading(true);
-    // const filterParams = formatFiltersToOrdersApiRequest(filters);
-    // const activeOrdersResponse = await listActiveOrders({
-    //   ...filterParams,
-    //   cursor,
-    // });
-    // const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
-    // const totalActiveOrders = activeOrders.concat(activeOrdersFormatted);
-    // setActiveOrders(totalActiveOrders);
-    // setCursor(activeOrdersResponse.cursor);
-    // setIsLoading(false);
+  const fetchNextOrders = async () => {
+    setIsLoading(true);
+    const filterParams = formatFiltersToOrdersApiRequest(filters);
+    const activeOrdersResponse = await listActiveOrders({
+      user: address,
+      ...filterParams,
+      cursor: ordersCursor,
+    });
+    const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
+    const totalOrders = orders.concat(activeOrdersFormatted);
+    setOrders(totalOrders);
+    setOrdersCursor(activeOrdersResponse.cursor);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -152,11 +163,11 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
       return null;
     }
     return (
-      <div className="flex-1 flex overflow-auto">
+      <div className="flex overflow-auto">
         <div className="hidden lg:block w-sidebar">
           <MetadataFilters className="sticky border-r border-normal h-headerless" showHeader />
         </div>
-        <div className="flex flex-col flex-1 h-full lg:h-auto">
+        <div className="flex flex-col flex-1 h-[1000px]">
           <Header className="border-b border-normal sticky z-[10]">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
@@ -174,8 +185,8 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   };
 
   const tabDetails = {
-    Owned: <OwnedOrOnSale data={assets} next={fetchNextData} />,
-    'On Sale': <OwnedOrOnSale data={orders} next={fetchNextData} />,
+    Owned: <OwnedOrOnSale data={assets} next={fetchNextAssets} />,
+    'On Sale': <OwnedOrOnSale data={orders} next={fetchNextOrders} />,
     History: <></>,
   };
 

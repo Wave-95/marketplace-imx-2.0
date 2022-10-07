@@ -18,7 +18,7 @@ import { AssetContextType, useAsset } from '@/providers/AssetProvider';
 import { OrderContextType, useOrder } from '@/providers/OrderProvider';
 import { toast } from 'react-toastify';
 import { Heart, Link } from 'react-feather';
-import { collection_name } from '@/constants/configs';
+import { base_path, collection_name } from '@/constants/configs';
 import Skeleton from '@/components/Skeleton';
 import AssetHistory from '@/components/modules/AssetHistory';
 import Back from '@/components/Buttons/Back';
@@ -66,7 +66,8 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(address as string);
+    console.log(router);
+    navigator.clipboard.writeText(`${base_path}${router.asPath}`);
     toast.success('Link copied!');
   };
 
