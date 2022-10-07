@@ -59,7 +59,6 @@ export const toggleRouterQuery = ({ label, value, router }: ToggleRouterQueryPar
   } else {
     newQuery[label] = [value];
   }
-  console.log(pathname, newQuery);
   return router.replace({ pathname, query: newQuery }, undefined, { shallow: true });
 };
 

@@ -66,7 +66,6 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
   };
 
   const handleCopyLink = () => {
-    console.log(router);
     navigator.clipboard.writeText(`${base_path}${router.asPath}`);
     toast.success('Link copied!');
   };

@@ -33,11 +33,6 @@ type UserPageProps = {
   tab?: string;
 };
 
-type StateData = {
-  assets: FormattedAsset[];
-  orders: FormattedActiveOrder[];
-};
-
 const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   const { state: filters } = useFilters() as FiltersContextType;
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +44,6 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   const [ordersCursor, setOrdersCursor] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(Number(tab));
   const [_w, availHeight] = useWindowSize();
-
   const mobileFiltersHeight = `calc(${availHeight}px - 4rem)`;
 
   const router = useRouter();
@@ -162,6 +156,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
     if (openMobileFilters) {
       return null;
     }
+
     return (
       <div className="flex overflow-auto">
         <div className="hidden lg:block w-sidebar">
@@ -176,7 +171,6 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
                 <div className="">{isLoading ? <Loading /> : null}</div>
               </div>
             </div>
-            <OrderByMenu />
           </Header>
           <AssetViewer assets={data} next={next} infiniteScrollHeight="100%" className="flex-1 overflow-auto" />
         </div>
