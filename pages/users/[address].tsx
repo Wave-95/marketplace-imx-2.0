@@ -4,11 +4,11 @@ import LayoutDefault from '@/components/LayoutDefault';
 import Loading from '@/components/Loading';
 import AssetViewer from '@/components/modules/AssetViewer';
 import MetadataFilters from '@/components/modules/MetadataFilters';
+import UserHeader from '@/components/modules/UserHeader';
 import TabGroup from '@/components/TabGroup';
-import { base_path, collection_name } from '@/constants/configs';
+import { collection_name } from '@/constants/configs';
 import {
   formatActiveOrders,
-  formatAddressEllipse,
   formatAssets,
   formatFiltersToAssetsApiRequest,
   formatFiltersToOrdersApiRequest,
@@ -24,8 +24,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import React, { FormEventHandler, useEffect, useState } from 'react';
-import { Copy, Filter, Link, MoreHorizontal } from 'react-feather';
-import { toast } from 'react-toastify';
+import { Filter } from 'react-feather';
 
 type UserPageProps = {
   address: string;
@@ -36,7 +35,6 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   const { state: filters } = useFilters() as FiltersContextType;
   const [isLoading, setIsLoading] = useState(false);
   const [openMobileFilters, setOpenMobileFilters] = useState(false);
-
   const [assets, setAssets] = useState<FormattedAsset[]>([]);
   const [orders, setOrders] = useState<FormattedActiveOrder[]>([]);
   const [assetsCursor, setAssetsCursor] = useState('');
@@ -44,16 +42,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   const [selectedIndex, setSelectedIndex] = useState(Number(tab));
   const [_w, availHeight] = useWindowSize();
   const mobileFiltersHeight = `calc(${availHeight}px - 4rem)`;
-
   const router = useRouter();
-  const handleCopyAddress = () => {
-    navigator.clipboard.writeText(address);
-    toast.success('Address copied.');
-  };
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(`${base_path}${router.asPath}`);
-    toast.success('User link copied.');
-  };
 
   const handleTabChange: FormEventHandler<HTMLDivElement> & ((index: number) => void) = (index) => {
     if (typeof index === 'number') {
@@ -135,24 +124,6 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
     </div>
   );
 
-  const UserHeader = () => (
-    <div className="px-4 lg:px-6 flex flex-col justify-center items-start min-h-[300px] space-y-4">
-      <h1 className="font-semibold text-2xl">{formatAddressEllipse(address, 6)}</h1>
-      <div className="flex space-x-4">
-        <button className="btn-secondary p-2 flex items-center space-x-2" onClick={handleCopyAddress}>
-          <Copy size={20} />
-          <span>Copy Address</span>
-        </button>
-        <button className="btn-secondary p-2" aria-label="user-link" onClick={handleCopyLink}>
-          <Link size={20} />
-        </button>
-        <button className="btn-secondary p-2">
-          <MoreHorizontal size={20} />
-        </button>
-      </div>
-    </div>
-  );
-
   type OwnerOrSaleProps = {
     data: FormattedAsset[] | FormattedActiveOrder[];
     next: () => void;
@@ -183,7 +154,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
     );
   };
 
-  const tabDetails = {
+  const tabMapping = {
     Owned: <OwnedOrOnSale data={assets} next={fetchNextAssets} />,
     'On Sale': <OwnedOrOnSale data={orders} next={fetchNextOrders} />,
     History: <></>,
@@ -200,9 +171,9 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
       </Head>
       <LayoutDefault>
         <div>
-          <UserHeader />
+          <UserHeader address={address} />
           <TabGroup
-            tabDetails={tabDetails}
+            tabMapping={tabMapping}
             className="w-full"
             tabListClassName="!justify-start lg:pl-6 pl-4"
             selectedIndex={selectedIndex}

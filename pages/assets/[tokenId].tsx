@@ -111,7 +111,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
     </>
   );
 
-  const tabDetails = {
+  const tabMapping = {
     Details: <Details />,
     History: <AssetHistory className="lg:px-8 p-4" />,
     Transfer: <AssetTransfer className="lg:px-8 p-4" />,
@@ -127,7 +127,6 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
       <LayoutDefault>
         <div className="flex-1 flex overflow-auto relative">
           <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
-
           <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
           <div className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l overflow-auto`}>
             <div className="absolute top-8 right-8">
@@ -149,7 +148,7 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
             <TabGroup
               selectedIndex={selectedIndex}
               onChange={handleTabChange}
-              tabDetails={tabDetails}
+              tabMapping={tabMapping}
               className="flex-1"
               tabListClassName="lg:justify-start lg:pl-8"
             />

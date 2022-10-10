@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { L1_PROVIDERS } from '@imtbl/wallet-sdk-web';
 import LayoutDefault from '@/components/LayoutDefault';
 import { collection_name } from '@/constants/configs';
-import Container from '@/components/Container';
+import Container from '@/components/Containers/Container';
 import IconButton from '@/components/Buttons/IconButton';
 import { client, buildWalletSDK } from '@/helpers/imx';
 import { UserContextType, useUser } from '@/providers/UserProvider';
@@ -127,7 +127,7 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
             </div>
           </div>
           <CustomDialog title="Connect or register with Email" isOpen={isOpen} closeDialog={closeDialog}>
-            <div className="space-y-2">
+            <div className="space-y-4">
               <TextField label="Email" value={email} onChange={handleEmailChange} />
               <button className="btn-primary w-full font-semibold" onClick={connectWithEmail(email)}>
                 Submit

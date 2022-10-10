@@ -3,7 +3,7 @@ import cx from 'classnames';
 import React, { FormEventHandler } from 'react';
 
 type TabGroupProps = {
-  tabDetails: {
+  tabMapping: {
     [key: string]: React.ReactNode;
   };
   tabListClassName?: string;
@@ -12,16 +12,11 @@ type TabGroupProps = {
   onChange?: FormEventHandler<HTMLDivElement> & ((index: number) => void);
 };
 
-const TabGroup: React.FC<TabGroupProps> = ({ selectedIndex, onChange, tabDetails, tabListClassName, ...props }) => {
+const TabGroup: React.FC<TabGroupProps> = ({ selectedIndex, onChange, tabMapping, tabListClassName, ...props }) => {
   return (
     <Tab.Group as="div" {...props} selectedIndex={selectedIndex} onChange={onChange}>
-      <Tab.List
-        className={cx(
-          'flex items-center justify-center w-full px-2 space-x-6 border-b border-normal',
-          tabListClassName
-        )}
-      >
-        {Object.keys(tabDetails).map((tabLabel) => (
+      <Tab.List className={cx('flex items-center justify-center w-full px-2 space-x-6 border-b border-normal', tabListClassName)}>
+        {Object.keys(tabMapping).map((tabLabel) => (
           <Tab
             as="button"
             key={tabLabel}
@@ -37,7 +32,7 @@ const TabGroup: React.FC<TabGroupProps> = ({ selectedIndex, onChange, tabDetails
         ))}
       </Tab.List>
       <Tab.Panels>
-        {Object.values(tabDetails).map((component, idx) => (
+        {Object.values(tabMapping).map((component, idx) => (
           <Tab.Panel key={idx}>{component}</Tab.Panel>
         ))}
       </Tab.Panels>

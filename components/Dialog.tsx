@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
 import { X } from 'react-feather';
+import Centered from './Containers/Centered';
 
 type CustomDialogProps = {
   title: string;
@@ -26,7 +27,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ title, isOpen, closeDialog,
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-full p-4 text-center">
+          <Centered className="min-h-full p-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -46,7 +47,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ title, isOpen, closeDialog,
                 <div className="p-4">{children}</div>
               </Dialog.Panel>
             </Transition.Child>
-          </div>
+          </Centered>
         </div>
       </Dialog>
     </Transition>
