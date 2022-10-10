@@ -10,20 +10,17 @@ import IconButton from '@/components/Buttons/IconButton';
 import { client, buildWalletSDK } from '@/helpers/imx';
 import { UserContextType, useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
-import { createStarkSigner, generateStarkPrivateKey, WalletConnection } from '@imtbl/core-sdk';
+import { WalletConnection } from '@imtbl/core-sdk';
 import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Mail } from 'react-feather';
-import { buildMagicAndProvider } from '@/helpers/magic';
-import CustomDialog from '@/components/Dialog';
-import TextField from '@/components/TextField';
+import EmailLoginDialog from '@/components/Dialogs/EmailLoginDialog';
 
 type LoginProps = {
   referer: string;
 };
 const Login: React.FC<LoginProps> = ({ referer }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [email, setEmail] = useState('');
 
   const { dispatch } = useUser() as UserContextType;
   const router = useRouter();
@@ -38,10 +35,6 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
 
   const closeDialog = () => {
     setIsOpen(false);
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
   };
 
   const connectWallet = async (provider: L1_PROVIDERS) => {
@@ -69,28 +62,6 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
         console.error(e.message);
         toast.error('Could not connect to wallet provider.');
       }
-    }
-  };
-
-  const connectWithEmail = (email: string) => async () => {
-    const { magic, provider } = buildMagicAndProvider();
-    //TODO: Use real email
-    const response = await magic.auth.loginWithMagicLink({ email: 'test+success@magic.link', showUI: true });
-    if (response) {
-      const magicSigner = provider.getSigner();
-      const magicAddress = await magicSigner.getAddress();
-      //TODO: Persist stark private keys: https://github.com/immutable/imx-core-sdk#1-generate-your-own-signers
-      let starkPrivateKey = localStorage.getItem(magicAddress);
-      if (!starkPrivateKey) {
-        starkPrivateKey = generateStarkPrivateKey();
-        localStorage.setItem(magicAddress, starkPrivateKey);
-      }
-      const starkSigner = createStarkSigner(starkPrivateKey);
-      const walletConnection: WalletConnection = { ethSigner: magicSigner, starkSigner };
-      dispatch({ type: 'connect', payload: walletConnection });
-      dispatch({ type: 'set_address', payload: magicAddress });
-      const response = await client.registerOffchain(walletConnection);
-      closeDialog();
     }
   };
 
@@ -126,14 +97,7 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
               />
             </div>
           </div>
-          <CustomDialog title="Connect or register with Email" isOpen={isOpen} closeDialog={closeDialog}>
-            <div className="space-y-4">
-              <TextField label="Email" value={email} onChange={handleEmailChange} />
-              <button className="btn-primary w-full font-semibold" onClick={connectWithEmail(email)}>
-                Submit
-              </button>
-            </div>
-          </CustomDialog>
+          <EmailLoginDialog isOpen={isOpen} closeDialog={closeDialog} />
         </Container>
       </LayoutDefault>
     </>

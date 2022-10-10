@@ -201,9 +201,7 @@ interface Params extends ParsedUrlQuery {
   tab?: string;
 }
 
-export const getServerSideProps: GetServerSideProps<UserPageProps, Params> = async ({ params, query, req }) => {
-  //   const referer = req.headers.referer || '/';
-
+export const getServerSideProps: GetServerSideProps<UserPageProps, Params> = async ({ params, query }) => {
   const { address } = params!;
   let { tab = '0' } = query;
   if (Array.isArray(tab)) {

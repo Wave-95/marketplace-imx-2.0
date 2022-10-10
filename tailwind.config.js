@@ -55,6 +55,9 @@ module.exports = {
         },
         page: 'var(--colors-bg-page)',
         popover: 'var(--colors-bg-popover)',
+        table: {
+          header: 'var(--colors-bg-table-header)',
+        },
       },
       borderColor: {
         accent: 'var(--colors-border-accent)',

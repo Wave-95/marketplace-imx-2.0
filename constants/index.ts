@@ -15,3 +15,5 @@ export const order_by_config_assets = {
 export const order_by_keys = Object.keys(order_by_config);
 
 export const order_by_key_default: OrderByKey = 'newestListing';
+
+export type ERC20Tokens = 'USDC' | 'IMX' | 'GODS';

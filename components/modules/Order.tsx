@@ -34,7 +34,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   const router = useRouter();
 
   const handleBuy = async () => {
-    const balanceETH = balances?.ETH?.balance;
+    const balanceETH = balances?.l2?.ETH?.balance;
     const balanceETHBN = web3utils.toBN(balanceETH);
     const quantityBN = web3utils.toBN(quantity as string);
 

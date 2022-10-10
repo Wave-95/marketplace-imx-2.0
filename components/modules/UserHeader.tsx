@@ -6,9 +6,10 @@ import { toast } from 'react-toastify';
 
 type UserHeaderProps = {
   address: string;
+  showLink?: boolean;
 };
 
-const UserHeader: React.FC<UserHeaderProps> = ({ address }) => {
+const UserHeader: React.FC<UserHeaderProps> = ({ address, showLink = true }) => {
   const router = useRouter();
 
   const handleCopyAddress = () => {
@@ -17,7 +18,7 @@ const UserHeader: React.FC<UserHeaderProps> = ({ address }) => {
   };
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${base_path}${router.asPath}`);
-    toast.success('User link copied.');
+    toast.success('Link copied.');
   };
 
   return (
@@ -28,9 +29,11 @@ const UserHeader: React.FC<UserHeaderProps> = ({ address }) => {
           <Copy size={20} />
           <span>Copy Address</span>
         </button>
-        <button className="btn-secondary p-2" aria-label="user-link" onClick={handleCopyLink}>
-          <Link size={20} />
-        </button>
+        {showLink ? (
+          <button className="btn-secondary p-2" aria-label="user-link" onClick={handleCopyLink}>
+            <Link size={20} />
+          </button>
+        ) : null}
         <button className="btn-secondary p-2">
           <MoreHorizontal size={20} />
         </button>

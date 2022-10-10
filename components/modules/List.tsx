@@ -30,7 +30,7 @@ const List: React.FC<ListProps> = ({ ...props }) => {
     state: { ETHUSD },
   } = usePrices() as PricesContextType;
   const { dispatch: dispatchOrder } = useOrder() as OrderContextType;
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
 
   //Add marketplace maker fee

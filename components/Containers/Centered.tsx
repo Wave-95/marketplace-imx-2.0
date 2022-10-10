@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 
 interface CenteredProps {
-  className: string;
+  className?: string;
   children: React.ReactNode;
   direction?: 'row' | 'col';
 }

@@ -7,11 +7,11 @@ interface State {
   connection: WalletConnection | null;
   address: string | null;
   isConnected: boolean;
-  balances: FormattedBalances;
+  balances: { l1: any; l2: FormattedBalances };
 }
 
 type Action = {
-  type: 'connect' | 'disconnect' | 'set_address' | 'set_balances';
+  type: 'connect' | 'disconnect' | 'set_address' | 'set_l1_balances' | 'set_l2_balances';
   payload?: any;
 };
 
@@ -26,7 +26,7 @@ const INITIAL_STATE = {
   connection: null,
   address: null,
   isConnected: false,
-  balances: [],
+  balances: { l1: [], l2: [] },
 };
 
 const userReducer = (state: State, action: Action) => {
@@ -37,8 +37,10 @@ const userReducer = (state: State, action: Action) => {
       return { ...state, ...INITIAL_STATE };
     case 'set_address':
       return { ...state, address: action.payload };
-    case 'set_balances':
-      return { ...state, balances: action.payload };
+    case 'set_l1_balances':
+      return { ...state, balances: { ...state.balances, l1: action.payload } };
+    case 'set_l2_balances':
+      return { ...state, balances: { ...state.balances, l2: action.payload } };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
