@@ -162,7 +162,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
         <div className="hidden lg:block w-sidebar">
           <MetadataFilters className="sticky border-r border-normal h-headerless top-16" showHeader />
         </div>
-        <div>
+        <div className="w-full">
           <Header className="border-b border-normal sticky z-[10] top-16">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
@@ -194,7 +194,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="w-full">
+        <div>
           <UserHeader />
           <TabGroup
             tabDetails={tabDetails}
