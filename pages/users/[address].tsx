@@ -2,7 +2,6 @@ import Counter from '@/components/Counter';
 import Header from '@/components/Header';
 import LayoutDefault from '@/components/LayoutDefault';
 import Loading from '@/components/Loading';
-import OrderByMenu from '@/components/Menus/OrderByMenu';
 import AssetViewer from '@/components/modules/AssetViewer';
 import MetadataFilters from '@/components/modules/MetadataFilters';
 import TabGroup from '@/components/TabGroup';
@@ -76,6 +75,9 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   };
 
   const fetchNextAssets = async () => {
+    if (!assetsCursor) {
+      return;
+    }
     setIsLoading(true);
     const filterParams = formatFiltersToAssetsApiRequest(filters);
     const assetsResponse = await listAssetsByAddress(address, {
@@ -103,6 +105,9 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   };
 
   const fetchNextOrders = async () => {
+    if (!ordersCursor) {
+      return;
+    }
     setIsLoading(true);
     const filterParams = formatFiltersToOrdersApiRequest(filters);
     const activeOrdersResponse = await listActiveOrders({
@@ -204,15 +209,15 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
             onChange={handleTabChange}
           />
         </div>
-        {/* {openMobileFilters ? (
-            <MetadataFilters
-              className={`lg:hidden absolute w-full z-[10] top-0`}
-              isMobile
-              closeMobile={() => setOpenMobileFilters(false)}
-              showHeader
-              height={mobileFiltersHeight}
-            />
-          ) : null} */}
+        {openMobileFilters ? (
+          <MetadataFilters
+            className={`lg:hidden absolute w-full z-[10] top-0`}
+            isMobile
+            closeMobile={() => setOpenMobileFilters(false)}
+            showHeader
+            height={mobileFiltersHeight}
+          />
+        ) : null}
       </LayoutDefault>
     </>
   );

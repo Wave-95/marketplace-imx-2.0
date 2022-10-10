@@ -40,6 +40,9 @@ const Marketplace: React.FC = () => {
   };
 
   const fetchNextData = async () => {
+    if (!cursor) {
+      return;
+    }
     console.log('fetching next...');
     setIsLoading(true);
     const filterParams = formatFiltersToOrdersApiRequest(filters);
