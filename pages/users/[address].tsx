@@ -2,7 +2,6 @@ import Counter from '@/components/Counter';
 import Header from '@/components/Header';
 import LayoutDefault from '@/components/LayoutDefault';
 import Loading from '@/components/Loading';
-import OrderByMenu from '@/components/Menus/OrderByMenu';
 import AssetViewer from '@/components/modules/AssetViewer';
 import MetadataFilters from '@/components/modules/MetadataFilters';
 import TabGroup from '@/components/TabGroup';
@@ -76,6 +75,9 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   };
 
   const fetchNextAssets = async () => {
+    if (!assetsCursor) {
+      return;
+    }
     setIsLoading(true);
     const filterParams = formatFiltersToAssetsApiRequest(filters);
     const assetsResponse = await listAssetsByAddress(address, {
@@ -103,6 +105,9 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
   };
 
   const fetchNextOrders = async () => {
+    if (!ordersCursor) {
+      return;
+    }
     setIsLoading(true);
     const filterParams = formatFiltersToOrdersApiRequest(filters);
     const activeOrdersResponse = await listActiveOrders({
@@ -158,12 +163,12 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
     }
 
     return (
-      <div className="flex overflow-auto">
+      <div className="flex">
         <div className="hidden lg:block w-sidebar">
-          <MetadataFilters className="sticky border-r border-normal h-headerless" showHeader />
+          <MetadataFilters className="sticky border-r border-normal h-headerless top-16" showHeader />
         </div>
-        <div className="flex flex-col flex-1 h-[1000px]">
-          <Header className="border-b border-normal sticky z-[10]">
+        <div className="w-full">
+          <Header className="border-b border-normal sticky z-[10] top-16">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
@@ -172,7 +177,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
               </div>
             </div>
           </Header>
-          <AssetViewer assets={data} next={next} infiniteScrollHeight="100%" className="flex-1 overflow-auto" />
+          <AssetViewer assets={data} next={next} />
         </div>
       </div>
     );
@@ -194,27 +199,25 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="flex-1 flex overflow-auto relative">
-          <div className="flex flex-col w-full">
-            <UserHeader />
-            <TabGroup
-              tabDetails={tabDetails}
-              className="w-full"
-              tabListClassName="!justify-start lg:pl-6 pl-4"
-              selectedIndex={selectedIndex}
-              onChange={handleTabChange}
-            />
-          </div>
-          {openMobileFilters ? (
-            <MetadataFilters
-              className={`lg:hidden absolute w-full z-[10] top-0`}
-              isMobile
-              closeMobile={() => setOpenMobileFilters(false)}
-              showHeader
-              height={mobileFiltersHeight}
-            />
-          ) : null}
+        <div>
+          <UserHeader />
+          <TabGroup
+            tabDetails={tabDetails}
+            className="w-full"
+            tabListClassName="!justify-start lg:pl-6 pl-4"
+            selectedIndex={selectedIndex}
+            onChange={handleTabChange}
+          />
         </div>
+        {openMobileFilters ? (
+          <MetadataFilters
+            className={`lg:hidden absolute w-full z-[10] top-0`}
+            isMobile
+            closeMobile={() => setOpenMobileFilters(false)}
+            showHeader
+            height={mobileFiltersHeight}
+          />
+        ) : null}
       </LayoutDefault>
     </>
   );

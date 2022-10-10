@@ -40,6 +40,9 @@ const Marketplace: React.FC = () => {
   };
 
   const fetchNextData = async () => {
+    if (!cursor) {
+      return;
+    }
     console.log('fetching next...');
     setIsLoading(true);
     const filterParams = formatFiltersToOrdersApiRequest(filters);
@@ -83,12 +86,12 @@ const Marketplace: React.FC = () => {
             showFooter
           />
         ) : null}
-        <div className="flex-1 flex overflow-auto">
+        <div className="flex-1 flex">
           <div className="hidden lg:block w-sidebar">
             <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" showHeader />
           </div>
-          <div className="flex flex-col flex-1 h-full lg:h-auto">
-            <Header className="border-b border-normal sticky z-[10]">
+          <div className="w-full">
+            <Header className="border-b border-normal sticky z-[10] top-16">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
@@ -98,7 +101,7 @@ const Marketplace: React.FC = () => {
               </div>
               <OrderByMenu />
             </Header>
-            <AssetViewer assets={activeOrders} next={fetchNextData} infiniteScrollHeight="100%" className="flex-1 overflow-auto" />
+            <AssetViewer assets={activeOrders} next={fetchNextData} />
           </div>
         </div>
       </LayoutDefault>
