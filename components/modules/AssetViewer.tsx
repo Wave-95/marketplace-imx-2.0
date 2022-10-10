@@ -7,7 +7,7 @@ interface AssetViewerProps {
   assets: FormattedActiveOrder[] | FormattedAsset[];
   next: () => void;
   className?: string;
-  infiniteScrollHeight: string;
+  infiniteScrollHeight?: string;
 }
 
 const AssetViewer: React.FC<AssetViewerProps> = ({ assets, next, className, infiniteScrollHeight, ...props }) => {

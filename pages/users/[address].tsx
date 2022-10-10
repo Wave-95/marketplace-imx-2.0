@@ -158,12 +158,12 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
     }
 
     return (
-      <div className="flex overflow-auto">
+      <div className="flex">
         <div className="hidden lg:block w-sidebar">
-          <MetadataFilters className="sticky border-r border-normal h-headerless" showHeader />
+          <MetadataFilters className="sticky border-r border-normal h-headerless top-16" showHeader />
         </div>
-        <div className="flex flex-col flex-1 h-[1000px]">
-          <Header className="border-b border-normal sticky z-[10]">
+        <div>
+          <Header className="border-b border-normal sticky z-[10] top-16">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
@@ -172,7 +172,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
               </div>
             </div>
           </Header>
-          <AssetViewer assets={data} next={next} infiniteScrollHeight="100%" className="flex-1 overflow-auto" />
+          <AssetViewer assets={data} next={next} />
         </div>
       </div>
     );
@@ -194,18 +194,17 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutDefault>
-        <div className="flex-1 flex overflow-auto relative">
-          <div className="flex flex-col w-full">
-            <UserHeader />
-            <TabGroup
-              tabDetails={tabDetails}
-              className="w-full"
-              tabListClassName="!justify-start lg:pl-6 pl-4"
-              selectedIndex={selectedIndex}
-              onChange={handleTabChange}
-            />
-          </div>
-          {openMobileFilters ? (
+        <div className="w-full">
+          <UserHeader />
+          <TabGroup
+            tabDetails={tabDetails}
+            className="w-full"
+            tabListClassName="!justify-start lg:pl-6 pl-4"
+            selectedIndex={selectedIndex}
+            onChange={handleTabChange}
+          />
+        </div>
+        {/* {openMobileFilters ? (
             <MetadataFilters
               className={`lg:hidden absolute w-full z-[10] top-0`}
               isMobile
@@ -213,8 +212,7 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
               showHeader
               height={mobileFiltersHeight}
             />
-          ) : null}
-        </div>
+          ) : null} */}
       </LayoutDefault>
     </>
   );
