@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import { WalletConnection } from '@imtbl/core-sdk';
 import { buildWalletSDK } from '@/helpers/imx';
 import { FormattedBalances } from '@/helpers/formatters';
@@ -76,7 +76,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     silentConnect();
   }, []);
 
-  const value = { state, dispatch };
+  const value = useMemo(() => ({ state, dispatch }), [state]);
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 

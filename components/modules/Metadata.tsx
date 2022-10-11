@@ -1,14 +1,17 @@
 import { Asset } from '@imtbl/core-sdk';
-import React from 'react';
+import React, { memo } from 'react';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
 
 type MetadataProps = {
   keys: Array<keyof Asset['metadata']>;
-  metadata: Asset['metadata'];
+  metadata?: Asset['metadata'];
   className?: string;
 };
 const Metadata: React.FC<MetadataProps> = ({ keys, metadata, className, ...props }) => {
+  if (!metadata) {
+    return null;
+  }
   const router = useRouter();
   const redirectToMarketplace = (key: string, value: string | null) => () => {
     if (key && value) {
@@ -41,4 +44,4 @@ const Metadata: React.FC<MetadataProps> = ({ keys, metadata, className, ...props
   );
 };
 
-export default Metadata;
+export default memo(Metadata);

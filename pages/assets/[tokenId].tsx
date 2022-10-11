@@ -42,7 +42,7 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
     state: { order },
     dispatch: dispatchOrder,
   } = useOrder();
-  const { image_url, metadata, name, user } = asset;
+  const { image_url, metadata, name, user } = asset || {};
   const router = useRouter();
   const page_title = `Asset | ${name || collection_name}`;
 
@@ -104,7 +104,7 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
           enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
       </div>
-      {metadata ? <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" /> : null}
+      <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" />
       {showList ? <List className="lg:px-8 p-4" /> : null}
     </>
   );

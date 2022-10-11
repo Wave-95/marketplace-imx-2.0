@@ -18,7 +18,7 @@ const List: React.FC<ListProps> = ({ ...props }) => {
   const {
     state: { asset },
   } = useAsset();
-  const { token_id, user, fees } = asset;
+  const { token_id, user, fees } = asset || {};
   const {
     state: { address, connection },
   } = useUser();
@@ -55,7 +55,7 @@ const List: React.FC<ListProps> = ({ ...props }) => {
       marketplace_royalty_address && marketplace_royalty_percentage
         ? [{ address: marketplace_royalty_address, fee_percentage: Number(marketplace_royalty_percentage) }]
         : undefined;
-    if (connection) {
+    if (connection && token_id) {
       try {
         const { order_id } = await client.createOrder(connection, {
           buy: { type: 'ETH', amount: amountWei },

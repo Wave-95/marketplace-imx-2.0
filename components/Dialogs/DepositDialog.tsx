@@ -70,7 +70,6 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
         await client.deposit(connection?.ethSigner, tokenAmountPayload);
         setLoading(false);
       } catch (e: any) {
-        console.log(e);
         setLoading(false);
         if (e.message.match(/user rejected transaction/)) {
           return toast.error('You have rejected the transaction.');

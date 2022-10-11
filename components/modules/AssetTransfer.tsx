@@ -14,11 +14,10 @@ const AssetTransfer = ({ ...props }) => {
     state: { address, connection },
   } = useUser();
   const {
-    state: {
-      asset: { token_id, user },
-    },
+    state: { asset },
     dispatch,
   } = useAsset();
+  const { token_id, user } = asset || {};
   const [loading, setLoading] = useState(false);
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
 
@@ -32,6 +31,9 @@ const AssetTransfer = ({ ...props }) => {
     }
     if (!recipientAddress) {
       return toast.error('Invalid recipient address.');
+    }
+    if (!token_id) {
+      return toast.error('Something went wrong.');
     }
     setLoading(true);
     try {

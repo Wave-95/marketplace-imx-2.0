@@ -6,10 +6,13 @@ import { isSameAddress } from '../helpers';
 
 interface ByUserProps {
   label: string;
-  user: string;
+  user?: string;
 }
 
 const ByUser: React.FC<ByUserProps> = ({ label, user, ...props }) => {
+  if (!user) {
+    return null;
+  }
   const {
     state: { address },
   } = useUser();

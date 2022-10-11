@@ -2,7 +2,7 @@ import { Asset } from '@imtbl/core-sdk';
 import { createContext, useContext, useReducer } from 'react';
 
 export type AssetState = {
-  asset: Asset;
+  asset: Asset | null;
   history: any[];
 };
 
@@ -20,7 +20,7 @@ export type AssetContextType = {
 };
 
 const INITIAL_STATE = {
-  asset: {} as Asset,
+  asset: null,
   history: [],
 };
 

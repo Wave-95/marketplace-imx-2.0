@@ -15,13 +15,12 @@ type AssetHistoryProps = {
 };
 const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
   const {
-    state: {
-      asset: { token_id, created_at },
-    },
+    state: { asset },
   } = useAsset();
   const {
     state: { ETHUSD },
   } = usePrices();
+  const { token_id, created_at } = asset || {};
   const [loading, setLoading] = useState(false);
   const [remainingEvents, setRemainingEvents] = useState<Array<Transfer | Order>>([]);
 

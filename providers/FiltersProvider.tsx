@@ -2,7 +2,7 @@ import { formatAvailableFilters, formatQueryToFilterState } from '@/helpers/form
 import { getAvailableFilters } from '@/helpers/imx';
 import { CollectionFilter } from '@imtbl/core-sdk';
 import { useRouter } from 'next/router';
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import { order_by_mapping } from '../constants';
 import { removeStringFromArray } from '../helpers';
 
@@ -118,7 +118,7 @@ export const FiltersProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }, [router.isReady]);
 
-  const value = { state, dispatch };
+  const value = useMemo(() => ({ state, dispatch }), [state]);
   return <FiltersContext.Provider value={value}>{children}</FiltersContext.Provider>;
 };
 

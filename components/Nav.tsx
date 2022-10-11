@@ -18,7 +18,7 @@ export default function Nav({ ...props }) {
   );
 
   return (
-    <div className="relative sticky top-0 z-[100]" {...props}>
+    <div className="sticky top-0 z-[100]" {...props}>
       <Header className="border-b border-normal">
         <LogoHome />
         <div className="flex items-center space-x-2 lg:space-x-4 ml-auto">

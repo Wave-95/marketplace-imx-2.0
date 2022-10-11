@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import cx from 'classnames';
 import { Order, WalletConnection } from '@imtbl/core-sdk';
 import web3utils from 'web3-utils';
@@ -109,4 +109,4 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   );
 };
 
-export default Order;
+export default memo(Order);
