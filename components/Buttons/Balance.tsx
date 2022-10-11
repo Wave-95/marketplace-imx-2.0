@@ -44,8 +44,9 @@ const Balance: React.FC = ({ ...props }) => {
       client
         .listBalances({ owner: address })
         .then((response) => dispatch({ type: 'set_l2_balances', payload: formatBalances(response.result) }));
+
+      fetchAndSetL1Balances();
     }
-    fetchAndSetL1Balances();
   }, [address]);
 
   if (!address) return null;

@@ -9,7 +9,8 @@ import { client } from '@/helpers/imx';
 import { erc20_contract_addresses } from '@/constants/configs';
 import { ERC20Amount, ETHAmount } from '@imtbl/core-sdk';
 import { toast } from 'react-toastify';
-import { ERC20Tokens } from '@/constants/index';
+import { DepositTokenTypes } from '@/constants/index';
+import Loading from '../Loading';
 
 type DepositDialogProps = {
   isOpen: boolean;
@@ -17,10 +18,10 @@ type DepositDialogProps = {
 };
 
 const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) => {
-  const [selectedToken, setSelectedToken] = useState('ETH');
+  const [selectedToken, setSelectedToken] = useState<DepositTokenTypes>('ETH');
   const [depositAmount, setDepositAmount] = useState('');
   const [loading, setLoading] = useState(false);
-  const token_options = ['ETH', 'IMX', 'USDC'];
+  const token_options: DepositTokenTypes[] = ['ETH', 'IMX', 'USDC'];
   const {
     state: {
       balances: { l1: balancesL1 },
@@ -40,7 +41,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
     setDepositAmount(formatWeiToNumber(availableAmount));
   };
 
-  const availableAmount = balancesL1[selectedToken];
+  const availableAmount = balancesL1[selectedToken as DepositTokenTypes] || '0';
   const availableAmountFormatted = formatCurrency(formatWeiToNumber(availableAmount));
 
   const handleDeposit = async () => {
@@ -60,7 +61,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
             ? ({ type: 'ETH', amount: amountWei } as ETHAmount)
             : ({
                 type: 'ERC20',
-                tokenAddress: erc20_contract_addresses[selectedToken as ERC20Tokens],
+                tokenAddress: erc20_contract_addresses[selectedToken],
                 amount: amountWei,
               } as ERC20Amount);
         await client.deposit(connection?.ethSigner, tokenAmountPayload);
@@ -96,8 +97,8 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
             Max
           </button>
         </div>
-        <button className="btn-primary w-full font-semibold" onClick={handleDeposit}>
-          Deposit
+        <button className="btn-primary w-full font-semibold flex justify-center" onClick={handleDeposit}>
+          {loading ? <Loading /> : 'Deposit'}
         </button>
       </div>
     </Dialog>

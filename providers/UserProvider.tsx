@@ -1,13 +1,17 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { Balance, WalletConnection } from '@imtbl/core-sdk';
+import { WalletConnection } from '@imtbl/core-sdk';
 import { buildWalletSDK } from '@/helpers/imx';
 import { FormattedBalances } from '@/helpers/formatters';
+import { DepositTokenTypes } from '../constants';
 
+type BalanceL1 = {
+  [key in DepositTokenTypes]: string | undefined;
+};
 interface State {
   connection: WalletConnection | null;
   address: string | null;
   isConnected: boolean;
-  balances: { l1: any; l2: FormattedBalances };
+  balances: { l1: BalanceL1; l2: FormattedBalances };
 }
 
 type Action = {
@@ -26,7 +30,7 @@ const INITIAL_STATE = {
   connection: null,
   address: null,
   isConnected: false,
-  balances: { l1: [], l2: [] },
+  balances: { l1: {}, l2: {} },
 };
 
 const userReducer = (state: State, action: Action) => {
