@@ -15,11 +15,13 @@ import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Mail } from 'react-feather';
 import EmailLoginDialog from '@/components/Dialogs/EmailLoginDialog';
+import { Page } from 'types/page';
 
-type LoginProps = {
+type Props = {
   referer: string;
 };
-const Login: React.FC<LoginProps> = ({ referer }) => {
+
+const LoginPage: Page<Props> = ({ referer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { dispatch } = useUser();
@@ -72,41 +74,43 @@ const Login: React.FC<LoginProps> = ({ referer }) => {
         <meta name="description" content="Log in" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <LayoutDefault>
-        <Container className="items-center justify-center min-h-headerless">
-          <div className="flex flex-col items-center max-w-lg mb-[12rem] space-y-8">
-            <h2 className="text-page">Choose a login or register method</h2>
-            <div className="flex flex-col space-y-6">
-              <IconButton
-                className="min-w-[300px] py-4 min-h-[55px]"
-                icon={<MetamaskIcon />}
-                text="Connect MetaMask"
-                handleClick={() => connectWallet(L1_PROVIDERS.METAMASK)}
-              />
-              <IconButton
-                className="min-w-[300px] py-4 min-h-[55px]"
-                icon={<WalletConnectIcon />}
-                text="Connect WalletConnect"
-                handleClick={() => connectWallet(L1_PROVIDERS.WALLET_CONNECT)}
-              />
-              <IconButton
-                className="min-w-[300px] py-4 min-h-[55px]"
-                icon={<Mail />}
-                text="Connect or Register with Email"
-                handleClick={openDialog}
-              />
-            </div>
+      <Container className="items-center justify-center min-h-headerless">
+        <div className="flex flex-col items-center max-w-lg mb-[12rem] space-y-8">
+          <h2 className="text-page">{'Choose a login or register method'}</h2>
+          <div className="flex flex-col space-y-6">
+            <IconButton
+              className="min-w-[300px] py-4 min-h-[55px]"
+              icon={<MetamaskIcon />}
+              text="Connect MetaMask"
+              handleClick={() => connectWallet(L1_PROVIDERS.METAMASK)}
+            />
+            <IconButton
+              className="min-w-[300px] py-4 min-h-[55px]"
+              icon={<WalletConnectIcon />}
+              text="Connect WalletConnect"
+              handleClick={() => connectWallet(L1_PROVIDERS.WALLET_CONNECT)}
+            />
+            <IconButton
+              className="min-w-[300px] py-4 min-h-[55px]"
+              icon={<Mail />}
+              text="Connect or Register with Email"
+              handleClick={openDialog}
+            />
           </div>
-          <EmailLoginDialog isOpen={isOpen} closeDialog={closeDialog} />
-        </Container>
-      </LayoutDefault>
+        </div>
+        <EmailLoginDialog isOpen={isOpen} closeDialog={closeDialog} />
+      </Container>
     </>
   );
 };
 
-export default Login;
+export default LoginPage;
 
-export const getServerSideProps: GetServerSideProps<LoginProps, ParsedUrlQuery> = async ({ req }) => {
+LoginPage.getLayout = (page: React.ReactNode) => {
+  return <LayoutDefault>{page}</LayoutDefault>;
+};
+
+export const getServerSideProps: GetServerSideProps<Props, ParsedUrlQuery> = async ({ req }) => {
   const referer = req.headers.referer || '/';
 
   return {

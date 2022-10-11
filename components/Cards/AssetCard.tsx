@@ -8,21 +8,21 @@ import ByUser from '../ByUser';
 import Price from '../Price';
 import { usePrices } from '@/providers/PricesProvider';
 
-interface AssetCardProps {
+type Props = {
   asset: FormattedActiveOrder | FormattedAsset;
   className?: string;
-}
+};
 
-const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => {
+const AssetCard: React.FC<Props> = ({ asset, className, ...props }) => {
   let buyAmount = '';
-  let buyType = 'ETH';
+  let buySymbol = 'ETH';
   if ('buyAmount' in asset) {
     buyAmount = asset.buyAmount;
-    buyType = asset.buyType;
+    buySymbol = asset.buySymbol;
   }
   const { tokenId, name, imgUrl, user } = asset;
   const { state: prices } = usePrices();
-  const priceKey = `${buyType}USD`;
+  const priceKey = `${buySymbol}USD`;
   const rate = prices[priceKey];
 
   const Asset = () => (
@@ -41,7 +41,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => 
   const AssetDetails = () => (
     <div className="flex items-center justify-between p-4 border-t border-normal">
       <ByUser user={user} label={buyAmount ? 'Sold by' : 'Owned by'} />
-      {buyAmount && buyType ? <Price amount={buyAmount} type={buyType} rate={rate} /> : null}
+      {buyAmount && buySymbol ? <Price amount={buyAmount} symbol={buySymbol} rate={rate} /> : null}
     </div>
   );
 

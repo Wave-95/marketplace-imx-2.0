@@ -4,20 +4,20 @@ import { EthIcon } from './Icons';
 
 interface PriceProps {
   amount: string;
-  type: string;
+  symbol: string;
   rate?: number;
   showLabel?: boolean;
   className?: string;
 }
 
-const Price: React.FC<PriceProps> = ({ amount, type, rate, showLabel = true, ...props }) => {
-  const priceFormatted = amount && formatCurrency(amount, type);
+const Price: React.FC<PriceProps> = ({ amount, symbol, rate, showLabel = true, ...props }) => {
+  const priceFormatted = amount && formatCurrency(amount, symbol);
   const convertedRate = rate && Number(amount) * rate;
   const priceUSDFormatted = convertedRate && formatCurrency(convertedRate.toString(), 'USD');
 
   let CurrencyIcon = null;
 
-  switch (type) {
+  switch (symbol) {
     case 'ETH':
       CurrencyIcon = <EthIcon />;
       break;

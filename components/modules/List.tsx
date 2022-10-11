@@ -89,7 +89,7 @@ const List: React.FC<ListProps> = ({ ...props }) => {
       <div className="mt-8">
         <div className="mt-4 flex justify-between items-center">
           <div className="font-semibold text-base">Total Amount</div>
-          <Price amount={totalAmount.toString()} type="ETH" rate={ETHUSD} showLabel={false} />
+          <Price amount={totalAmount.toString()} symbol="ETH" rate={ETHUSD} showLabel={false} />
         </div>
         <div className="mt-4">
           <div className="font-semibold text-sm">Fees</div>

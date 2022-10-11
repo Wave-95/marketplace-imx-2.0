@@ -19,7 +19,7 @@ export type FormattedActiveOrder = {
   name?: string;
   imgUrl: string;
   buyAmount: string;
-  buyType: string;
+  buySymbol: string;
   user: string;
   timestamp: string | null;
 };
@@ -32,7 +32,7 @@ export const formatActiveOrders = (activeOrders: Array<Order>): Array<FormattedA
       name: order?.sell?.data?.properties?.name,
       imgUrl: order?.sell?.data?.properties?.image_url || '',
       buyAmount: formatWeiToNumber(order.buy.data.quantity),
-      buyType: order.buy.type,
+      buySymbol: order.buy.data.symbol || 'ETH',
       timestamp: order.timestamp,
       user: order.user,
     };

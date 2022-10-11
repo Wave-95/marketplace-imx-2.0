@@ -60,7 +60,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
               <span>{'Purchased by '}</span>
               <UserLink user={event.user} accentOn />
             </div>
-            <Price amount={formatWeiToNumber(quantity)} type="ETH" rate={ETHUSD} className="hidden lg:block" />
+            <Price amount={formatWeiToNumber(quantity)} symbol="ETH" rate={ETHUSD} className="hidden lg:block" />
           </div>
         );
         return event.timestamp ? (
