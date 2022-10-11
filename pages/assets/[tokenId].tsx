@@ -3,7 +3,7 @@ import LayoutDefault from '@/components/LayoutDefault';
 import Metadata from '@/components/modules/Metadata';
 import TabGroup from '@/components/TabGroup';
 import { getActiveOrder, getAsset } from '@/helpers/imx';
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -14,8 +14,8 @@ import AssetTransfer from '@/components/modules/AssetTransfer';
 import { isSameAddress } from '@/helpers/index';
 import List from '@/components/modules/List';
 import OrderModule from '@/components/modules/Order';
-import { AssetContextType, useAsset } from '@/providers/AssetProvider';
-import { OrderContextType, useOrder } from '@/providers/OrderProvider';
+import { useAsset } from '@/providers/AssetProvider';
+import { useOrder } from '@/providers/OrderProvider';
 import { toast } from 'react-toastify';
 import { Heart, Link } from 'react-feather';
 import { base_path, collection_name } from '@/constants/configs';
@@ -33,15 +33,15 @@ type Props = {
 const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
   const {
     state: { address },
-  } = useUser() as UserContextType;
+  } = useUser();
   const {
     state: { asset },
     dispatch: dispatchAsset,
-  } = useAsset() as AssetContextType;
+  } = useAsset();
   const {
     state: { order },
     dispatch: dispatchOrder,
-  } = useOrder() as OrderContextType;
+  } = useOrder();
   const { image_url, metadata, name, user } = asset;
   const router = useRouter();
   const page_title = `Asset | ${name || collection_name}`;

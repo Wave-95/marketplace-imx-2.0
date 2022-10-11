@@ -1,4 +1,4 @@
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import Link from 'next/link';
 import React from 'react';
 import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';
@@ -12,7 +12,7 @@ export default function UserMenu({ ...props }) {
   const {
     state: { address, connection },
     dispatch,
-  } = useUser() as UserContextType;
+  } = useUser();
   const walletConnection = connection as any;
   const walletProvider = walletConnection?.ethSigner?.provider?.connection?.url;
   let WalletProviderIcon;

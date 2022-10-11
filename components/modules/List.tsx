@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import TextField from '../TextField';
-import { useAsset, useOrder, usePrices, useUser } from '../../providers';
-import { UserContextType } from '@/providers/UserProvider';
-import { isSameAddress, refreshData } from '../../helpers';
+import { useAsset, useOrder, usePrices, useUser } from '@/providers';
+import { isSameAddress } from '../../helpers';
 import { client } from '@/helpers/imx';
 import { toast } from 'react-toastify';
 import { marketplace_royalty_address, marketplace_royalty_percentage, token_address } from '@/constants/configs';
 import web3utils from 'web3-utils';
 import Price from '../Price';
-import { PricesContextType } from '@/providers/PricesProvider';
 import { formatFees } from '@/helpers/formatters';
-import { OrderContextType } from '@/providers/OrderProvider';
 import Loading from '../Loading';
-import { AssetContextType } from '@/providers/AssetProvider';
 
 type ListProps = {
   className?: string;
@@ -21,15 +17,15 @@ type ListProps = {
 const List: React.FC<ListProps> = ({ ...props }) => {
   const {
     state: { asset },
-  } = useAsset() as AssetContextType;
+  } = useAsset();
   const { token_id, user, fees } = asset;
   const {
     state: { address, connection },
-  } = useUser() as UserContextType;
+  } = useUser();
   const {
     state: { ETHUSD },
-  } = usePrices() as PricesContextType;
-  const { dispatch: dispatchOrder } = useOrder() as OrderContextType;
+  } = usePrices();
+  const { dispatch: dispatchOrder } = useOrder();
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
 

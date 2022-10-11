@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import BaseMenu from './BaseMenu';
-import { order_by_config } from '@/constants/index';
-import { FiltersContextType, OrderByKey, useFilters } from '@/providers/FiltersProvider';
+import { order_by_mapping } from '@/constants/index';
+import { OrderByKey, useFilters } from '@/providers/FiltersProvider';
 import { Check, ChevronDown } from 'react-feather';
 
 const OrderByMenu: React.FC = () => {
-  const [orderByLabel, setOrderByLabel] = useState(order_by_config.newestListing.label);
-  const orderByKeys = Object.keys(order_by_config) as OrderByKey[];
+  const [orderByLabel, setOrderByLabel] = useState(order_by_mapping.newestListing.label);
+  const orderByKeys = Object.keys(order_by_mapping) as OrderByKey[];
   const router = useRouter();
   const { query } = router;
-  const { dispatch } = useFilters() as FiltersContextType;
+  const { dispatch } = useFilters();
 
   const selectOrderBy = (index: number) => () => {
     const orderByKey = orderByKeys[index];
-    const label = order_by_config[orderByKey].label;
+    const label = order_by_mapping[orderByKey].label;
     setOrderByLabel(label);
     router.replace({ query: { ...query, orderBy: orderByKey } });
     dispatch({ type: 'set_order_by_key', payload: orderByKey });
@@ -27,7 +27,7 @@ const OrderByMenu: React.FC = () => {
     </div>
   );
 
-  const MenuItems = Object.values(order_by_config).map(({ label }, index) => {
+  const MenuItems = Object.values(order_by_mapping).map(({ label }, index) => {
     const isSelected = label === orderByLabel;
     return (
       <div className="p-2 menu-item w-full" onClick={selectOrderBy(index)} key={`order-by-option-${index}`}>

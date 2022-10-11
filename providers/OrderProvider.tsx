@@ -2,7 +2,7 @@ import { Order } from '@imtbl/core-sdk';
 import { createContext, useContext, useReducer } from 'react';
 
 export type OrderState = {
-  order: Order;
+  order: Order | null;
 };
 
 type Action = {
@@ -34,7 +34,7 @@ const orderReducer = (state: OrderState, action: Action) => {
   }
 };
 
-const OrderContext = createContext<OrderContextType | null>(null);
+const OrderContext = createContext<OrderContextType>({ state: INITIAL_STATE, dispatch: () => null });
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(orderReducer, INITIAL_STATE);

@@ -29,7 +29,7 @@ const pricesReducer = (state: State, action: Action) => {
   }
 };
 
-const PricesContext = createContext<PricesContextType | null>(null);
+const PricesContext = createContext<PricesContextType>({ state: INITIAL_STATE, dispatch: () => null });
 
 export const PricesProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(pricesReducer, INITIAL_STATE);

@@ -17,7 +17,7 @@ import {
 } from '@/helpers/formatters';
 import { listActiveOrders, listAssetsByAddress } from '@/helpers/imx';
 import { getNumSelectedFilters } from '@/helpers/index';
-import { FiltersContextType, useFilters } from '@/providers/FiltersProvider';
+import { useFilters } from '@/providers/FiltersProvider';
 import useWindowSize from 'hooks';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -33,7 +33,7 @@ type Props = {
 };
 
 const UserPage: Page<Props> = ({ address, tab }) => {
-  const { state: filters } = useFilters() as FiltersContextType;
+  const { state: filters } = useFilters();
   const [isLoading, setIsLoading] = useState(false);
   const [openMobileFilters, setOpenMobileFilters] = useState(false);
   const [assets, setAssets] = useState<FormattedAsset[]>([]);

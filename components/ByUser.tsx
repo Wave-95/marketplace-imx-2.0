@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 import { formatAddressEllipse } from '@/helpers/formatters';
 import { useUser } from '../providers';
-import { UserContextType } from '@/providers/UserProvider';
 import { isSameAddress } from '../helpers';
 
 interface ByUserProps {
@@ -13,7 +12,7 @@ interface ByUserProps {
 const ByUser: React.FC<ByUserProps> = ({ label, user, ...props }) => {
   const {
     state: { address },
-  } = useUser() as UserContextType;
+  } = useUser();
   const isSame = isSameAddress(address, user);
   const text = isSame ? 'You' : formatAddressEllipse(user);
 

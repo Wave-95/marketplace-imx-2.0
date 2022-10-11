@@ -5,15 +5,15 @@ import web3utils from 'web3-utils';
 import ByUser from '../ByUser';
 import Price from '../Price';
 import { formatWeiToNumber } from '@/helpers/formatters';
-import { PricesContextType, usePrices } from '@/providers/PricesProvider';
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { usePrices } from '@/providers/PricesProvider';
+import { useUser } from '@/providers/UserProvider';
 import { isSameAddress } from '@/helpers/index';
 import { client, getAsset } from '@/helpers/imx';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Loading from '../Loading';
-import { OrderContextType, useOrder } from '@/providers/OrderProvider';
-import { AssetContextType, useAsset } from '@/providers/AssetProvider';
+import { useOrder } from '@/providers/OrderProvider';
+import { useAsset } from '@/providers/AssetProvider';
 
 type OrderProps = {
   className?: string;
@@ -25,12 +25,12 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   const { order_id, user, buy: { type, data: { quantity } = {} } = {}, sell: { data: { token_id } = {} } = {} } = order || ({} as Order);
   const {
     state: { ETHUSD },
-  } = usePrices() as PricesContextType;
+  } = usePrices();
   const {
     state: { address, connection, balances },
-  } = useUser() as UserContextType;
-  const { dispatch: dispatchOrder } = useOrder() as OrderContextType;
-  const { dispatch: dispatchAsset } = useAsset() as AssetContextType;
+  } = useUser();
+  const { dispatch: dispatchOrder } = useOrder();
+  const { dispatch: dispatchAsset } = useAsset();
   const router = useRouter();
 
   const handleBuy = async () => {

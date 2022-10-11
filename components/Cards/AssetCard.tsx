@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { FormattedActiveOrder, FormattedAsset } from '@/helpers/formatters';
 import ByUser from '../ByUser';
 import Price from '../Price';
-import { PricesContextType, usePrices } from '@/providers/PricesProvider';
+import { usePrices } from '@/providers/PricesProvider';
 
 interface AssetCardProps {
   asset: FormattedActiveOrder | FormattedAsset;
@@ -21,7 +21,7 @@ const AssetCard: React.FC<AssetCardProps> = ({ asset, className, ...props }) => 
     buyType = asset.buyType;
   }
   const { tokenId, name, imgUrl, user } = asset;
-  const { state: prices } = usePrices() as PricesContextType;
+  const { state: prices } = usePrices();
   const priceKey = `${buyType}USD`;
   const rate = prices[priceKey];
 

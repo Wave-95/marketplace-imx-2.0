@@ -36,7 +36,7 @@ const assetReducer = (state: AssetState, action: Action) => {
   }
 };
 
-const AssetContext = createContext<AssetContextType | null>(null);
+const AssetContext = createContext<AssetContextType>({ state: INITIAL_STATE, dispatch: () => null });
 
 export const AssetProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(assetReducer, INITIAL_STATE);

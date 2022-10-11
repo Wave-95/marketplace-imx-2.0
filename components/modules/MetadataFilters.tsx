@@ -1,4 +1,4 @@
-import { FiltersContextType, FilterValues, useFilters } from '@/providers/FiltersProvider';
+import { FilterValues, useFilters } from '@/providers/FiltersProvider';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/helpers';
@@ -28,7 +28,7 @@ const MetadataFilters: React.FC<MetadataFiltersProps> = ({
   const {
     state: { available: availableFilters, selected: selectedFilters },
     dispatch,
-  } = useFilters() as FiltersContextType;
+  } = useFilters();
   const [_w, availHeight] = useWindowSize();
   const router = useRouter();
 

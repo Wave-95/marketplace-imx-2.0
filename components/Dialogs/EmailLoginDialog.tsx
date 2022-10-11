@@ -1,6 +1,6 @@
 import { client } from '@/helpers/imx';
 import { buildMagicAndProvider } from '@/helpers/magic';
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import { createStarkSigner, generateStarkPrivateKey, WalletConnection } from '@imtbl/core-sdk';
 import { useState } from 'react';
 import TextField from '../TextField';
@@ -13,7 +13,7 @@ type EmailLoginDialogProps = {
 
 const EmailLoginDialog: React.FC<EmailLoginDialogProps> = ({ isOpen, closeDialog }) => {
   const [email, setEmail] = useState('');
-  const { dispatch } = useUser() as UserContextType;
+  const { dispatch } = useUser();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

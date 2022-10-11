@@ -1,4 +1,4 @@
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import { useState } from 'react';
 import web3utils from 'web3-utils';
 import TokenMenu from '../Menus/TokenMenu';
@@ -30,7 +30,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
       balances: { l1: balancesL1 },
       connection,
     },
-  } = useUser() as UserContextType;
+  } = useUser();
 
   const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDepositAmount(e.target.value);

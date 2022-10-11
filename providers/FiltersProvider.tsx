@@ -3,6 +3,7 @@ import { getAvailableFilters } from '@/helpers/imx';
 import { CollectionFilter } from '@imtbl/core-sdk';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useReducer } from 'react';
+import { order_by_mapping } from '../constants';
 import { removeStringFromArray } from '../helpers';
 
 export type FilterValues = string[];
@@ -18,10 +19,10 @@ export type SelectedFilters = {
   [key: string]: FilterValues;
 };
 
-export type OrderByKey = 'lowestPrice' | 'highestPrice' | 'newestListing' | 'oldestListing';
+export type OrderByKey = keyof typeof order_by_mapping;
 
 export type FilterState = {
-  available: Array<FilterOption>;
+  available: FilterOption[];
   selected: SelectedFilters;
   orderByKey: OrderByKey;
 };
@@ -45,9 +46,9 @@ export type FiltersContextType = {
 };
 
 const INITIAL_STATE = {
-  available: [],
-  selected: {},
-  orderByKey: 'newestListing',
+  available: [] as FilterOption[],
+  selected: {} as SelectedFilters,
+  orderByKey: 'newestListing' as OrderByKey,
 };
 
 const filtersReducer = (state: FilterState, action: Action) => {
@@ -92,7 +93,7 @@ const filtersReducer = (state: FilterState, action: Action) => {
   }
 };
 
-const FiltersContext = createContext<FiltersContextType | {}>({});
+const FiltersContext = createContext<FiltersContextType>({ state: INITIAL_STATE, dispatch: () => null });
 
 export const FiltersProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(filtersReducer, INITIAL_STATE);

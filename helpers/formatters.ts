@@ -1,7 +1,7 @@
 import { AssetWithOrders, Balance, CollectionFilter, Fee, Order, OrdersApiListOrdersRequest } from '@imtbl/core-sdk';
 import { FilterOption, FilterValues, OrderByKey, SelectedFilters } from '@/providers/FiltersProvider';
 import { ParsedUrlQuery } from 'querystring';
-import { order_by_config, order_by_keys, order_by_key_default } from '../constants';
+import { order_by_mapping, order_by_keys, order_by_key_default } from '../constants';
 import numeral from 'numeral';
 import web3utils from 'web3-utils';
 import dayjs from 'dayjs';
@@ -116,8 +116,8 @@ export const formatFiltersToOrdersApiRequest = ({ selected, orderByKey }: { sele
   }
   const sellMetadata = Object.keys(newSelected).length > 0 ? JSON.stringify(newSelected) : undefined;
 
-  const orderBy = order_by_config[orderByKey].orderBy as OrdersApiListOrdersRequest['orderBy'];
-  const direction = order_by_config[orderByKey].direction as OrdersApiListOrdersRequest['direction'];
+  const orderBy = order_by_mapping[orderByKey].orderBy as OrdersApiListOrdersRequest['orderBy'];
+  const direction = order_by_mapping[orderByKey].direction as OrdersApiListOrdersRequest['direction'];
 
   return { ...(sellMetadata && { sellMetadata }), orderBy, direction };
 };
@@ -215,6 +215,7 @@ type CoinbasePriceResponse = {
   base: string;
   currency: string;
 };
+
 export const formatCryptoPricesToState = (pricesResponse: CoinbasePriceResponse[]) => {
   const pricesFormatted: { [key: string]: number } = {};
   pricesResponse.forEach((priceObj) => {

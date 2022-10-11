@@ -7,7 +7,6 @@ import { listActiveOrders } from '@/helpers/imx';
 import { formatActiveOrders, formatFiltersToOrdersApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
 import MetadataFilters from '@/components/modules/MetadataFilters';
 import { useFilters } from '../providers';
-import { FiltersContextType } from '@/providers/FiltersProvider';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import OrderByMenu from '@/components/Menus/OrderByMenu';
@@ -18,7 +17,7 @@ import useWindowSize from 'hooks';
 import { Page } from 'types/page';
 
 const Marketplace: Page = () => {
-  const { state: filters } = useFilters() as FiltersContextType;
+  const { state: filters } = useFilters();
   const [activeOrders, setActiveOrders] = useState<FormattedActiveOrder[]>([]);
   const [cursor, setCursor] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);

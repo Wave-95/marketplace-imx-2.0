@@ -52,7 +52,7 @@ const userReducer = (state: State, action: Action) => {
   }
 };
 
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType>({ state: INITIAL_STATE, dispatch: () => null });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);

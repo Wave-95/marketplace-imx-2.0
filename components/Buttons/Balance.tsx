@@ -13,7 +13,7 @@ const Balance: React.FC = ({ ...props }) => {
   const {
     state: { address, balances, connection },
     dispatch,
-  } = useUser() as UserContextType;
+  } = useUser();
 
   const balanceETHL2 = balances?.l2?.ETH?.balance || '0';
   const balanceETHL2Formatted = numeral(formatWeiToNumber(balanceETHL2)).format('0[.]0[00]a');

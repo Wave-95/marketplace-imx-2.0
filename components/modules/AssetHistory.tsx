@@ -4,12 +4,10 @@ import dayjs from 'dayjs';
 import { useAsset, usePrices } from '../../providers';
 import { listERC721FilledOrders, listERC721Transfers } from '@/helpers/imx';
 import { Box, Send, ShoppingCart } from 'react-feather';
-import { AssetContextType } from '@/providers/AssetProvider';
 import Loading from '../Loading';
 import EventCard from '../Cards/EventCard';
 import UserLink from '../Links/UserLink';
 import Price from '../Price';
-import { PricesContextType } from '@/providers/PricesProvider';
 import { formatWeiToNumber } from '@/helpers/formatters';
 
 type AssetHistoryProps = {
@@ -20,10 +18,10 @@ const AssetHistory: React.FC<AssetHistoryProps> = ({ ...props }) => {
     state: {
       asset: { token_id, created_at },
     },
-  } = useAsset() as AssetContextType;
+  } = useAsset();
   const {
     state: { ETHUSD },
-  } = usePrices() as PricesContextType;
+  } = usePrices();
   const [loading, setLoading] = useState(false);
   const [remainingEvents, setRemainingEvents] = useState<Array<Transfer | Order>>([]);
 

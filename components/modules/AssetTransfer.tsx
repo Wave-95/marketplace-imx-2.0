@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import TextField from '../TextField';
-import { useAsset, useUser } from '../../providers';
-import { UserContextType } from '@/providers/UserProvider';
-import { isSameAddress, refreshData } from '../../helpers';
+import { useAsset, useUser } from '@/providers';
+import { isSameAddress } from '../../helpers';
 import { toast } from 'react-toastify';
 import { client, getAsset } from '@/helpers/imx';
 import { token_address } from '@/constants/configs';
 import { AlertTriangle } from 'react-feather';
-import { AssetContextType } from '@/providers/AssetProvider';
 import Loading from '../Loading';
 
 type AssetTransferProps = {
@@ -17,13 +15,13 @@ type AssetTransferProps = {
 const AssetTransfer: React.FC<AssetTransferProps> = ({ ...props }) => {
   const {
     state: { address, connection },
-  } = useUser() as UserContextType;
+  } = useUser();
   const {
     state: {
       asset: { token_id, user },
     },
     dispatch,
-  } = useAsset() as AssetContextType;
+  } = useAsset();
   const [loading, setLoading] = useState(false);
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
 

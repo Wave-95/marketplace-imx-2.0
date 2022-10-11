@@ -8,7 +8,7 @@ import { collection_name } from '@/constants/configs';
 import Container from '@/components/Containers/Container';
 import IconButton from '@/components/Buttons/IconButton';
 import { client, buildWalletSDK } from '@/helpers/imx';
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
 import { WalletConnection } from '@imtbl/core-sdk';
 import { GetServerSideProps } from 'next';
@@ -22,7 +22,7 @@ type LoginProps = {
 const Login: React.FC<LoginProps> = ({ referer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { dispatch } = useUser() as UserContextType;
+  const { dispatch } = useUser();
   const router = useRouter();
   const page_title = `Login | ${collection_name}`;
 

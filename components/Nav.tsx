@@ -2,14 +2,14 @@ import Link from 'next/link';
 import DarkModeToggle from './ToggleTheme';
 import UserMenu from './Menus/UserMenu';
 import ConnectWallet from './Buttons/ConnectWallet';
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import Balance from './Buttons/Balance';
 import Header from './Header';
 
 export default function Nav({ ...props }) {
   const {
     state: { address },
-  } = useUser() as UserContextType;
+  } = useUser();
 
   const LogoHome = () => (
     <Link href="/">

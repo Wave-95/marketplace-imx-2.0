@@ -5,7 +5,7 @@ import LayoutDefault from '@/components/LayoutDefault';
 import UserHeader from '@/components/modules/UserHeader';
 import TabGroup from '@/components/TabGroup';
 import { formatWeiToNumber } from '@/helpers/formatters';
-import { UserContextType, useUser } from '@/providers/UserProvider';
+import { useUser } from '@/providers/UserProvider';
 import Head from 'next/head';
 import numeral from 'numeral';
 import React, { useState } from 'react';
@@ -17,7 +17,7 @@ const BalancesPage: Page = () => {
       address,
       balances: { l2: l2Balances },
     },
-  } = useUser() as UserContextType;
+  } = useUser();
   const [depositDialogOpen, setDepositDialogOpen] = useState(false);
   const [withdrawDialogOpen, setWithdrawDialogOpen] = useState(false);
 
