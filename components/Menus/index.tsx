@@ -2,13 +2,13 @@ import { Menu as HeadlessMenu } from '@headlessui/react';
 import React from 'react';
 import cx from 'classnames';
 
-interface MenuProps {
+type Props = {
   buttonChild: React.ReactNode;
   menuItems: React.ReactNode[];
   menuItemsClassName?: string;
-}
+};
 
-const Menu: React.FC<MenuProps> = ({ buttonChild, menuItems, menuItemsClassName, ...props }) => {
+const Menu: React.FC<Props> = ({ buttonChild, menuItems, menuItemsClassName, ...props }) => {
   return (
     <div {...props}>
       <HeadlessMenu as="div" className="relative inline-block text-left">

@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface MenuItemProps {
+type Props = {
   children: React.ReactNode;
   onClick?: () => void;
   icon?: React.ReactNode;
-}
+};
 
-const MenuItem: React.FC<MenuItemProps> = ({ children, onClick, icon, ...props }) => {
+const MenuItem: React.FC<Props> = ({ children, onClick, icon, ...props }) => {
   return (
     <div className="menu-item w-full text-base" onClick={onClick} {...props}>
       {icon}

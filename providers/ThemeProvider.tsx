@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-interface UseThemeProps {
+type UseThemeProps = {
   isDarkMode?: boolean;
   toggleTheme: () => void;
-}
+};
 
-interface ThemeProviderProps {
+type ThemeProviderProps = {
   children?: any;
-}
+};
 
 export const ThemeContext = createContext<UseThemeProps>({
   isDarkMode: true,

@@ -199,10 +199,10 @@ UserPage.getLayout = (page: React.ReactNode) => {
   return <LayoutDefault>{page}</LayoutDefault>;
 };
 
-interface Params extends ParsedUrlQuery {
+type Params = ParsedUrlQuery & {
   address: string;
   tab?: string;
-}
+};
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params, query }) => {
   const { address } = params!;

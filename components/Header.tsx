@@ -1,12 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
 
-interface HeaderProps {
+type Props = {
   className?: string;
   children: React.ReactNode;
-}
+};
 
-const Header: React.FC<HeaderProps> = ({ className, children, ...props }) => {
+const Header: React.FC<Props> = ({ className, children, ...props }) => {
   return (
     <div className={cx('app-header', className)} {...props}>
       {children}

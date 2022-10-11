@@ -1,11 +1,11 @@
 import cx from 'classnames';
 import React from 'react';
 
-interface ContainerProps {
+type Props = {
   className: string;
   children: React.ReactNode;
-}
-const Container: React.FC<ContainerProps> = ({ className, children, ...props }) => {
+};
+const Container: React.FC<Props> = ({ className, children, ...props }) => {
   return (
     <div className={cx('mx-auto flex', className)} {...props}>
       {children}

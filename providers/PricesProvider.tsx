@@ -1,9 +1,9 @@
 import { formatCryptoPricesToState } from '@/helpers/formatters';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
-interface State {
+type State = {
   [key: string]: number;
-}
+};
 
 type Action = {
   type: 'update_price';

@@ -2,13 +2,13 @@ import React from 'react';
 import { formatCurrency } from '@/helpers/formatters';
 import { EthIcon } from './Icons';
 
-interface PriceProps {
+type PriceProps = {
   amount: string;
   symbol: string;
   rate?: number;
   showLabel?: boolean;
   className?: string;
-}
+};
 
 const Price: React.FC<PriceProps> = ({ amount, symbol, rate, showLabel = true, ...props }) => {
   const priceFormatted = amount && formatCurrency(amount, symbol);

@@ -167,10 +167,10 @@ AssetPage.getLayout = (page: React.ReactNode) => {
   return <LayoutDefault>{page}</LayoutDefault>;
 };
 
-interface Params extends ParsedUrlQuery {
+type Params = ParsedUrlQuery & {
   tokenId: string;
   tab?: string;
-}
+};
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params, query, req }) => {
   const referer = req.headers.referer || '/';

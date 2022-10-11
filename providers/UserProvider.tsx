@@ -8,12 +8,12 @@ import { ValueOf } from 'types';
 type BalanceL1 = {
   [key in ValueOf<typeof deposit_token_types>]?: string;
 };
-interface State {
+type State = {
   connection: WalletConnection | null;
   address: string | null;
   isConnected: boolean;
   balances: { l1: BalanceL1; l2: FormattedBalances };
-}
+};
 
 type Action = {
   type: 'connect' | 'disconnect' | 'set_address' | 'set_l1_balances' | 'set_l2_balances';

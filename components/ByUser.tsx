@@ -4,12 +4,12 @@ import { formatAddressEllipse } from '@/helpers/formatters';
 import { useUser } from '../providers';
 import { isSameAddress } from '../helpers';
 
-interface ByUserProps {
+type Props = {
   label: string;
   user?: string;
-}
+};
 
-const ByUser: React.FC<ByUserProps> = ({ label, user, ...props }) => {
+const ByUser: React.FC<Props> = ({ label, user, ...props }) => {
   if (!user) {
     return null;
   }

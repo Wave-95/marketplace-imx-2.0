@@ -3,14 +3,14 @@ import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import AssetCard from '../Cards/AssetCard';
 
-interface AssetViewerProps {
+type Props = {
   assets: FormattedActiveOrder[] | FormattedAsset[];
   next: () => void;
   className?: string;
   infiniteScrollHeight?: string;
-}
+};
 
-const AssetViewer: React.FC<AssetViewerProps> = ({ assets, next, className, infiniteScrollHeight, ...props }) => {
+const AssetViewer: React.FC<Props> = ({ assets, next, className, infiniteScrollHeight, ...props }) => {
   return (
     <div className={className} {...props} id="infinite-scroll-container">
       <InfiniteScroll dataLength={assets.length} next={next} hasMore={true} loader={null} height={infiniteScrollHeight}>

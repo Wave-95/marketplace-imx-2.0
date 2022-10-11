@@ -3,14 +3,14 @@ import cx from 'classnames';
 import BaseCard from './BaseCard';
 import { toLocalTime } from '@/helpers/formatters';
 
-interface EventCardProps {
+type Props = {
   icon: React.ReactNode;
   title: string | React.ReactNode;
   timestamp: string;
   className?: string;
-}
+};
 
-const EventCard: React.FC<EventCardProps> = ({ icon, title, timestamp, className, ...props }) => {
+const EventCard: React.FC<Props> = ({ icon, title, timestamp, className, ...props }) => {
   return (
     <BaseCard className={cx('!flex-row items-center space-x-5 px-4 py-2 w-full min-h-[5rem]', className)} {...props}>
       {icon}
