@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { Check, ChevronDown } from 'react-feather';
-import BaseMenu from './BaseMenu';
+import Menu from '.';
 
 type TokenMenuProps = {
   selectedToken: string;
@@ -32,7 +32,7 @@ const TokenMenu: React.FC<TokenMenuProps> = ({ selectedToken, handleTokenChange,
     );
   });
 
-  return <BaseMenu buttonChild={ButtonChild} menuItems={MenuItems} menuItemsClassName="left-0 space-y-0" />;
+  return <Menu buttonChild={ButtonChild} menuItems={MenuItems} menuItemsClassName="left-0 space-y-0" />;
 };
 
 export default TokenMenu;

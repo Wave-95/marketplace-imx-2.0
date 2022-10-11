@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import BaseMenu from './BaseMenu';
+import Menu from '.';
 import { order_by_mapping } from '@/constants/index';
 import { OrderByKey, useFilters } from '@/providers/FiltersProvider';
 import { Check, ChevronDown } from 'react-feather';
@@ -43,7 +43,7 @@ const OrderByMenu: React.FC = () => {
     );
   });
 
-  return <BaseMenu buttonChild={ButtonChild} menuItems={MenuItems} />;
+  return <Menu buttonChild={ButtonChild} menuItems={MenuItems} />;
 };
 
 export default OrderByMenu;

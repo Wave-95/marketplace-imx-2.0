@@ -4,9 +4,8 @@ import React from 'react';
 import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/helpers';
 import Counter from '../Counter';
 import cx from 'classnames';
-import useWindowSize from 'hooks';
 
-interface MetadataFiltersProps {
+type Props = {
   id?: string;
   className?: string;
   isMobile?: boolean;
@@ -14,22 +13,13 @@ interface MetadataFiltersProps {
   showFooter?: boolean;
   height?: string;
   closeMobile?: () => void;
-}
+};
 
-const MetadataFilters: React.FC<MetadataFiltersProps> = ({
-  className,
-  isMobile = false,
-  height,
-  showHeader,
-  showFooter,
-  closeMobile,
-  ...props
-}) => {
+const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height, showHeader, showFooter, closeMobile, ...props }) => {
   const {
     state: { available: availableFilters, selected: selectedFilters },
     dispatch,
   } = useFilters();
-  const [_w, availHeight] = useWindowSize();
   const router = useRouter();
 
   const handleSelectFilter = (label: string, value: string) => () => {

@@ -3,14 +3,14 @@ import React, { Fragment } from 'react';
 import { X } from 'react-feather';
 import Centered from '../Containers/Centered';
 
-type DialogProps = {
+type Props = {
   title: string;
   isOpen: boolean;
   closeDialog: () => void;
   children: React.ReactNode;
 };
 
-const Dialog: React.FC<DialogProps> = ({ title, isOpen, closeDialog, children }) => {
+const Dialog: React.FC<Props> = ({ title, isOpen, closeDialog, children }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <HeadlessDialog as="div" className="relative z-[11]" onClose={closeDialog}>

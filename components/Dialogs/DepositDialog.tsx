@@ -3,7 +3,7 @@ import { useState } from 'react';
 import web3utils from 'web3-utils';
 import TokenMenu from '../Menus/TokenMenu';
 import TextField from '../TextField';
-import Dialog from './Dialog';
+import Dialog from '.';
 import { formatCurrency, formatWeiToNumber } from '@/helpers/formatters';
 import { client } from '@/helpers/imx';
 import { erc20_contract_addresses } from '@/constants/configs';

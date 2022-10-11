@@ -9,10 +9,7 @@ import { token_address } from '@/constants/configs';
 import { AlertTriangle } from 'react-feather';
 import Loading from '../Loading';
 
-type AssetTransferProps = {
-  className?: string;
-};
-const AssetTransfer: React.FC<AssetTransferProps> = ({ ...props }) => {
+const AssetTransfer = ({ ...props }) => {
   const {
     state: { address, connection },
   } = useUser();

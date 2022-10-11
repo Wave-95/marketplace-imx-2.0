@@ -21,7 +21,7 @@ import { Heart, Link } from 'react-feather';
 import { base_path, collection_name } from '@/constants/configs';
 import Skeleton from '@/components/Skeleton';
 import AssetHistory from '@/components/modules/AssetHistory';
-import Back from '@/components/Buttons/Back';
+import BackButton from '@/components/Buttons/BackButton';
 import { Page } from 'types/page';
 
 type Props = {
@@ -123,7 +123,7 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex-1 flex overflow-auto relative">
-        <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
+        <BackButton referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
         <div className="hidden lg:flex flex-1 justify-center items-center h-headerless">
           <AssetImage />
         </div>
@@ -138,7 +138,7 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
               </div>
             </div>
           </div>
-          <Back referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />
+          <BackButton referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />
           <div className="lg:hidden flex justify-center items-center">
             <AssetImage />
           </div>

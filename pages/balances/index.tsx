@@ -1,4 +1,4 @@
-import ConnectWallet from '@/components/Buttons/ConnectWallet';
+import ConnectWalletButton from '@/components/Buttons/ConnectWalletButton';
 import Centered from '@/components/Containers/Centered';
 import DepositDialog from '@/components/Dialogs/DepositDialog';
 import LayoutDefault from '@/components/LayoutDefault';
@@ -86,7 +86,7 @@ const BalancesPage: Page = () => {
         </>
       ) : (
         <Centered className="min-h-[90vh]">
-          <ConnectWallet />
+          <ConnectWalletButton />
         </Centered>
       )}
     </>

@@ -5,7 +5,7 @@ import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';
 import { toast } from 'react-toastify';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from './MenuItem';
-import BaseMenu from './BaseMenu';
+import Menu from '.';
 import { formatAddressEllipse } from '@/helpers/formatters';
 
 export default function UserMenu({ ...props }) {
@@ -70,5 +70,5 @@ export default function UserMenu({ ...props }) {
 
   const MenuItems = [CopyAddress, MyAssets, Disconnect];
 
-  return <BaseMenu buttonChild={MenuButtonChild} menuItems={MenuItems} {...props} />;
+  return <Menu buttonChild={MenuButtonChild} menuItems={MenuItems} {...props} />;
 }

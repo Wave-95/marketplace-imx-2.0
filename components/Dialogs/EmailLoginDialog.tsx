@@ -4,7 +4,7 @@ import { useUser } from '@/providers/UserProvider';
 import { createStarkSigner, generateStarkPrivateKey, WalletConnection } from '@imtbl/core-sdk';
 import { useState } from 'react';
 import TextField from '../TextField';
-import Dialog from './Dialog';
+import Dialog from '.';
 
 type EmailLoginDialogProps = {
   isOpen: boolean;
