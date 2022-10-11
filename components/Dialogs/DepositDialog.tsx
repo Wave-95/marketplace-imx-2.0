@@ -73,7 +73,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
           return toast.error('You have rejected the transaction.');
         }
         if (e.message.match(/error quantizing deposit amount/)) {
-          return toast.error('Deposit amount precision too high. Try truncating.');
+          return toast.error('Deposit amount precision too high. Try truncating the amount.');
         }
         toast.error('There was an issue depositing.');
       }

@@ -25,13 +25,14 @@ import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { Filter } from 'react-feather';
+import { Page } from 'types/page';
 
-type UserPageProps = {
+type Props = {
   address: string;
   tab?: string;
 };
 
-const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
+const UserPage: Page<Props> = ({ address, tab }) => {
   const { state: filters } = useFilters() as FiltersContextType;
   const [isLoading, setIsLoading] = useState(false);
   const [openMobileFilters, setOpenMobileFilters] = useState(false);
@@ -169,39 +170,41 @@ const UserPage: React.FC<UserPageProps> = ({ address, tab }) => {
         <meta name="description" content="Description goes here" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <LayoutDefault>
-        <div>
-          <UserHeader address={address} />
-          <TabGroup
-            tabMapping={tabMapping}
-            className="w-full"
-            tabListClassName="!justify-start lg:pl-6 pl-4"
-            selectedIndex={selectedIndex}
-            onChange={handleTabChange}
-          />
-        </div>
-        {openMobileFilters ? (
-          <MetadataFilters
-            className={`lg:hidden absolute w-full z-[10] top-0`}
-            isMobile
-            closeMobile={() => setOpenMobileFilters(false)}
-            showHeader
-            height={mobileFiltersHeight}
-          />
-        ) : null}
-      </LayoutDefault>
+      <div>
+        <UserHeader address={address} />
+        <TabGroup
+          tabMapping={tabMapping}
+          className="w-full"
+          tabListClassName="!justify-start lg:pl-6 pl-4"
+          selectedIndex={selectedIndex}
+          onChange={handleTabChange}
+        />
+      </div>
+      {openMobileFilters ? (
+        <MetadataFilters
+          className={`lg:hidden absolute w-full z-[10] top-0`}
+          isMobile
+          closeMobile={() => setOpenMobileFilters(false)}
+          showHeader
+          height={mobileFiltersHeight}
+        />
+      ) : null}
     </>
   );
 };
 
 export default UserPage;
 
+UserPage.getLayout = (page: React.ReactNode) => {
+  return <LayoutDefault>{page}</LayoutDefault>;
+};
+
 interface Params extends ParsedUrlQuery {
   address: string;
   tab?: string;
 }
 
-export const getServerSideProps: GetServerSideProps<UserPageProps, Params> = async ({ params, query }) => {
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params, query }) => {
   const { address } = params!;
   let { tab = '0' } = query;
   if (Array.isArray(tab)) {

@@ -15,8 +15,9 @@ import { Filter } from 'react-feather';
 import Counter from '@/components/Counter';
 import { getNumSelectedFilters } from '../helpers';
 import useWindowSize from 'hooks';
+import { Page } from 'types/page';
 
-const Marketplace: React.FC = () => {
+const Marketplace: Page = () => {
   const { state: filters } = useFilters() as FiltersContextType;
   const [activeOrders, setActiveOrders] = useState<FormattedActiveOrder[]>([]);
   const [cursor, setCursor] = useState<string>();
@@ -76,37 +77,39 @@ const Marketplace: React.FC = () => {
         <meta name="description" content="Description goes here" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <LayoutDefault>
-        {openMobileFilters ? (
-          <MetadataFilters
-            className={`lg:hidden absolute w-full z-[10] top-[8rem]`}
-            isMobile
-            closeMobile={() => setOpenMobileFilters(false)}
-            height={mobileFiltersHeight}
-            showFooter
-          />
-        ) : null}
-        <div className="flex-1 flex">
-          <div className="hidden lg:block w-sidebar">
-            <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" showHeader />
-          </div>
-          <div className="w-full">
-            <Header className="border-b border-normal sticky z-[10] top-16">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
-                  <MobileFiltersButton />
-                  <div className="">{isLoading ? <Loading /> : null}</div>
-                </div>
-              </div>
-              <OrderByMenu />
-            </Header>
-            <AssetViewer assets={activeOrders} next={fetchNextData} />
-          </div>
+      {openMobileFilters ? (
+        <MetadataFilters
+          className={`lg:hidden absolute w-full z-[10] top-[8rem]`}
+          isMobile
+          closeMobile={() => setOpenMobileFilters(false)}
+          height={mobileFiltersHeight}
+          showFooter
+        />
+      ) : null}
+      <div className="flex-1 flex">
+        <div className="hidden lg:block w-sidebar">
+          <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" showHeader />
         </div>
-      </LayoutDefault>
+        <div className="w-full">
+          <Header className="border-b border-normal sticky z-[10] top-16">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center">
+                <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
+                <MobileFiltersButton />
+                <div className="">{isLoading ? <Loading /> : null}</div>
+              </div>
+            </div>
+            <OrderByMenu />
+          </Header>
+          <AssetViewer assets={activeOrders} next={fetchNextData} />
+        </div>
+      </div>
     </>
   );
 };
 
 export default Marketplace;
+
+Marketplace.getLayout = (page: React.ReactNode) => {
+  return <LayoutDefault>{page}</LayoutDefault>;
+};

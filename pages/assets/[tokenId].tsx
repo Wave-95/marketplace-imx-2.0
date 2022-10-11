@@ -22,14 +22,15 @@ import { base_path, collection_name } from '@/constants/configs';
 import Skeleton from '@/components/Skeleton';
 import AssetHistory from '@/components/modules/AssetHistory';
 import Back from '@/components/Buttons/Back';
+import { Page } from 'types/page';
 
-type AssetPageProps = {
+type Props = {
   tokenId: string;
   tab?: string;
   referer?: string;
 };
 
-const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
+const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
   const {
     state: { address },
   } = useUser() as UserContextType;
@@ -124,51 +125,53 @@ const AssetPage: React.FC<AssetPageProps> = ({ tokenId, tab, referer }) => {
         <meta name="description" content="Description goes here" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <LayoutDefault>
-        <div className="flex-1 flex overflow-auto relative">
-          <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
-          <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
-          <div className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l overflow-auto`}>
-            <div className="absolute top-8 right-8">
-              <div className="flex items-center space-x-4">
-                <div className="btn-secondary p-2 cursor-pointer" onClick={handleFavorite}>
-                  <Heart size={20} />
-                </div>
-                <div className="btn-secondary p-2 cursor-pointer" onClick={handleCopyLink}>
-                  <Link size={20} />
-                </div>
+      <div className="flex-1 flex overflow-auto relative">
+        <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
+        <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
+        <div className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l overflow-auto`}>
+          <div className="absolute top-8 right-8">
+            <div className="flex items-center space-x-4">
+              <div className="btn-secondary p-2 cursor-pointer" onClick={handleFavorite}>
+                <Heart size={20} />
+              </div>
+              <div className="btn-secondary p-2 cursor-pointer" onClick={handleCopyLink}>
+                <Link size={20} />
               </div>
             </div>
-            <Back referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />
-            <AssetImage className="lg:hidden flex justify-center items-center" />
-            <div className="p-4 space-y-6 lg:p-8">
-              <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
-              <ByUser label={'Owned By'} user={user} />
-            </div>
-            <TabGroup
-              selectedIndex={selectedIndex}
-              onChange={handleTabChange}
-              tabMapping={tabMapping}
-              className="flex-1"
-              tabListClassName="lg:justify-start lg:pl-8"
-            />
-            {showOrder && <OrderModule className="hidden lg:block" order={order} />}
           </div>
+          <Back referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />
+          <AssetImage className="lg:hidden flex justify-center items-center" />
+          <div className="p-4 space-y-6 lg:p-8">
+            <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
+            <ByUser label={'Owned By'} user={user} />
+          </div>
+          <TabGroup
+            selectedIndex={selectedIndex}
+            onChange={handleTabChange}
+            tabMapping={tabMapping}
+            className="flex-1"
+            tabListClassName="lg:justify-start lg:pl-8"
+          />
+          {showOrder && <OrderModule className="hidden lg:block" order={order} />}
         </div>
-        {showOrder && <OrderModule className="lg:hidden block" order={order} />}
-      </LayoutDefault>
+      </div>
+      {showOrder && <OrderModule className="lg:hidden block" order={order} />}
     </>
   );
 };
 
 export default AssetPage;
 
+AssetPage.getLayout = (page: React.ReactNode) => {
+  return <LayoutDefault>{page}</LayoutDefault>;
+};
+
 interface Params extends ParsedUrlQuery {
   tokenId: string;
   tab?: string;
 }
 
-export const getServerSideProps: GetServerSideProps<AssetPageProps, Params> = async ({ params, query, req }) => {
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params, query, req }) => {
   const referer = req.headers.referer || '/';
 
   const { tokenId } = params!;

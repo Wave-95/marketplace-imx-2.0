@@ -1,12 +1,19 @@
 import { AssetProvider, FiltersProvider, OrderProvider, PricesProvider, ThemeProvider, ToastProvider, UserProvider } from '@/providers';
 import useWindowSize from 'hooks';
 import { AppProps } from 'next/app';
+import { Page } from 'types/page';
 
 import '../styles/globals.css';
 import '../styles/theme.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type Props = AppProps & {
+  Component: Page;
+};
+
+function MyApp({ Component, pageProps }: Props) {
   const [_w, availHeight] = useWindowSize();
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
       <ThemeProvider>
@@ -15,9 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <AssetProvider>
               <OrderProvider>
                 <FiltersProvider>
-                  <PricesProvider>
-                    <Component {...pageProps} />
-                  </PricesProvider>
+                  <PricesProvider>{getLayout(<Component {...pageProps} />)}</PricesProvider>
                 </FiltersProvider>
               </OrderProvider>
             </AssetProvider>

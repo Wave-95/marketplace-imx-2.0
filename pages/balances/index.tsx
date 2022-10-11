@@ -9,10 +9,9 @@ import { UserContextType, useUser } from '@/providers/UserProvider';
 import Head from 'next/head';
 import numeral from 'numeral';
 import React, { useState } from 'react';
+import { Page } from 'types/page';
 
-type BalancesPageProps = {};
-
-const BalancesPage: React.FC<BalancesPageProps> = () => {
+const BalancesPage: Page = () => {
   const {
     state: {
       address,
@@ -78,24 +77,24 @@ const BalancesPage: React.FC<BalancesPageProps> = () => {
         <meta name="description" content="Description goes here" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <LayoutDefault>
-        <div>
-          {address ? (
-            <>
-              <UserHeader address={address} showLink={false} />
-              <DepositWithdrawGroup />
-              <TabGroup tabMapping={tabMapping} tabListClassName="!justify-start lg:pl-8 pl-6" />
-              <DepositDialog isOpen={depositDialogOpen} closeDialog={() => setDepositDialogOpen(false)} />
-            </>
-          ) : (
-            <Centered className="min-h-[90vh]">
-              <ConnectWallet />
-            </Centered>
-          )}
-        </div>
-      </LayoutDefault>
+      {address ? (
+        <>
+          <UserHeader address={address} showLink={false} />
+          <DepositWithdrawGroup />
+          <TabGroup tabMapping={tabMapping} tabListClassName="!justify-start lg:pl-8 pl-6" />
+          <DepositDialog isOpen={depositDialogOpen} closeDialog={() => setDepositDialogOpen(false)} />
+        </>
+      ) : (
+        <Centered className="min-h-[90vh]">
+          <ConnectWallet />
+        </Centered>
+      )}
     </>
   );
 };
 
 export default BalancesPage;
+
+BalancesPage.getLayout = (page: React.ReactNode) => {
+  return <LayoutDefault>{page}</LayoutDefault>;
+};
