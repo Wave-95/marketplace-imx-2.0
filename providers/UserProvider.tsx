@@ -2,10 +2,11 @@ import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { WalletConnection } from '@imtbl/core-sdk';
 import { buildWalletSDK } from '@/helpers/imx';
 import { FormattedBalances } from '@/helpers/formatters';
-import { DepositTokenTypes } from '../constants';
+import { deposit_token_types } from '../constants';
+import { ValueOf } from 'types';
 
 type BalanceL1 = {
-  [key in DepositTokenTypes]: string | undefined;
+  [key in ValueOf<typeof deposit_token_types>]?: string;
 };
 interface State {
   connection: WalletConnection | null;

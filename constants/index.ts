@@ -16,6 +16,9 @@ export const order_by_keys = Object.keys(order_by_config);
 
 export const order_by_key_default: OrderByKey = 'newestListing';
 
-export type DepositERC20Tokens = 'USDC' | 'IMX' | 'GODS';
-
-export type DepositTokenTypes = DepositERC20Tokens | 'ETH';
+export const deposit_token_types = {
+  ETH: 'ETH',
+  USDC: 'USDC',
+  IMX: 'IMX',
+  GODS: 'GODS',
+} as const;

@@ -9,13 +9,16 @@ import { client } from '@/helpers/imx';
 import { erc20_contract_addresses } from '@/constants/configs';
 import { ERC20Amount, ETHAmount } from '@imtbl/core-sdk';
 import { toast } from 'react-toastify';
-import { DepositTokenTypes } from '@/constants/index';
+import { deposit_token_types } from '@/constants/index';
 import Loading from '../Loading';
+import { ValueOf } from 'types';
 
 type DepositDialogProps = {
   isOpen: boolean;
   closeDialog: () => void;
 };
+
+type DepositTokenTypes = ValueOf<typeof deposit_token_types>;
 
 const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) => {
   const [selectedToken, setSelectedToken] = useState<DepositTokenTypes>('ETH');

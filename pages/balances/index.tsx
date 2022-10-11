@@ -35,11 +35,11 @@ const BalancesPage: Page = () => {
   };
 
   const BalancesTable = () => {
-    const tableDataJSX = Object.entries(l2Balances).map(([symbol, data]) => {
+    const tableDataJSX = Object.entries(l2Balances).map(([symbol, data], idx) => {
       const balance = data?.balance || '0';
       const balanceFormatted = numeral(formatWeiToNumber(balance)).format('0[.]0[00]a');
       return (
-        <tr className="border border-normal">
+        <tr className="border border-normal" key={`balance-tr-${idx}`}>
           <td className="px-4 py-2">{symbol}</td>
           <td className="px-4 py-2 text-sm">{balanceFormatted}</td>
         </tr>
