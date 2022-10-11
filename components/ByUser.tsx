@@ -10,12 +10,12 @@ type Props = {
 };
 
 const ByUser: React.FC<Props> = ({ label, user, ...props }) => {
-  if (!user) {
-    return null;
-  }
   const {
     state: { address },
   } = useUser();
+  if (!user) {
+    return null;
+  }
   const isSame = isSameAddress(address, user);
   const text = isSame ? 'You' : formatAddressEllipse(user);
 

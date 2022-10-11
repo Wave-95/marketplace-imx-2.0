@@ -9,10 +9,10 @@ type MetadataProps = {
   className?: string;
 };
 const Metadata: React.FC<MetadataProps> = ({ keys, metadata, className, ...props }) => {
+  const router = useRouter();
   if (!metadata) {
     return null;
   }
-  const router = useRouter();
   const redirectToMarketplace = (key: string, value: string | null) => () => {
     if (key && value) {
       router.push(`/?${key}=${value}`);

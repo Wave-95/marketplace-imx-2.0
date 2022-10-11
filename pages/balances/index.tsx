@@ -37,7 +37,7 @@ const BalancesPage: Page = () => {
   const BalancesTable = () => {
     const tableDataJSX = Object.entries(l2Balances).map(([symbol, data], idx) => {
       const balance = data?.balance || '0';
-      const balanceFormatted = numeral(formatWeiToNumber(balance)).format('0[.]0[00]a');
+      const balanceFormatted = numeral(formatWeiToNumber(balance)).format('0[.]0[000]a');
       return (
         <tr className="border border-normal" key={`balance-tr-${idx}`}>
           <td className="px-4 py-2">{symbol}</td>
@@ -49,8 +49,8 @@ const BalancesPage: Page = () => {
       <table className="table-fixed w-full border-collapse">
         <thead className="bg-table-header text-left h-[50px] border border-normal">
           <tr>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">Asset</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">Balance</th>
+            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Asset'}</th>
+            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'L2 Balance'}</th>
           </tr>
         </thead>
         <tbody>{tableDataJSX}</tbody>
@@ -64,8 +64,6 @@ const BalancesPage: Page = () => {
         <BalancesTable />
       </div>
     ),
-    Deposits: <div></div>,
-    Withdrawals: <div></div>,
   };
 
   const page_title = `Balances | ${address || ''}`;
