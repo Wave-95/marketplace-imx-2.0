@@ -75,25 +75,22 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
     //TODO: Custom code here
   };
 
-  const AssetImage = ({ className }: { className?: string }) => (
-    <div className={className}>
-      {image_url ? (
-        <div className="min-w-[200px] min-h-[300px] lg:min-w-[400px] lg:min-h-[500px] relative mt-16">
-          <Image
-            src={image_url}
-            alt={`img-token-${tokenId}`}
-            quality={100}
-            objectFit="contain"
-            objectPosition="center"
-            layout="fill"
-            priority
-          />
-        </div>
-      ) : (
-        <Skeleton className="w-[200px] h-[300px] lg:w-[300px] lg:h-[500px] rounded-lg mt-16" />
-      )}
-    </div>
-  );
+  const AssetImage = () =>
+    image_url ? (
+      <div className="min-w-[200px] min-h-[300px] lg:min-w-[400px] lg:min-h-[500px] relative mt-16">
+        <Image
+          src={image_url}
+          alt={`img-token-${tokenId}`}
+          quality={100}
+          objectFit="contain"
+          objectPosition="center"
+          layout="fill"
+          priority
+        />
+      </div>
+    ) : (
+      <Skeleton className="w-[200px] h-[300px] lg:w-[300px] lg:h-[500px] rounded-lg mt-16" />
+    );
 
   //Choose which metadata keys and in which order to display to user
   const metadataToDisplay = ['set', 'type', 'rarity', 'god', 'tribe', 'attack', 'health', 'mana'] as keyof typeof metadata;
@@ -127,7 +124,9 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
       </Head>
       <div className="flex-1 flex overflow-auto relative">
         <Back referer={referer} className="left-8 z-[10] absolute top-8 hidden lg:block" />
-        <AssetImage className="flex-1 hidden lg:flex justify-center items-center" />
+        <div className="hidden lg:flex flex-1 justify-center items-center h-headerless">
+          <AssetImage />
+        </div>
         <div className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l overflow-auto`}>
           <div className="absolute top-8 right-8">
             <div className="flex items-center space-x-4">
@@ -140,7 +139,9 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
             </div>
           </div>
           <Back referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />
-          <AssetImage className="lg:hidden flex justify-center items-center" />
+          <div className="lg:hidden flex justify-center items-center">
+            <AssetImage />
+          </div>
           <div className="p-4 space-y-6 lg:p-8">
             <h1 className="text-4xl font-bold text-center lg:text-left lg:mt-16">{name}</h1>
             <ByUser label={'Owned By'} user={user} />
