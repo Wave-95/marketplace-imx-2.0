@@ -1,4 +1,4 @@
-This is a white-label [Marketplace](https://www.marketplace-imx.rippin.io/) code repository built with [Next.js](https://nextjs.org/docs/getting-started), [Tailwind](https://tailwindcss.com/docs/installation), and [Immutable X](https://docs.x.immutable.com/). This repository comes ready-built with core marketplace features to enable a seamless trading experience for your users.
+This is a white-label [Marketplace](https://www.marketplace-imx.rippin.io/) code repository built with [Next.js](https://nextjs.org/docs/getting-started), [Tailwind](https://tailwindcss.com/docs/installation), and [Immutable X](https://docs.x.immutable.com/). This repository comes ready-built with core marketplace features to enable a seamless trading experience for your users. Skip the development time that comes with web3 (private keys, signing messages, querying blockchain data) by building on top of this fully-integrated marketplace. 
 
 ## Marketplace Summary
 Your marketplace <i>users</i> can:
