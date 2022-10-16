@@ -161,6 +161,10 @@ module.exports = {
         card: '16px',
         dialog: '16px',
         popover: '14px',
+        md: '0.375rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
+        ['2xl']: '1rem',
       },
       animation: {
         spin: 'spin 1.5s linear infinite',

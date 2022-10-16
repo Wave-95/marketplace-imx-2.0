@@ -15,7 +15,7 @@ const Menu: React.FC<Props> = ({ buttonChild, menuItems, menuItemsClassName, ...
         <HeadlessMenu.Button>{buttonChild}</HeadlessMenu.Button>
         <HeadlessMenu.Items
           className={cx(
-            'absolute z-[999] right-0 mt-2 origin-top-right min-w-[10rem] flex flex-col gap-1 p-2 space-y-1 border rounded-popover bg-popover border-popover items-start',
+            'absolute z-[999] right-0 mt-2 origin-top-right min-w-[10rem] flex flex-col gap-1 p-2 space-y-1 border rounded-xl bg-popover border-popover items-start',
             menuItemsClassName
           )}
         >
