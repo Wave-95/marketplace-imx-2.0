@@ -82,17 +82,17 @@ const List: React.FC<ListProps> = ({ ...props }) => {
 
   return (
     <div {...props}>
-      <div className="mb-4 mt-4 font-semibold text-lg">List</div>
+      <h2 className="mb-4 mt-4 font-semibold text-lg">{'List'}</h2>
       <div>
         <TextField label="Price" value={amount} onChange={handleChange} disabled={!isSameAddress(address, user)} />
       </div>
       <div className="mt-8">
         <div className="mt-4 flex justify-between items-center">
-          <div className="font-semibold text-base">Total Amount</div>
+          <h3 className="font-semibold text-base">{'Total Amount'}</h3>
           <Price amount={totalAmount.toString()} symbol="ETH" rate={ETHUSD} showLabel={false} />
         </div>
         <div className="mt-4">
-          <div className="font-semibold text-sm">Fees</div>
+          <h4 className="font-semibold text-sm">{'Fees'}</h4>
           <div className="mt-2">
             {hasFees ? (
               formattedFees.map((fee, idx) => (

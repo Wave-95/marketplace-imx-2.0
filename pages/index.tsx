@@ -93,7 +93,7 @@ const Marketplace: Page = () => {
           <Header className="border-b border-normal sticky z-[10] top-16">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
-                <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>
+                <h3 className="hidden mr-3 lg:block font-medium">{collection_name}</h3>
                 <MobileFiltersButton />
                 <div className="">{isLoading ? <Loading /> : null}</div>
               </div>

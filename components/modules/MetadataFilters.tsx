@@ -4,6 +4,7 @@ import React from 'react';
 import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/helpers';
 import Counter from '../Counter';
 import cx from 'classnames';
+import { Filter } from 'react-feather';
 
 type Props = {
   id?: string;
@@ -40,7 +41,8 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
   const FilterHeader = () => (
     <div className="flex items-center justify-between flex-shrink-0 h-16 px-6 pr-2 border-b bg-page border-normal">
       <div className="flex items-center space-x-2">
-        <div className="font-medium">Filters</div>
+        <Filter size={15} />
+        <div className="font-medium">{'Filters'}</div>
         <Counter number={getNumSelectedFilters(selectedFilters)} />
       </div>
       <div className="h-8 px-3 -mr-1 text-sm btn-quaternary flex items-center font-medium hover:cursor-pointer" onClick={clearAllFilters}>

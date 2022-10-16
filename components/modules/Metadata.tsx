@@ -21,7 +21,7 @@ const Metadata: React.FC<MetadataProps> = ({ keys, metadata, className, ...props
 
   return (
     <div className={cx('space-y-3', className)} {...props}>
-      <div className="mb-4 mt-4 font-semibold text-lg">Properties</div>
+      <h2 className="mb-4 mt-4 font-semibold text-lg">{'Properties'}</h2>
       <div className="grid gap-x-10 gap-y-3 sm:grid-cols-1 lg:grid-cols-2">
         {keys.map((key) => {
           const value = (metadata && metadata[key]) || null;

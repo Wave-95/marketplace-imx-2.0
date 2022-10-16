@@ -171,7 +171,7 @@ module.exports = {
       },
       colors: { current: 'currentColor' },
       dropShadow: { popover: 'rgba(0, 0, 0, 0.1) 0px 0px 1px 0px, rgba(0, 0, 0, 0.1) 0px 4px 10px 0px' },
-      width: { full: '100%', sidebar: '256px' },
+      width: { full: '100%', sidebar: '300px' },
       maxWidth: { '8xl': '1440px' },
       height: { header: '4rem', headerless: 'calc(100vh - 4rem)' },
       minHeight: { headerless: 'calc(100vh - 4rem)' },

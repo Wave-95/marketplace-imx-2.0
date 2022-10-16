@@ -98,10 +98,10 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
   const Details = () => (
     <>
       <div className="lg:px-8 p-4">
-        <div className="mb-4 mt-4 font-semibold text-lg">Description</div>
+        <h2 className="mb-4 mt-4 font-semibold text-lg">{'Description'}</h2>
         <p className="text-secondary text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
         </p>
       </div>
       <Metadata keys={metadataToDisplay} metadata={metadata} className="lg:px-8 p-4" />

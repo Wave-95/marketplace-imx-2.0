@@ -69,7 +69,7 @@ const AssetTransfer = ({ ...props }) => {
 
   return (
     <div {...props}>
-      <div className="mt-4 font-semibold text-lg">Transfer</div>
+      <h2 className="mt-4 font-semibold text-lg">{'Transfer'}</h2>
       <TransferWarning />
       <div>
         <TextField
