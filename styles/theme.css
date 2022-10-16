@@ -505,6 +505,6 @@
   }
 
   .app-header {
-    @apply h-header px-4 lg:px-6 bg-header flex items-center justify-between;
+    @apply h-[4rem] lg:h-[5rem] px-4 lg:px-6 bg-header flex items-center justify-between;
   }
 }

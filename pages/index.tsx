@@ -87,10 +87,10 @@ const Marketplace: Page = () => {
       ) : null}
       <div className="flex-1 flex">
         <div className="hidden lg:block w-sidebar">
-          <MetadataFilters className="sticky top-16 border-r border-normal h-headerless" showHeader />
+          <MetadataFilters className="sticky top-[4rem] lg:top-[5rem] border-r border-normal h-headerless" showHeader />
         </div>
         <div className="w-full">
-          <Header className="border-b border-normal sticky z-[10] top-16">
+          <Header className="border-b border-normal sticky z-[10] top-[4rem] lg:top-[5rem] max-h-[4rem]">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <h3 className="hidden mr-3 lg:block font-medium">{collection_name}</h3>

@@ -137,10 +137,10 @@ const UserPage: Page<Props> = ({ address, tab }) => {
     return (
       <div className="flex">
         <div className="hidden lg:block w-sidebar">
-          <MetadataFilters className="sticky border-r border-normal h-headerless top-16" showHeader />
+          <MetadataFilters className="sticky border-r border-normal h-headerless top-[4rem] lg:top-[5rem]" showHeader />
         </div>
         <div className="w-full">
-          <Header className="border-b border-normal sticky z-[10] top-16">
+          <Header className="border-b border-normal sticky z-[10] top-[4rem] lg:top-[5rem] max-h-[4rem]">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <div className="hidden mr-3 lg:block font-medium">{collection_name}</div>

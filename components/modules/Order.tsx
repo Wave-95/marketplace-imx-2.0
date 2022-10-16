@@ -92,7 +92,7 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
   const buttonText = connection ? (isOwner ? 'Cancel Listing' : 'Buy Now') : 'Connect to Buy';
 
   return (
-    <div className={cx('', className)}>
+    <div className={className}>
       <div className={cx('p-3 pt-4 space-y-4 border-t border-normal lg:bg-page bg-bar backdrop-blur-lg', className)}>
         <div className="grid grid-cols-2 px-1">
           <ByUser label={'Sold by'} user={user} />
