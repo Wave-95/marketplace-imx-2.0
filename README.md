@@ -1,4 +1,4 @@
-This is a white-label [Marketplace](https://www.marketplace-imx.rippin.io/) code repository built with [Next.js](https://nextjs.org/docs/getting-started), [Tailwind](https://tailwindcss.com/docs/installation), and [IMX](https://docs.x.immutable.com/). The marketplace is built with core features to enable a seamless trading experience.
+This is a white-label [Marketplace](https://www.marketplace-imx.rippin.io/) code repository built with [Next.js](https://nextjs.org/docs/getting-started), [Tailwind](https://tailwindcss.com/docs/installation), and [Immutable X](https://docs.x.immutable.com/). This repository comes ready-built with core marketplace features to enable a seamless trading experience for your users. Skip the development time that comes with web3 (private keys, signing messages, querying blockchain data) by building on top of this fully-integrated marketplace. 
 
 ## Marketplace Summary
 Your marketplace <i>users</i> can:
@@ -64,25 +64,27 @@ You can start editing the project by modifying your `.env.local` to match the co
 ## Project Notes
 
 #### Components
-For the frontend components, this project lightly uses [Headless UI](https://headlessui.com/), an unstyled component library, for state-heavy components like Menus and Tabs. Every other component is built with HTML and styled using Tailwind's utility classes. 
+This project lightly uses [Headless UI](https://headlessui.com/), an unstyled component library, for state-heavy frontend components such as Menus and Tabs. All other components are custom built with HTML and styled using Tailwind's utility classes. 
 
 #### Styling
-This project uses abstract utility-first class names as opposed to semantic class names. Component styling heavy relies on the CSS variables stored in `styles/theme.css`. Those CSS variables are used to extend the default theme in the `tailwind.config.js` file. For more information, visit [here](https://tailwindcss.com/docs/theme#extending-the-default-theme).
+This project uses abstract utility-first class names as opposed to semantic class names. Component styling heavy relies on the CSS variables stored in `styles/theme.css`. Those CSS variables are used to extend the default theme in the `tailwind.config.js` file. For more information on how to customize the theme using Tailwind, take a look at this [guide](https://tailwindcss.com/docs/theme#extending-the-default-theme).
 
-Light and dark theme modes are toggled by setting and un-setting the `.dark` CSS class on the application's document node. This is possible because light and dark CSS variables are nested under the `root` and `.dark` CSS classes in the `styles/theme.css` file.
+Light and dark theme modes are toggled by setting and un-setting the `.dark` CSS class on the application's document node. This is possible because light and dark CSS variables are declared under the `root` and `.dark` CSS classes respectively.
 
 To make changes to the application's design system, edit the color and size values of the CSS variables located in `styles/theme.css`. To add new custom utility classes, create a new CSS variable and reference it in `tailwind.config.js`.
 
 #### Connect Wallet / Wallet SDK
-The marketplace currently supports `MetaMask` and `WalletConnect` as its wallet providers. You will need to supply your own RPC URL to support `WalletConnect` when initializing the Wallet SDK in the `/helpers/imx.ts > buildWalletSDK` function. More information [here](https://docs.x.immutable.com/sdk-docs/wallet-sdk-web/quickstart).
+The marketplace currently supports `MetaMask` and `WalletConnect` as its wallet providers. You will need to supply your own RPC URL to support `WalletConnect` when initializing the Wallet SDK in the `/helpers/imx.ts > buildWalletSDK` function. IMX has more information [here](https://docs.x.immutable.com/sdk-docs/wallet-sdk-web/quickstart).
 
-When connecting a user, the user will be prompted to sign a message with their wallet provider. Upon successful connection, the user will also sign a message to be registered to the IMX platform. Registration is a pre-requisite to interacting in the IMX platform.
+When connecting a user, the user will be prompted to sign a message with their wallet provider. Upon successful connection, the user will also sign a second message to register themselves onto the IMX platform. Registration is a pre-requisite to interacting in the IMX platform.
 
 #### IMX Core SDK
-The IMX Core SDK is initialized in the `helpers/imx.ts` file and the `client` object can be used anywhere in the application to read and write data. When writing data, please make sure the user is connected to IMX and a `WalletConnection` is available to sign messages.
+The IMX Core SDK is initialized in the `helpers/imx.ts` file and the `client` object can be used anywhere in the application to read and write IMX data. When writing data, please make sure the user is connected to IMX and a `WalletConnection` is available to sign messages.
 
 #### State Management
-The application uses React's `Context` API combined with `useReducer` to store and pass down data to its consumers. You can find a list of providers in the `/providers` folder along with its state type. As an example, the user's address is fetched and stored into the UserContext after successfully connecting his/her wallet. To access that property, simply destructure the `address` property from the context state like so:
+The application uses React's `Context` API combined with `useReducer` to store and pass down data to its consumers. You can find a list of providers in the `/providers` folder along with its state type.
+
+For example, when a user successfully connects their wallet to the application, their address is stored into the `UserContext` using `dispatch` hooks. To access the user's `address` anywhere in the application, simply destructure the `address` property from the context state like so:
 
 ```jsx
 import { useUser } from '@/providers'
