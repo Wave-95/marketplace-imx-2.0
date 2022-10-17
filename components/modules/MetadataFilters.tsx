@@ -7,6 +7,7 @@ import cx from 'classnames';
 import { Filter } from 'react-feather';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import SecondaryButton from '../Buttons/SecondaryButton';
+import QuarternaryButton from '../Buttons/QuarternaryButton';
 
 type Props = {
   id?: string;
@@ -47,9 +48,9 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
         <div className="font-medium">{'Filters'}</div>
         <Counter number={getNumSelectedFilters(selectedFilters)} />
       </div>
-      <div className="h-8 px-3 -mr-1 text-sm btn-quaternary flex items-center font-medium hover:cursor-pointer" onClick={clearAllFilters}>
-        <span>Clear all</span>
-      </div>
+      <QuarternaryButton className="h-8 px-3 -mr-1 text-sm font-medium" onClick={clearAllFilters}>
+        {'Clear all'}
+      </QuarternaryButton>
     </div>
   );
 

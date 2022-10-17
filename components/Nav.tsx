@@ -13,7 +13,7 @@ export default function Nav({ ...props }) {
 
   const LogoHome = () => (
     <Link href="/">
-      <a className="font-bold btn-quarternary text-page">Your Logo</a>
+      <a className="font-bold text-page">Your Logo</a>
     </Link>
   );
 

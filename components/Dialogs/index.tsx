@@ -1,6 +1,7 @@
 import { Dialog as HeadlessDialog, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
 import { X } from 'react-feather';
+import TertiaryButton from '../Buttons/TertiaryButton';
 import Centered from '../Containers/Centered';
 
 type Props = {
@@ -38,9 +39,9 @@ const Dialog: React.FC<Props> = ({ title, isOpen, closeDialog, children }) => {
               leaveTo="opacity-0 scale-95"
             >
               <HeadlessDialog.Panel className="relative w-full max-w-md overflow-hidden text-left align-middle transition-all transform shadow-xl border-normal bg-page rounded-2xl">
-                <div className="absolute p-2 cursor-pointer top-2 right-2 btn-tertiary rounded-button" onClick={closeDialog}>
+                <TertiaryButton className="absolute !px-1 !py-1 top-3 right-3 rounded-button" onClick={closeDialog}>
                   <X />
-                </div>
+                </TertiaryButton>
                 <HeadlessDialog.Title as="h3" className="p-4 text-lg font-medium leading-6 border border-b border-normal">
                   {title}
                 </HeadlessDialog.Title>
