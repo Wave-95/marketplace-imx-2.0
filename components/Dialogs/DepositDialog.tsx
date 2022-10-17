@@ -12,6 +12,8 @@ import { toast } from 'react-toastify';
 import { deposit_token_types } from '@/constants/index';
 import Loading from '../Loading';
 import { ValueOf } from 'types';
+import PrimaryButton from '../Buttons/PrimaryButton';
+import SecondaryButton from '../Buttons/SecondaryButton';
 
 type DepositDialogProps = {
   isOpen: boolean;
@@ -95,13 +97,13 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
         <TextField label="Amount" value={depositAmount} onChange={handleDepositChange} />
         <div className="flex justify-between">
           <span className="text-xs text-secondary">{`Available: ${availableAmountFormatted} ${selectedToken}`}</span>
-          <button className="btn-secondary text-xs font-normal px-2 py-1" onClick={handleMax}>
+          <SecondaryButton className="text-xs font-normal px-2 py-1" onClick={handleMax}>
             Max
-          </button>
+          </SecondaryButton>
         </div>
-        <button className="btn-primary w-full font-semibold flex justify-center" onClick={handleDeposit}>
+        <PrimaryButton className="w-full font-semibold flex justify-center" onClick={handleDeposit}>
           {loading ? <Loading /> : 'Deposit'}
-        </button>
+        </PrimaryButton>
       </div>
     </Dialog>
   );

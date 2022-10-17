@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import cx from 'classnames';
 import { collection_name } from '@/constants/configs';
 import AssetViewer from '@/components/modules/AssetViewer';
 import LayoutDefault from '@/components/LayoutDefault';
@@ -15,6 +16,7 @@ import Counter from '@/components/Counter';
 import { getNumSelectedFilters } from '../helpers';
 import useWindowSize from 'hooks';
 import { Page } from 'types/page';
+import SecondaryButton from '@/components/Buttons/SecondaryButton';
 
 const Marketplace: Page = () => {
   const { state: filters } = useFilters();
@@ -62,11 +64,11 @@ const Marketplace: Page = () => {
   }, [filters.selected, filters.orderByKey]);
 
   const MobileFiltersButton = () => (
-    <div className="btn-secondary space-x-2 flex items-center h-10 lg:hidden mr-3" onClick={() => setOpenMobileFilters(!openMobileFilters)}>
+    <SecondaryButton className="space-x-2 h-10 lg:hidden mr-3" onClick={() => setOpenMobileFilters(!openMobileFilters)}>
       <Filter size={15} />
       <span>{openMobileFilters ? 'Close' : 'Filters'}</span>
       <Counter number={getNumSelectedFilters(filters.selected)} />
-    </div>
+    </SecondaryButton>
   );
 
   return (
@@ -100,7 +102,7 @@ const Marketplace: Page = () => {
             </div>
             <OrderByMenu />
           </Header>
-          <AssetViewer assets={activeOrders} next={fetchNextData} />
+          <AssetViewer assets={activeOrders} next={fetchNextData} className={cx({ hidden: openMobileFilters })} />
         </div>
       </div>
     </>

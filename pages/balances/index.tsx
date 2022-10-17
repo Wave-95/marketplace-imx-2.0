@@ -1,4 +1,6 @@
 import ConnectWalletButton from '@/components/Buttons/ConnectWalletButton';
+import PrimaryButton from '@/components/Buttons/PrimaryButton';
+import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Centered from '@/components/Containers/Centered';
 import DepositDialog from '@/components/Dialogs/DepositDialog';
 import LayoutDefault from '@/components/LayoutDefault';
@@ -24,12 +26,12 @@ const BalancesPage: Page = () => {
   const DepositWithdrawGroup = () => {
     return (
       <div className="space-x-4 lg:pr-8 pr-6 flex justify-end mb-8">
-        <button className="btn-primary text-center h-12 font-semibold" onClick={() => setDepositDialogOpen(true)}>
-          Deposit
-        </button>
-        <button className="btn-secondary text-center h-12 font-semibold" onClick={() => setWithdrawDialogOpen(true)}>
-          Withdraw
-        </button>
+        <PrimaryButton className="font-semibold" onClick={() => setDepositDialogOpen(true)}>
+          {'Deposit'}
+        </PrimaryButton>
+        <SecondaryButton className="max-h-12 h-12 font-semibold" onClick={() => setWithdrawDialogOpen(true)}>
+          {'Withdraw'}
+        </SecondaryButton>
       </div>
     );
   };

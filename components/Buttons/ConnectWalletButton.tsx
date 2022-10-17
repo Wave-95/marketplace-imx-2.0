@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { SyntheticEvent } from 'react';
 import cx from 'classnames';
+import PrimaryButton from './PrimaryButton';
 
 type Props = {
   className?: string;
@@ -15,9 +16,9 @@ const ConnectWallet: React.FC<Props> = ({ className, ...props }) => {
   };
 
   return (
-    <button className={cx('btn-primary h-10', className)} onClick={redirectLogin} {...props}>
+    <PrimaryButton className={cx('h-10', className)} onClick={redirectLogin} {...props}>
       Connect Wallet
-    </button>
+    </PrimaryButton>
   );
 };
 

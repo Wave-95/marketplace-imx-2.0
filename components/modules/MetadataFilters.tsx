@@ -5,6 +5,8 @@ import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouter
 import Counter from '../Counter';
 import cx from 'classnames';
 import { Filter } from 'react-feather';
+import PrimaryButton from '../Buttons/PrimaryButton';
+import SecondaryButton from '../Buttons/SecondaryButton';
 
 type Props = {
   id?: string;
@@ -63,12 +65,12 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
 
   const FilterFooter = () => (
     <div className="h-16 bg-page border-t border-normal sticky bottom-0 px-6 items-center grid grid-cols-2 gap-4">
-      <button className="flex-1 btn-secondary text-center h-12 font-semibold" onClick={clearAllFilters}>
+      <SecondaryButton className="flex-1 max-h-12 h-12 font-semibold" onClick={clearAllFilters}>
         Clear all
-      </button>
-      <button className="flex-1 btn-primary text-center h-12 font-semibold" onClick={closeMobile}>
+      </SecondaryButton>
+      <PrimaryButton className="flex-1 max-h-12 h-12 font-semibold" onClick={closeMobile}>
         OK
-      </button>
+      </PrimaryButton>
     </div>
   );
 
@@ -81,16 +83,22 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
         <div className="p-6 bg-page border-normal">
           <div className="flex flex-col space-y-2">
             {values.map((value, idx) => {
+              if (!value) {
+                return null;
+              }
               const isFilteredSelected = isFilterSelected(selectedFilters, label, value);
+              const handleFilterToggle = isFilteredSelected ? handleDeselectFilter(label, value) : handleSelectFilter(label, value);
               return (
                 <label className="flex items-center space-x-4 cursor-pointer" key={idx}>
                   <input
                     type="checkbox"
                     className="w-4 h-4 border rounded cursor-pointer border-active text-accent focus:ring-accent bg-page"
                     checked={isFilteredSelected}
-                    onChange={isFilteredSelected ? handleDeselectFilter(label, value) : handleSelectFilter(label, value)}
+                    onChange={handleFilterToggle}
                   />
-                  <span className="text-[0.75rem] btn-secondary px-2 py-1 capitalize">{value}</span>
+                  <SecondaryButton className="text-xs !px-2 !py-1 capitalize" onClick={handleFilterToggle}>
+                    {value}
+                  </SecondaryButton>
                 </label>
               );
             })}

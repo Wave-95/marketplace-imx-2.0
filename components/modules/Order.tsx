@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import Loading from '../Loading';
 import { useOrder } from '@/providers/OrderProvider';
 import { useAsset } from '@/providers/AssetProvider';
+import PrimaryButton from '../Buttons/PrimaryButton';
 
 type OrderProps = {
   className?: string;
@@ -98,12 +99,12 @@ const Order: React.FC<OrderProps> = ({ className, order }) => {
           <ByUser label={'Sold by'} user={user} />
           {quantity && symbol ? <Price amount={formatWeiToNumber(quantity)} symbol={symbol} rate={ETHUSD} /> : null}
         </div>
-        <button
-          className="max-h-12 w-full inline-flex items-center font-medium focusring will-change-transform btn-primary active:scale-[0.98] shadow-button disabled:shadow-none hover:opacity-90 text-lg h-12 px-6 justify-center rounded-lg transition duration-[100ms] ease-out"
+        <PrimaryButton
+          className="!max-h-12 w-full font-medium text-lg h-12 px-6"
           onClick={connection ? (isOwner ? handleCancel : handleBuy) : redirectLogin}
         >
           {loading ? <Loading /> : buttonText}
-        </button>
+        </PrimaryButton>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import TertiaryButton from '../Buttons/TertiaryButton';
 
 type Props = {
   children: React.ReactNode;
@@ -8,10 +9,10 @@ type Props = {
 
 const MenuItem: React.FC<Props> = ({ children, onClick, icon, ...props }) => {
   return (
-    <div className="menu-item w-full text-base" onClick={onClick} {...props}>
+    <TertiaryButton className="text-base h-10 rounded-lg !justify-start px-2 space-x-4 flex-1 w-full" onClick={onClick} {...props}>
       {icon}
       {children}
-    </div>
+    </TertiaryButton>
   );
 };
 

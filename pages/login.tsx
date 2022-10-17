@@ -54,7 +54,11 @@ const LoginPage: Page<Props> = ({ referer }) => {
         const address = await walletConnectionNew?.ethSigner?.getAddress();
         dispatch({ type: 'connect', payload: walletConnectionNew });
         dispatch({ type: 'set_address', payload: address });
-        router.push(referer);
+        if (referer.match(/login/)) {
+          router.push('/');
+        } else {
+          router.push(referer);
+        }
       }
     } catch (e) {
       if (e instanceof Error) {

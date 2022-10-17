@@ -1,6 +1,7 @@
 import { useTheme } from '@/providers';
 import { MouseEvent } from 'react';
 import { Moon, Sun } from 'react-feather';
+import SecondaryButton from './Buttons/SecondaryButton';
 
 function DarkModeToggle({ ...props }) {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -20,13 +21,9 @@ function DarkModeToggle({ ...props }) {
 
   return (
     <div {...props}>
-      <button
-        aria-label="Theme Mode"
-        className="btn-secondary p-2 h-10 w-10 flex items-center justify-center"
-        onClick={toggleDarkMode}
-      >
+      <SecondaryButton aria-label="Theme Mode" className="!px-2 !py-2 h-10 w-10 flex items-center justify-center" onClick={toggleDarkMode}>
         {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-      </button>
+      </SecondaryButton>
     </div>
   );
 }

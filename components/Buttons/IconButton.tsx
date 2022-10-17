@@ -1,19 +1,20 @@
 import React from 'react';
 import cx from 'classnames';
+import SecondaryButton from './SecondaryButton';
 
 type Props = {
   icon: React.ReactNode;
   text: string;
-  handleClick?: () => void;
+  handleClick?: (param: any) => void;
   className?: string;
 };
 
 const IconButton: React.FC<Props> = ({ icon, text, handleClick, className, ...props }) => {
   return (
-    <button onClick={handleClick} className={cx('btn-secondary flex space-x-2 items-center justify-start', className)} {...props}>
+    <SecondaryButton onClick={handleClick} className={cx('space-x-2', className)} {...props}>
       {icon}
       <span>{text}</span>
-    </button>
+    </SecondaryButton>
   );
 };
 

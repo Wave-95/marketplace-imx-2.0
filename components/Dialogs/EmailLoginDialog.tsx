@@ -5,6 +5,7 @@ import { createStarkSigner, generateStarkPrivateKey, WalletConnection } from '@i
 import { useState } from 'react';
 import TextField from '../TextField';
 import Dialog from '.';
+import PrimaryButton from '../Buttons/PrimaryButton';
 
 type EmailLoginDialogProps = {
   isOpen: boolean;
@@ -45,9 +46,9 @@ const EmailLoginDialog: React.FC<EmailLoginDialogProps> = ({ isOpen, closeDialog
     <Dialog title="Connect or register with Email" isOpen={isOpen} closeDialog={closeDialog}>
       <div className="space-y-4">
         <TextField label="Email" value={email} onChange={handleEmailChange} />
-        <button className="btn-primary w-full font-semibold" onClick={connectWithEmail(email)}>
+        <PrimaryButton className="w-full font-semibold" onClick={connectWithEmail(email)}>
           Submit
-        </button>
+        </PrimaryButton>
       </div>
     </Dialog>
   );

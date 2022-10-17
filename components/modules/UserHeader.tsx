@@ -3,6 +3,7 @@ import { formatAddressEllipse } from '@/helpers/formatters';
 import { useRouter } from 'next/router';
 import { Copy, Link, MoreHorizontal } from 'react-feather';
 import { toast } from 'react-toastify';
+import SecondaryButton from '../Buttons/SecondaryButton';
 
 type UserHeaderProps = {
   address: string;
@@ -25,18 +26,18 @@ const UserHeader: React.FC<UserHeaderProps> = ({ address, showLink = true }) => 
     <div className="px-4 lg:px-6 flex flex-col justify-center items-start min-h-[300px] space-y-4">
       <h1 className="font-semibold text-2xl">{formatAddressEllipse(address, 6)}</h1>
       <div className="flex space-x-4">
-        <button className="btn-secondary p-2 flex items-center space-x-2" onClick={handleCopyAddress}>
+        <SecondaryButton className="px-2 py-2 space-x-2" onClick={handleCopyAddress}>
           <Copy size={20} />
           <span>Copy Address</span>
-        </button>
+        </SecondaryButton>
         {showLink ? (
-          <button className="btn-secondary p-2" aria-label="user-link" onClick={handleCopyLink}>
+          <SecondaryButton className="px-2 py-2" aria-label="user-link" onClick={handleCopyLink}>
             <Link size={20} />
-          </button>
+          </SecondaryButton>
         ) : null}
-        <button className="btn-secondary p-2">
+        <SecondaryButton className="px-2 py-2">
           <MoreHorizontal size={20} />
-        </button>
+        </SecondaryButton>
       </div>
     </div>
   );

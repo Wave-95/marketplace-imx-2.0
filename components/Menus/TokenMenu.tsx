@@ -1,6 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { Check, ChevronDown } from 'react-feather';
 import Menu from '.';
+import SecondaryButton from '../Buttons/SecondaryButton';
 
 type TokenMenuProps = {
   selectedToken: string;
@@ -10,10 +11,10 @@ type TokenMenuProps = {
 
 const TokenMenu: React.FC<TokenMenuProps> = ({ selectedToken, handleTokenChange, tokenOptions }) => {
   const ButtonChild = (
-    <div className="btn-secondary min-w-[75px] flex items-center space-x-2 pr-2 h-10">
+    <SecondaryButton className="min-w-[75px] space-x-2 pr-2 h-10" as="div">
       <span>{selectedToken}</span>
       <ChevronDown size={15} />
-    </div>
+    </SecondaryButton>
   );
 
   const MenuItems = tokenOptions.map((label, index) => {

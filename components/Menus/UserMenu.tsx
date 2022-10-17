@@ -7,12 +7,15 @@ import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from './MenuItem';
 import Menu from '.';
 import { formatAddressEllipse } from '@/helpers/formatters';
+import { useRouter } from 'next/router';
+import SecondaryButton from '../Buttons/SecondaryButton';
 
 export default function UserMenu({ ...props }) {
   const {
     state: { address, connection },
     dispatch,
   } = useUser();
+  const router = useRouter();
   const walletConnection = connection as any;
   const walletProvider = walletConnection?.ethSigner?.provider?.connection?.url;
   let WalletProviderIcon;
@@ -36,16 +39,17 @@ export default function UserMenu({ ...props }) {
 
   const handleDisconnect = () => {
     dispatch({ type: 'disconnect' });
+    router.push('/login');
   };
 
   const MenuButtonChild = (
-    <div className="btn-secondary h-10 flex space-x-1 lg:space-x-2 items-center justify-start pr-2">
+    <SecondaryButton className="h-10 space-x-1 lg:space-x-2 !justify-start pr-2" as="div">
       {WalletProviderIcon}
       <div className="flex items-center">
         <span className="hidden lg:inline text-xs lg:text-base">{formatAddressEllipse(address)}</span>
       </div>
       <ChevronDown size={15} />
-    </div>
+    </SecondaryButton>
   );
 
   const CopyAddress = (

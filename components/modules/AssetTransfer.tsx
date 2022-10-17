@@ -8,6 +8,7 @@ import { client, getAsset } from '@/helpers/imx';
 import { token_address } from '@/constants/configs';
 import { AlertTriangle } from 'react-feather';
 import Loading from '../Loading';
+import PrimaryButton from '../Buttons/PrimaryButton';
 
 const AssetTransfer = ({ ...props }) => {
   const {
@@ -80,13 +81,13 @@ const AssetTransfer = ({ ...props }) => {
           className="mt-4"
         />
       </div>
-      <button
+      <PrimaryButton
         disabled={!isSameAddress(address, user)}
-        className="btn-primary w-full h-12 max-h-12 mt-4 font-medium text-lg flex items-center justify-center"
+        className="w-full h-12 max-h-12 mt-4 font-medium text-lg flex items-center justify-center"
         onClick={handleTransfer}
       >
         {loading ? <Loading /> : 'Transfer Asset'}
-      </button>
+      </PrimaryButton>
     </div>
   );
 };

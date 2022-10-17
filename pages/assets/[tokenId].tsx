@@ -23,6 +23,7 @@ import Skeleton from '@/components/Skeleton';
 import AssetHistory from '@/components/modules/AssetHistory';
 import BackButton from '@/components/Buttons/BackButton';
 import { Page } from 'types/page';
+import SecondaryButton from '@/components/Buttons/SecondaryButton';
 
 type Props = {
   tokenId: string;
@@ -130,12 +131,12 @@ const AssetPage: Page<Props> = ({ tokenId, tab, referer }) => {
         <div className={`relative border-normal flex flex-shrink-0 flex-col w-full lg:mt-0 lg:w-[512px] lg:border-l overflow-auto`}>
           <div className="absolute top-8 right-8">
             <div className="flex items-center space-x-4">
-              <div className="btn-secondary p-2 cursor-pointer" onClick={handleFavorite}>
+              <SecondaryButton className="px-2 py-2" onClick={handleFavorite}>
                 <Heart size={20} />
-              </div>
-              <div className="btn-secondary p-2 cursor-pointer" onClick={handleCopyLink}>
+              </SecondaryButton>
+              <SecondaryButton className="px-2 py-2" onClick={handleCopyLink}>
                 <Link size={20} />
-              </div>
+              </SecondaryButton>
             </div>
           </div>
           <BackButton referer={referer} className="left-8 z-[10] absolute top-8 lg:hidden" />

@@ -9,6 +9,7 @@ import web3utils from 'web3-utils';
 import Price from '../Price';
 import { formatFees } from '@/helpers/formatters';
 import Loading from '../Loading';
+import PrimaryButton from '../Buttons/PrimaryButton';
 
 type ListProps = {
   className?: string;
@@ -111,12 +112,12 @@ const List: React.FC<ListProps> = ({ ...props }) => {
         </div>
       </div>
 
-      <button
-        className="btn-primary w-full h-12 max-h-12 mt-8 font-medium text-lg flex items-center justify-center"
+      <PrimaryButton
+        className="w-full h-12 max-h-12 mt-8 font-medium text-lg flex items-center justify-center"
         onClick={handleList(amount)}
       >
         {loading ? <Loading /> : 'List Asset'}
-      </button>
+      </PrimaryButton>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Counter from '@/components/Counter';
 import Header from '@/components/Header';
 import LayoutDefault from '@/components/LayoutDefault';
@@ -118,11 +119,11 @@ const UserPage: Page<Props> = ({ address, tab }) => {
   }, [address, filters]);
 
   const MobileFiltersButton = () => (
-    <div className="btn-secondary space-x-2 flex items-center h-10 lg:hidden mr-3" onClick={() => setOpenMobileFilters(!openMobileFilters)}>
+    <SecondaryButton className="space-x-2 h-10 lg:hidden mr-3" onClick={() => setOpenMobileFilters(!openMobileFilters)}>
       <Filter size={15} />
       <span>{openMobileFilters ? 'Close' : 'Filters'}</span>
       <Counter number={getNumSelectedFilters(filters.selected)} />
-    </div>
+    </SecondaryButton>
   );
 
   type OwnerOrSaleProps = {

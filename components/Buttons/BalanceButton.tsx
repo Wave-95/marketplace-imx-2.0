@@ -8,6 +8,7 @@ import numeral from 'numeral';
 import { Contract } from 'ethers';
 import { erc20_contract_addresses } from '@/constants/configs';
 import erc20ABI from '../../abis/erc20.json';
+import SecondaryButton from './SecondaryButton';
 
 const Balance = ({ ...props }) => {
   const {
@@ -68,7 +69,7 @@ const Balance = ({ ...props }) => {
         <EthIcon />
         <Link href="/balances">
           <a>
-            <button className="btn-secondary text-xs lg:text-base h-10">{'Balances'}</button>
+            <SecondaryButton className="text-xs lg:text-base h-10">{'Balances'}</SecondaryButton>
           </a>
         </Link>
       </div>
