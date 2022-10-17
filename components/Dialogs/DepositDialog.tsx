@@ -101,7 +101,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
             Max
           </SecondaryButton>
         </div>
-        <PrimaryButton className="w-full font-semibold flex justify-center" onClick={handleDeposit}>
+        <PrimaryButton className="w-full font-semibold !max-h-12 h-12" onClick={handleDeposit}>
           {loading ? <Loading /> : 'Deposit'}
         </PrimaryButton>
       </div>

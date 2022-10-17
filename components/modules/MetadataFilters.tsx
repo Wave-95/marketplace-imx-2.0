@@ -66,10 +66,10 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
 
   const FilterFooter = () => (
     <div className="h-16 bg-page border-t border-normal sticky bottom-0 px-6 items-center grid grid-cols-2 gap-4">
-      <SecondaryButton className="flex-1 max-h-12 h-12 font-semibold" onClick={clearAllFilters}>
+      <SecondaryButton className="flex-1 !max-h-12 !h-12 font-semibold" onClick={clearAllFilters}>
         Clear all
       </SecondaryButton>
-      <PrimaryButton className="flex-1 max-h-12 h-12 font-semibold" onClick={closeMobile}>
+      <PrimaryButton className="flex-1 !max-h-12 !h-12 font-semibold" onClick={closeMobile}>
         OK
       </PrimaryButton>
     </div>

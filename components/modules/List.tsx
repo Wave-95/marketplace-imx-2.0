@@ -112,10 +112,7 @@ const List: React.FC<ListProps> = ({ ...props }) => {
         </div>
       </div>
 
-      <PrimaryButton
-        className="w-full h-12 max-h-12 mt-8 font-medium text-lg flex items-center justify-center"
-        onClick={handleList(amount)}
-      >
+      <PrimaryButton className="w-full !h-12 !max-h-12 mt-8 font-medium text-lg" onClick={handleList(amount)}>
         {loading ? <Loading /> : 'List Asset'}
       </PrimaryButton>
     </div>

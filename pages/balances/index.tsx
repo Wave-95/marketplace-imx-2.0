@@ -43,10 +43,10 @@ const BalancesPage: Page = () => {
   const DepositWithdrawGroup = () => {
     return (
       <div className="space-x-4 lg:pr-8 pr-6 flex justify-end mb-8">
-        <PrimaryButton className="font-semibold" onClick={() => setDepositDialogOpen(true)}>
+        <PrimaryButton className="lg:max-h-12 lg:h-12 font-semibold" onClick={() => setDepositDialogOpen(true)}>
           {'Deposit'}
         </PrimaryButton>
-        <SecondaryButton className="max-h-12 h-12 font-semibold" onClick={() => setWithdrawDialogOpen(true)}>
+        <SecondaryButton className="lg:max-h-12 lg:h-12 font-semibold" onClick={() => setWithdrawDialogOpen(true)}>
           {'Withdraw'}
         </SecondaryButton>
       </div>

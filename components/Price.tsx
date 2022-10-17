@@ -5,12 +5,13 @@ import { EthIcon } from './Icons';
 type PriceProps = {
   amount: string;
   symbol: string;
+  showRate?: boolean;
   rate?: number;
   showLabel?: boolean;
   className?: string;
 };
 
-const Price: React.FC<PriceProps> = ({ amount, symbol, rate, showLabel = true, ...props }) => {
+const Price: React.FC<PriceProps> = ({ amount, symbol, showRate = true, rate, showLabel = true, ...props }) => {
   const priceFormatted = amount && formatCurrency(amount, symbol);
   const convertedRate = rate && Number(amount) * rate;
   const priceUSDFormatted = convertedRate && formatCurrency(convertedRate.toString(), 'USD');
@@ -37,7 +38,7 @@ const Price: React.FC<PriceProps> = ({ amount, symbol, rate, showLabel = true, .
             <div className="flex items-center leading-none text-primary tabular-nums">
               <span className="text-primary text-sm">{priceFormatted}</span>
               {CurrencyIcon}
-              <PriceUSD />
+              {showRate ? <PriceUSD /> : null}
             </div>
           </div>
         </div>

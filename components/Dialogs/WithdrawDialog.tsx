@@ -101,7 +101,7 @@ const WithdrawDialog: React.FC<Props> = ({ isOpen, closeDialog }) => {
             {'Max'}
           </SecondaryButton>
         </div>
-        <PrimaryButton className="w-full font-semibold flex justify-center" onClick={handleWithdraw}>
+        <PrimaryButton className="w-full font-semibold !max-h-12 h-12" onClick={handleWithdraw}>
           {loading ? <Loading /> : 'Withdraw'}
         </PrimaryButton>
       </div>

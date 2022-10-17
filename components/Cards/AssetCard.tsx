@@ -41,7 +41,7 @@ const AssetCard: React.FC<Props> = ({ asset, className, ...props }) => {
   const AssetDetails = () => (
     <div className="flex items-center justify-between p-4 border-t border-card-secondary-normal">
       <ByUser user={user} label={buyAmount ? 'Sold by' : 'Owned by'} />
-      {buyAmount && buySymbol ? <Price amount={buyAmount} symbol={buySymbol} rate={rate} /> : null}
+      {buyAmount && buySymbol ? <Price amount={buyAmount} symbol={buySymbol} rate={rate} showRate={false} /> : null}
     </div>
   );
 

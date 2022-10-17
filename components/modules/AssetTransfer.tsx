@@ -83,7 +83,7 @@ const AssetTransfer = ({ ...props }) => {
       </div>
       <PrimaryButton
         disabled={!isSameAddress(address, user)}
-        className="w-full h-12 max-h-12 mt-4 font-medium text-lg flex items-center justify-center"
+        className="w-full h-12 max-h-12 mt-4 font-medium text-lg"
         onClick={handleTransfer}
       >
         {loading ? <Loading /> : 'Transfer Asset'}
