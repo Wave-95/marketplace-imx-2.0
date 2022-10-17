@@ -1,7 +1,12 @@
 import { useRouter } from 'next/router';
 import React, { SyntheticEvent } from 'react';
+import cx from 'classnames';
 
-export default function ConnectWallet({ ...props }) {
+type Props = {
+  className?: string;
+};
+
+const ConnectWallet: React.FC<Props> = ({ className, ...props }) => {
   const router = useRouter();
 
   const redirectLogin = (e: SyntheticEvent) => {
@@ -10,8 +15,10 @@ export default function ConnectWallet({ ...props }) {
   };
 
   return (
-    <button className="btn-primary h-10" onClick={redirectLogin} {...props}>
+    <button className={cx('btn-primary h-10', className)} onClick={redirectLogin} {...props}>
       Connect Wallet
     </button>
   );
-}
+};
+
+export default ConnectWallet;

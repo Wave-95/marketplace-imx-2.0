@@ -62,7 +62,7 @@ const Balance = ({ ...props }) => {
   if (!address) return null;
 
   return (
-    <div className="h-10 border rounded-lg border-normal" {...props}>
+    <div className="h-10 border rounded-lg border-normal box-content" {...props}>
       <div className="flex items-center justify-center px-4 pr-0 space-x-2">
         <span>{l2BalanceETHFormatted}</span>
         <EthIcon />

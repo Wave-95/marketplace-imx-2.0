@@ -39,7 +39,7 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
   };
 
   const FilterHeader = () => (
-    <div className="flex items-center justify-between flex-shrink-0 h-16 px-6 pr-2 border-b bg-page border-normal">
+    <div className="flex items-center justify-between flex-shrink-0 h-16 px-6 pr-2 border-b bg-page border-normal border-t-0">
       <div className="flex items-center space-x-2">
         <Filter size={15} />
         <div className="font-medium">{'Filters'}</div>
@@ -101,7 +101,7 @@ const MetadataFilters: React.FC<Props> = ({ className, isMobile = false, height,
   };
 
   return (
-    <div className={cx('flex flex-col bg-page border border-normal', className)} id="metadata-filter" {...props}>
+    <div className={cx('flex flex-col bg-page border border-normal border-t-0', className)} id="metadata-filter" {...props}>
       {showHeader ? <FilterHeader /> : null}
       <FilterBody />
       {isMobile ? <FilterFooter /> : null}
