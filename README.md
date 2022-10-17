@@ -1,9 +1,9 @@
-This is a white-label [Marketplace](https://www.marketplace-imx.rippin.io/) code repository built with [Next.js](https://nextjs.org/docs/getting-started), [Tailwind](https://tailwindcss.com/docs/installation), and [Immutable X](https://docs.x.immutable.com/). This repository comes ready-built with core marketplace features to enable a seamless trading experience for your users.
+This is a template [Marketplace](https://www.marketplace-imx.rippin.io/) code repository built with [Next.js](https://nextjs.org/docs/getting-started), [Tailwind](https://tailwindcss.com/docs/installation), and [Immutable X](https://docs.x.immutable.com/). This repository comes ready-built with core marketplace features to enable a seamless trading experience for your users. Rebrand the template marketplace to match your project's unique style by customizing the theme configuration.
 
 ## Marketplace Summary
 Your marketplace <i>users</i> can:
 - Register to IMX
-- Connect with Metamask, WalletConnect, or Email (Beta)
+- Connect with Metamask, WalletConnect, or Email (WIP)
 - View NFTs
 - List NFTs for sale
 - Purchase NFTs
@@ -69,14 +69,14 @@ This project lightly uses [Headless UI](https://headlessui.com/), an unstyled co
 #### Styling
 This project uses abstract utility-first class names as opposed to semantic class names. Component styling heavy relies on the CSS variables stored in `styles/theme.css`. Those CSS variables are used to extend the default theme in the `tailwind.config.js` file. For more information on how to customize the theme using Tailwind, take a look at this [guide](https://tailwindcss.com/docs/theme#extending-the-default-theme).
 
-Light and dark theme modes are toggled by setting and un-setting the `.dark` CSS class on the application's document node. This is possible because light and dark CSS variables are declared under the `root` and `.dark` CSS classes respectively.
+To make changes to the application's _color_ styles, edit the CSS variables located in `styles/theme.css`. Note that the `theme.css` file contains CSS variables for both light and dark modes. The application will use a set of light or dark CSS variables on the condition that the `.dark` CSS class is added to the root document. This logic is written in the `ToggleTheme` component. 
 
-To make changes to the application's design system, edit the color and size values of the CSS variables located in `styles/theme.css`. To add new custom utility classes, create a new CSS variable and reference it in `tailwind.config.js`.
+To make changes to the application's _value_ styles (`borderRadius`, `minHeight`, `fontSize`, etc.), simply edit the values stored in the `tailwind.config.js` file.
 
 #### Connect Wallet / Wallet SDK
 The marketplace currently supports `MetaMask` and `WalletConnect` as its wallet providers. You will need to supply your own RPC URL to support `WalletConnect` when initializing the Wallet SDK in the `/helpers/imx.ts > buildWalletSDK` function. IMX has more information [here](https://docs.x.immutable.com/sdk-docs/wallet-sdk-web/quickstart).
 
-When connecting a user, the user will be prompted to sign a message with their wallet provider. Upon successful connection, the user will also sign a second message to register themselves onto the IMX platform. Registration is a pre-requisite to interacting in the IMX platform.
+When connecting a user, the user will be prompted to sign a message with their wallet provider. Upon successful connection, the user will sign a second message to register themselves onto the IMX platform. Registration is a pre-requisite to interacting in the IMX platform.
 
 #### IMX Core SDK
 The IMX Core SDK is initialized in the `helpers/imx.ts` file and the `client` object can be used anywhere in the application to read and write IMX data. When writing data, please make sure the user is connected to IMX and a `WalletConnection` is available to sign messages.
