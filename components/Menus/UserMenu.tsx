@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from './MenuItem';
 import Menu from '.';
-import { formatAddressEllipse } from '@/helpers/formatters';
+import { formatAddress } from '@/helpers/formatters';
 import { useRouter } from 'next/router';
 import SecondaryButton from '../Buttons/SecondaryButton';
 
@@ -46,7 +46,7 @@ export default function UserMenu({ ...props }) {
     <SecondaryButton className="h-10 space-x-1 lg:space-x-2 !justify-start pr-2" as="div">
       {WalletProviderIcon}
       <div className="flex items-center">
-        <span className="hidden lg:inline text-xs lg:text-base">{formatAddressEllipse(address)}</span>
+        <span className="hidden lg:inline text-xs lg:text-base">{formatAddress(address, 8)}</span>
       </div>
       <ChevronDown size={15} />
     </SecondaryButton>
@@ -54,7 +54,7 @@ export default function UserMenu({ ...props }) {
 
   const CopyAddress = (
     <MenuItem icon={<Copy size={20} />} onClick={handleCopyAddress}>
-      <span>{formatAddressEllipse(address)}</span>
+      <span>{formatAddress(address, 8)}</span>
     </MenuItem>
   );
 

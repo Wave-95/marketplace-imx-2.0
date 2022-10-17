@@ -1,4 +1,4 @@
-import { formatAddressEllipse } from '@/helpers/formatters';
+import { formatAddress } from '@/helpers/formatters';
 import Link from 'next/link';
 import cx from 'classnames';
 
@@ -16,7 +16,7 @@ const UserLink: React.FC<UserLinkProps> = ({ user, accentOn = false, ...props })
         target="_blank"
         rel="noreferrer"
       >
-        {formatAddressEllipse(user)}
+        {formatAddress(user)}
       </a>
     </Link>
   );

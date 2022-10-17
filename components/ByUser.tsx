@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { formatAddressEllipse } from '@/helpers/formatters';
+import { formatAddress } from '@/helpers/formatters';
 import { useUser } from '../providers';
 import { isSameAddress } from '../helpers';
 
@@ -17,7 +17,7 @@ const ByUser: React.FC<Props> = ({ label, user, ...props }) => {
     return null;
   }
   const isSame = isSameAddress(address, user);
-  const text = isSame ? 'You' : formatAddressEllipse(user);
+  const text = isSame ? 'You' : formatAddress(user);
 
   return (
     <div {...props}>

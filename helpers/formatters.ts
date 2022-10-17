@@ -254,7 +254,14 @@ export const formatObjValsToArrays = (obj: Object): ObjectWithArrayValues => {
   return newObj;
 };
 
-export const formatAddressEllipse = (address: string | null, width: number = 4) => {
+export const formatAddress = (address: string | null, width: number = 6) => {
+  if (!address) {
+    return '';
+  }
+  return address.slice(0, width);
+};
+
+export const formatAddressEllipse = (address: string | null, width: number = 6) => {
   if (!address) {
     return '';
   }
