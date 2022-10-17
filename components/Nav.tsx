@@ -5,6 +5,7 @@ import ConnectWalletButton from './Buttons/ConnectWalletButton';
 import { useUser } from '@/providers/UserProvider';
 import BalanceButton from './Buttons/BalanceButton';
 import Header from './Header';
+import Centered from './Containers/Centered';
 
 export default function Nav({ ...props }) {
   const {
@@ -18,15 +19,13 @@ export default function Nav({ ...props }) {
   );
 
   return (
-    <div className="sticky top-0 z-[100]" {...props}>
-      <Header className="border-b border-normal">
-        <LogoHome />
-        <div className="flex items-center space-x-2 lg:space-x-4 ml-auto">
-          <BalanceButton />
-          {address ? <UserMenu /> : <ConnectWalletButton />}
-          <DarkModeToggle />
-        </div>
-      </Header>
-    </div>
+    <Header className="sticky top-0 z-[100] border-b border-normal" {...props}>
+      <LogoHome />
+      <Centered className="space-x-2 lg:space-x-4 ml-auto">
+        <BalanceButton />
+        {address ? <UserMenu /> : <ConnectWalletButton />}
+        <DarkModeToggle />
+      </Centered>
+    </Header>
   );
 }

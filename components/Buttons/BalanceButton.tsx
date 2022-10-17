@@ -9,6 +9,7 @@ import { Contract } from 'ethers';
 import { erc20_contract_addresses } from '@/constants/configs';
 import erc20ABI from '../../abis/erc20.json';
 import SecondaryButton from './SecondaryButton';
+import Centered from '../Containers/Centered';
 
 const Balance = ({ ...props }) => {
   const {
@@ -64,7 +65,7 @@ const Balance = ({ ...props }) => {
 
   return (
     <div className="h-10 border rounded-lg border-normal box-content" {...props}>
-      <div className="flex items-center justify-center px-4 pr-0 space-x-2">
+      <Centered className="px-4 pr-0 space-x-2">
         <span>{l2BalanceETHFormatted}</span>
         <EthIcon />
         <Link href="/balances">
@@ -72,7 +73,7 @@ const Balance = ({ ...props }) => {
             <SecondaryButton className="text-xs lg:text-base h-10">{'Balances'}</SecondaryButton>
           </a>
         </Link>
-      </div>
+      </Centered>
     </div>
   );
 };

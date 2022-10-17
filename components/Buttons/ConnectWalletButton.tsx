@@ -17,7 +17,7 @@ const ConnectWallet: React.FC<Props> = ({ className, ...props }) => {
 
   return (
     <PrimaryButton className={cx('h-10', className)} onClick={redirectLogin} {...props}>
-      Connect Wallet
+      {'Connect Wallet'}
     </PrimaryButton>
   );
 };

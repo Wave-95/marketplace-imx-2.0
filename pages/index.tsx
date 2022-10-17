@@ -17,6 +17,7 @@ import { getNumSelectedFilters } from '../helpers';
 import useWindowSize from 'hooks';
 import { Page } from 'types/page';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
+import Centered from '@/components/Containers/Centered';
 
 const Marketplace: Page = () => {
   const { state: filters } = useFilters();
@@ -94,11 +95,11 @@ const Marketplace: Page = () => {
         <div className="w-full">
           <Header className="border-b border-normal sticky z-[10] top-[4rem] lg:top-[5rem] max-h-[4rem]">
             <div className="flex justify-between items-center">
-              <div className="flex items-center">
+              <Centered>
                 <h3 className="hidden mr-3 lg:block font-medium">{collection_name}</h3>
                 <MobileFiltersButton />
                 <div className="">{isLoading ? <Loading /> : null}</div>
-              </div>
+              </Centered>
             </div>
             <OrderByMenu />
           </Header>

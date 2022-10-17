@@ -21,8 +21,8 @@ switch (imx_env) {
 
 export const client = new ImmutableX(config);
 
-export const buildWalletSDK = async () =>
-  await WalletSDK.build({
+export const buildWalletSDK = async () => {
+  return await WalletSDK.build({
     env: wallet_sdk_environment,
     /*
           RPC config is only required if the WalletConnect provider (L1_PROVIDERS.WALLET_CONNECT)
@@ -44,6 +44,7 @@ export const buildWalletSDK = async () =>
         */
     chainID: chain_id,
   });
+};
 
 /*
 IMX Calls

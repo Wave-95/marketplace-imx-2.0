@@ -45,9 +45,7 @@ export default function UserMenu({ ...props }) {
   const MenuButtonChild = (
     <SecondaryButton className="h-10 space-x-1 lg:space-x-2 !justify-start pr-2" as="div">
       {WalletProviderIcon}
-      <div className="flex items-center">
-        <span className="hidden lg:inline text-xs lg:text-base">{formatAddress(address, 8)}</span>
-      </div>
+      <span className="hidden lg:inline text-xs lg:text-base">{formatAddress(address, 8)}</span>
       <ChevronDown size={15} />
     </SecondaryButton>
   );

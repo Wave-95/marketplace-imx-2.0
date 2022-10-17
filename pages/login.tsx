@@ -40,10 +40,12 @@ const LoginPage: Page<Props> = ({ referer }) => {
   };
 
   const connectWallet = async (provider: L1_PROVIDERS) => {
+    console.log('hi');
     const walletSDK = await buildWalletSDK();
     try {
       await walletSDK.connect({ provider });
       const walletConnection = await walletSDK.getWalletConnection();
+      console.log(walletConnection);
       //TODO: Remove re-casting when wallet-sdk update is released
       if (walletConnection) {
         const walletConnectionNew: WalletConnection = {

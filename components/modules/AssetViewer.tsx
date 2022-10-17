@@ -10,6 +10,8 @@ type Props = {
   infiniteScrollHeight?: string;
 };
 
+//#id is set to infinite-scroll-container so that { height: 100% } can be given to child div. See globals.css file
+
 const AssetViewer: React.FC<Props> = ({ assets, next, className, infiniteScrollHeight, ...props }) => {
   return (
     <div className={className} {...props} id="infinite-scroll-container">
