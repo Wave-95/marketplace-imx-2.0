@@ -11,7 +11,7 @@ export const order_by_keys = Object.keys(order_by_mapping);
 
 export const order_by_key_default: OrderByKey = 'newestListing';
 
-export const deposit_token_types = {
+export const token_symbols = {
   ETH: 'ETH',
   USDC: 'USDC',
   IMX: 'IMX',

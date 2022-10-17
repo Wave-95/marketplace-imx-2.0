@@ -15,27 +15,27 @@ import { ValueOf } from 'types';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import SecondaryButton from '../Buttons/SecondaryButton';
 
-type DepositDialogProps = {
+type Props = {
   isOpen: boolean;
   closeDialog: () => void;
 };
 
-type DepositTokenTypes = ValueOf<typeof token_symbols>;
+type WithdrawTokenTypes = ValueOf<typeof token_symbols>;
 
-const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) => {
-  const [selectedToken, setSelectedToken] = useState<DepositTokenTypes>('ETH');
-  const [depositAmount, setDepositAmount] = useState('');
+const WithdrawDialog: React.FC<Props> = ({ isOpen, closeDialog }) => {
+  const [selectedToken, setSelectedToken] = useState<WithdrawTokenTypes>('ETH');
+  const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
-  const token_options: DepositTokenTypes[] = ['ETH', 'IMX', 'USDC'];
+  const token_options: WithdrawTokenTypes[] = ['ETH', 'IMX', 'USDC'];
   const {
     state: {
-      balances: { l1: balancesL1 },
+      balances: { l2: balancesL2 },
       connection,
     },
   } = useUser();
 
-  const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDepositAmount(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value);
   };
 
   const handleTokenChange = (index: number) => () => {
@@ -43,15 +43,15 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
   };
 
   const handleMax = () => {
-    setDepositAmount(formatWeiToNumber(availableAmount));
+    setAmount(formatWeiToNumber(availableAmount));
   };
 
-  const availableAmount = balancesL1[selectedToken as DepositTokenTypes] || '0';
+  const availableAmount = balancesL2[selectedToken as WithdrawTokenTypes]?.balance || '0';
   const availableAmountFormatted = formatCurrency(formatWeiToNumber(availableAmount));
 
-  const handleDeposit = async () => {
+  const handleWithdraw = async () => {
     setLoading(true);
-    const amountWei = web3utils.toWei(depositAmount);
+    const amountWei = web3utils.toWei(amount);
     const inputAmount = web3utils.toBN(amountWei);
     const availAmount = web3utils.toBN(availableAmount);
 
@@ -69,7 +69,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
                 tokenAddress: erc20_contract_addresses[selectedToken],
                 amount: amountWei,
               } as ERC20Amount);
-        await client.deposit(connection?.ethSigner, tokenAmountPayload);
+        await client.prepareWithdrawal(connection, tokenAmountPayload);
         setLoading(false);
       } catch (e: any) {
         setLoading(false);
@@ -77,7 +77,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
           return toast.error('You have rejected the transaction.');
         }
         if (e.message.match(/error quantizing deposit amount/)) {
-          return toast.error('Deposit amount precision too high. Try truncating the amount.');
+          return toast.error('Withdraw amount precision too high. Try truncating the amount.');
         }
         toast.error('There was an issue depositing.');
       }
@@ -88,25 +88,25 @@ const DepositDialog: React.FC<DepositDialogProps> = ({ isOpen, closeDialog }) =>
   };
 
   return (
-    <Dialog title="Deposit token" isOpen={isOpen} closeDialog={closeDialog}>
+    <Dialog title="Withdraw token" isOpen={isOpen} closeDialog={closeDialog}>
       <div className="space-y-4">
         <div className="space-y-1">
           <span className="text-secondary text-sm">Select token</span>
           <TokenMenu selectedToken={selectedToken} tokenOptions={token_options} handleTokenChange={handleTokenChange} />
         </div>
-        <TextField label="Amount" value={depositAmount} onChange={handleDepositChange} />
+        <TextField label="Amount" value={amount} onChange={handleChange} />
         <div className="flex justify-between">
           <span className="text-xs text-secondary">{`Available: ${availableAmountFormatted} ${selectedToken}`}</span>
           <SecondaryButton className="text-xs font-normal px-2 py-1" onClick={handleMax}>
-            Max
+            {'Max'}
           </SecondaryButton>
         </div>
-        <PrimaryButton className="w-full font-semibold flex justify-center" onClick={handleDeposit}>
-          {loading ? <Loading /> : 'Deposit'}
+        <PrimaryButton className="w-full font-semibold flex justify-center" onClick={handleWithdraw}>
+          {loading ? <Loading /> : 'Withdraw'}
         </PrimaryButton>
       </div>
     </Dialog>
   );
 };
 
-export default DepositDialog;
+export default WithdrawDialog;

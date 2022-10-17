@@ -1,12 +1,19 @@
 import { formatAddress } from '@/helpers/formatters';
 import Link from 'next/link';
 import cx from 'classnames';
+import { isSameAddress } from '@/helpers/index';
+import { useUser } from '@/providers/UserProvider';
 
 type UserLinkProps = {
   user: string;
   accentOn?: boolean;
 };
 const UserLink: React.FC<UserLinkProps> = ({ user, accentOn = false, ...props }) => {
+  const {
+    state: { address },
+  } = useUser();
+  const isSame = isSameAddress(address, user);
+  const text = isSame ? 'You' : formatAddress(user);
   return (
     <Link {...props} href={`/users/${user}`} passHref>
       <a
@@ -16,7 +23,7 @@ const UserLink: React.FC<UserLinkProps> = ({ user, accentOn = false, ...props })
         target="_blank"
         rel="noreferrer"
       >
-        {formatAddress(user)}
+        {text}
       </a>
     </Link>
   );

@@ -1,22 +1,24 @@
 import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
-import { WalletConnection } from '@imtbl/core-sdk';
+import { Deposit, WalletConnection, Withdrawal } from '@imtbl/core-sdk';
 import { buildWalletSDK } from '@/helpers/imx';
 import { FormattedBalances } from '@/helpers/formatters';
-import { deposit_token_types } from '../constants';
+import { token_symbols } from '../constants';
 import { ValueOf } from 'types';
 
 type BalanceL1 = {
-  [key in ValueOf<typeof deposit_token_types>]?: string;
+  [key in ValueOf<typeof token_symbols>]?: string;
 };
 type State = {
   connection: WalletConnection | null;
   address: string | null;
   isConnected: boolean;
   balances: { l1: BalanceL1; l2: FormattedBalances };
+  deposits: Deposit[] | null;
+  withdrawals: Withdrawal[] | null;
 };
 
 type Action = {
-  type: 'connect' | 'disconnect' | 'set_address' | 'set_l1_balances' | 'set_l2_balances';
+  type: 'connect' | 'disconnect' | 'set_address' | 'set_l1_balances' | 'set_l2_balances' | 'set_deposits' | 'set_withdrawals';
   payload?: any;
 };
 
@@ -32,6 +34,8 @@ const INITIAL_STATE = {
   address: null,
   isConnected: false,
   balances: { l1: {}, l2: {} },
+  deposits: null,
+  withdrawals: null,
 };
 
 const userReducer = (state: State, action: Action) => {
@@ -46,6 +50,10 @@ const userReducer = (state: State, action: Action) => {
       return { ...state, balances: { ...state.balances, l1: action.payload } };
     case 'set_l2_balances':
       return { ...state, balances: { ...state.balances, l2: action.payload } };
+    case 'set_deposits':
+      return { ...state, deposits: action.payload };
+    case 'set_withdrawals':
+      return { ...state, withdrawals: action.payload };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
