@@ -7,22 +7,18 @@ import WithdrawDialog from '@/components/Dialogs/WithdrawDialog';
 import LayoutDefault from '@/components/LayoutDefault';
 import UserHeader from '@/components/modules/UserHeader';
 import TabGroup from '@/components/TabGroup';
-import { formatWeiToNumber, toLocalTime } from '@/helpers/formatters';
+import BalancesTable from '@/components/Tables/BalancesTable';
+import DepositsTable from '@/components/Tables/DepositsTable';
+import WithdrawalsTable from '@/components/Tables/WithdrawalsTable';
 import { client } from '@/helpers/imx';
 import { useUser } from '@/providers/UserProvider';
 import Head from 'next/head';
-import numeral from 'numeral';
 import React, { useEffect, useState } from 'react';
 import { Page } from 'types/page';
 
 const BalancesPage: Page = () => {
   const {
-    state: {
-      address,
-      balances: { l2: l2Balances },
-      deposits,
-      withdrawals,
-    },
+    state: { address },
     dispatch,
   } = useUser();
   const [depositDialogOpen, setDepositDialogOpen] = useState(false);
@@ -50,98 +46,6 @@ const BalancesPage: Page = () => {
           {'Withdraw'}
         </SecondaryButton>
       </div>
-    );
-  };
-
-  const BalancesTable = () => {
-    const tableDataJSX = Object.entries(l2Balances).map(([symbol, data], idx) => {
-      const balance = data?.balance || '0';
-      const balanceFormatted = numeral(formatWeiToNumber(balance)).format('0[.]0[000]a');
-      return (
-        <tr className="border border-normal" key={`balance-tr-${idx}`}>
-          <td className="px-4 py-2">{symbol}</td>
-          <td className="px-4 py-2 text-sm">{balanceFormatted}</td>
-        </tr>
-      );
-    });
-    return (
-      <table className="table-fixed w-full border-collapse">
-        <thead className="bg-table-header text-left h-[50px] border border-normal">
-          <tr>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Asset'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'L2 Balance'}</th>
-          </tr>
-        </thead>
-        <tbody>{tableDataJSX}</tbody>
-      </table>
-    );
-  };
-
-  const DepositsTable = () => {
-    if (!deposits) {
-      return null;
-    }
-    const filteredDeposits = deposits.filter(({ token }) => token.type === 'ETH' || token.type === 'ERC20');
-    const tableDataJSX = filteredDeposits.map(({ status, token, timestamp }, idx) => {
-      const amount = token?.data?.quantity;
-      const amountFormatted = numeral(formatWeiToNumber(amount)).format('0[.]0[000]a');
-      const symbol = token?.data?.symbol || 'ETH';
-
-      return (
-        <tr className="border border-normal" key={`balance-tr-${idx}`}>
-          <td className="px-4 py-2">{symbol}</td>
-          <td className="px-4 py-2 text-sm">{amountFormatted}</td>
-          <td className="px-4 py-2 text-sm">{toLocalTime(timestamp)}</td>
-          <td className="px-4 py-2 text-sm capitalize">{status}</td>
-        </tr>
-      );
-    });
-    return (
-      <table className="table-fixed w-full border-collapse">
-        <thead className="bg-table-header text-left h-[50px] border border-normal">
-          <tr>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Asset'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Amount'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Date'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Status'}</th>
-          </tr>
-        </thead>
-        <tbody>{tableDataJSX}</tbody>
-      </table>
-    );
-  };
-
-  const WithdrawalsTable = () => {
-    if (!withdrawals) {
-      return null;
-    }
-    const filteredWithdrawals = withdrawals.filter(({ token }) => token.type === 'ETH' || token.type === 'ERC20');
-    const tableDataJSX = filteredWithdrawals.map(({ rollup_status, token, timestamp }, idx) => {
-      const amount = token?.data?.quantity;
-      const amountFormatted = numeral(formatWeiToNumber(amount)).format('0[.]0[000]a');
-      const symbol = token?.data?.symbol || 'ETH';
-
-      return (
-        <tr className="border border-normal" key={`balance-tr-${idx}`}>
-          <td className="px-4 py-2">{symbol}</td>
-          <td className="px-4 py-2 text-sm">{amountFormatted}</td>
-          <td className="px-4 py-2 text-sm">{toLocalTime(timestamp)}</td>
-          <td className="px-4 py-2 text-sm capitalize">{rollup_status}</td>
-        </tr>
-      );
-    });
-    return (
-      <table className="table-fixed w-full border-collapse">
-        <thead className="bg-table-header text-left h-[50px] border border-normal">
-          <tr>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Asset'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Amount'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Date'}</th>
-            <th className="px-4 py-2 text-sm text-secondary font-semibold">{'Status'}</th>
-          </tr>
-        </thead>
-        <tbody>{tableDataJSX}</tbody>
-      </table>
     );
   };
 

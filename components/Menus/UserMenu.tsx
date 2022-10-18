@@ -1,7 +1,7 @@
 import { useUser } from '@/providers/UserProvider';
 import Link from 'next/link';
 import React from 'react';
-import { Briefcase, ChevronDown, Copy, Power } from 'react-feather';
+import { Briefcase, ChevronDown, Copy, Power, User } from 'react-feather';
 import { toast } from 'react-toastify';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from './MenuItem';
@@ -51,16 +51,28 @@ export default function UserMenu({ ...props }) {
   );
 
   const CopyAddress = (
-    <MenuItem icon={<Copy size={20} />} onClick={handleCopyAddress}>
-      <span>{formatAddress(address, 8)}</span>
+    <MenuItem icon={<Copy size={20} />} onClick={handleCopyAddress} className="min-w-[125px]">
+      <span className="whitespace-nowrap">{'Copy Address'}</span>
     </MenuItem>
   );
 
-  const MyAssets = (
+  const ViewProfile = (
     <Link href={`/users/${address}`}>
-      <MenuItem icon={<Briefcase size={20} />}>
-        <a>My Assets</a>
-      </MenuItem>
+      <a>
+        <MenuItem icon={<User size={20} />}>
+          <span className="whitespace-nowrap">{'View Profile'}</span>
+        </MenuItem>
+      </a>
+    </Link>
+  );
+
+  const ViewBalances = (
+    <Link href={`/balances`}>
+      <a>
+        <MenuItem icon={<Briefcase size={20} />}>
+          <span className="whitespace-nowrap">{'View Balances'}</span>
+        </MenuItem>
+      </a>
     </Link>
   );
 
@@ -70,7 +82,7 @@ export default function UserMenu({ ...props }) {
     </MenuItem>
   );
 
-  const MenuItems = [CopyAddress, MyAssets, Disconnect];
+  const MenuItems = [CopyAddress, ViewProfile, ViewBalances, Disconnect];
 
   return <Menu buttonChild={MenuButtonChild} menuItems={MenuItems} {...props} />;
 }
