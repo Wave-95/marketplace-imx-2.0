@@ -40,7 +40,6 @@ const LoginPage: Page<Props> = ({ referer }) => {
   };
 
   const connectWallet = async (provider: L1_PROVIDERS) => {
-    console.log('hi');
     const walletSDK = await buildWalletSDK();
     try {
       await walletSDK.connect({ provider });

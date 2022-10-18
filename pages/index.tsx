@@ -18,6 +18,7 @@ import useWindowSize from 'hooks';
 import { Page } from 'types/page';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Centered from '@/components/Containers/Centered';
+import MarketplaceActivityTable from '@/components/Tables/MarketplaceActivityTable';
 
 const Marketplace: Page = () => {
   const { state: filters } = useFilters();
