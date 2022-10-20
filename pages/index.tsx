@@ -1,118 +1,62 @@
-import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
-import cx from 'classnames';
-import { collection_name } from '@/constants/configs';
-import AssetViewer from '@/components/modules/AssetViewer';
-import LayoutDefault from '@/components/LayoutDefault';
-import { listActiveOrders } from '@/helpers/imx';
-import { formatActiveOrders, formatFiltersToOrdersApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
-import MetadataFilters from '@/components/modules/MetadataFilters';
-import { useFilters } from '../providers';
-import Header from '@/components/Header';
-import Loading from '@/components/Loading';
-import OrderByMenu from '@/components/Menus/OrderByMenu';
-import { Filter } from 'react-feather';
-import Counter from '@/components/Counter';
-import { getNumSelectedFilters } from '../helpers';
-import useWindowSize from 'hooks';
-import { Page } from 'types/page';
+import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Centered from '@/components/Containers/Centered';
-import MarketplaceActivityTable from '@/components/Tables/MarketplaceActivityTable';
+import LayoutDefault from '@/components/LayoutDefault';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const Marketplace: Page = () => {
-  const { state: filters } = useFilters();
-  const [activeOrders, setActiveOrders] = useState<FormattedActiveOrder[]>([]);
-  const [cursor, setCursor] = useState<string>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [openMobileFilters, setOpenMobileFilters] = useState(false);
-  const [_w, availHeight] = useWindowSize();
-  const mobileFiltersHeight = `calc(${availHeight}px - 8rem)`;
+const Home = () => {
+  const SampleImage = ({ id }: { id: string }) => (
+    <div className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] relative dark:bg-gray-100 bg-gray-800 rounded-lg">
+      <Image src={`https://rippin-imx-collection-test.s3.us-west-1.amazonaws.com/${id}.png`} layout="fill" objectFit="contain" />
+    </div>
+  );
 
-  const page_title = `Marketplace | ${collection_name}`;
+  const Introduction = () => (
+    <div className="bg-card-primary-active rounded-lg min-h-[500px] flex items-center mb-12">
+      <div className="p-8 lg:p-12 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8 w-full">
+        <div className="space-y-2 self-center mb-10">
+          <h1 className="font-bold text-2xl">{'Introducing XYZ Marketplace'}</h1>
+          <p>{'The one-stop-shop to buy & trade your favorite in-game items.'}</p>
+          <div className="space-x-4 flex !mt-8">
+            <Link href="/#test">
+              <a>
+                <PrimaryButton className="!px-6 !py-6 font-semibold">{'Buy Items'}</PrimaryButton>
+              </a>
+            </Link>
+            <Link href="/trade">
+              <a>
+                <SecondaryButton className="!px-6 !py-6 font-semibold">{'Trade Items'}</SecondaryButton>
+              </a>
+            </Link>
+          </div>
+        </div>
+        <Centered direction="col" className="space-y-4 hidden md:flex">
+          <div className="relative min-h-[400px] min-w-[500px]">
+            <Image src={'/handshake.png'} quality={100} objectFit="contain" objectPosition="center" layout="fill" className="rounded-lg" />
+          </div>
+        </Centered>
+      </div>
+    </div>
+  );
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    const filterParams = formatFiltersToOrdersApiRequest(filters);
-    const activeOrdersResponse = await listActiveOrders({
-      ...filterParams,
-    });
-    const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
-    setActiveOrders(activeOrdersFormatted);
-    setCursor(activeOrdersResponse.cursor);
-    setIsLoading(false);
-  };
-
-  const fetchNextData = async () => {
-    if (!cursor) {
-      return;
-    }
-    console.log('fetching next...');
-    setIsLoading(true);
-    const filterParams = formatFiltersToOrdersApiRequest(filters);
-    const activeOrdersResponse = await listActiveOrders({
-      ...filterParams,
-      cursor,
-    });
-    const activeOrdersFormatted = formatActiveOrders(activeOrdersResponse.result);
-    const totalActiveOrders = activeOrders.concat(activeOrdersFormatted);
-    setActiveOrders(totalActiveOrders);
-    setCursor(activeOrdersResponse.cursor);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [filters.selected, filters.orderByKey]);
-
-  const MobileFiltersButton = () => (
-    <SecondaryButton className="space-x-2 h-10 lg:hidden mr-3" onClick={() => setOpenMobileFilters(!openMobileFilters)}>
-      <Filter size={15} />
-      <span>{openMobileFilters ? 'Close' : 'Filters'}</span>
-      <Counter number={getNumSelectedFilters(filters.selected)} />
-    </SecondaryButton>
+  const Store = () => (
+    <div id="primary-sales">
+      <h1 className="font-bold text-2xl mb-8">Store</h1>
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">TBD</div>
+    </div>
   );
 
   return (
-    <>
-      <Head>
-        <title>{page_title}</title>
-        <meta name="description" content="Description goes here" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {openMobileFilters ? (
-        <MetadataFilters
-          className={`lg:hidden absolute w-full z-[10] top-[8rem]`}
-          isMobile
-          closeMobile={() => setOpenMobileFilters(false)}
-          height={mobileFiltersHeight}
-          showFooter
-        />
-      ) : null}
-      <div className="flex-1 flex">
-        <div className="hidden lg:block w-sidebar">
-          <MetadataFilters className="sticky top-[4rem] lg:top-[5rem] border-r border-normal h-headerless" showHeader />
-        </div>
-        <div className="w-full">
-          <Header className="border-b border-normal sticky z-[10] top-[4rem] lg:top-[5rem] max-h-[4rem]">
-            <div className="flex justify-between items-center">
-              <Centered>
-                <h3 className="hidden mr-3 lg:block font-medium">{collection_name}</h3>
-                <MobileFiltersButton />
-                <div className="">{isLoading ? <Loading /> : null}</div>
-              </Centered>
-            </div>
-            <OrderByMenu />
-          </Header>
-          <AssetViewer assets={activeOrders} next={fetchNextData} className={cx({ hidden: openMobileFilters })} />
-        </div>
-      </div>
-    </>
+    <div className="lg:px-6 px-4">
+      <Introduction />
+      <Store />
+    </div>
   );
 };
 
-export default Marketplace;
-
-Marketplace.getLayout = (page: React.ReactNode) => {
+Home.getLayout = (page: React.ReactNode) => {
   return <LayoutDefault>{page}</LayoutDefault>;
 };
+
+export default Home;

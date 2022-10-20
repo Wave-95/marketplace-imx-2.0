@@ -92,8 +92,6 @@
     --colors-bg-silver: hsl(205, 10.7%, 78%);
     --colors-bg-bronze: hsl(17, 25.1%, 66.5%);
     --colors-bg-token-amount: transparent;
-    --colors-bg-white-captured-pieces: hsl(0, 0%, 97.3%);
-    --colors-bg-black-captured-pieces: hsl(0, 0%, 97.3%);
     --colors-bg-button-primary-normal: hsla(0, 0%, 0%, 0.91);
     --colors-bg-button-primary-hover: hsla(0, 0%, 0%, 0.91);
     --colors-bg-button-primary-active: hsla(0, 0%, 0%, 0.91);
@@ -325,8 +323,6 @@
     --colors-bg-ip: hsla(40, 97.5%, 80.6%, 0.065);
     --colors-bg-token-amount: transparent;
     --colors-bg-current: var(--bg-current);
-    --colors-bg-white-captured-pieces: hsl(0, 0%, 8.5%);
-    --colors-bg-black-captured-pieces: hsla(0, 0%, 100%, 0.592);
     --colors-bg-button-primary-normal: #fff;
     --colors-bg-button-primary-hover: hsla(0, 0%, 100%, 0.923);
     --colors-bg-button-primary-active: hsla(0, 0%, 100%, 0.923);

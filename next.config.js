@@ -8,7 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['card.godsunchained.com'],
+    domains: ['card.godsunchained.com', 'rippin-imx-collection-test.s3.us-west-1.amazonaws.com'],
   },
 };
 

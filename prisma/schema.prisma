@@ -16,6 +16,7 @@ model User {
   updatedAt DateTime @updatedAt
   email     String?  @unique
   address   String
+  sales     Sale[]
 }
 
 model Asset {
@@ -27,14 +28,38 @@ model Asset {
 }
 
 model Metadata {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  image     String
-  rarity    String
-  attack    Int
-  set       String
-  itemType  String
-  assets    Asset[]
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  name        String
+  image       String
+  rarity      String
+  attack      Int
+  set         String
+  itemType    String
+  assets      Asset[]
+  saleDetails SaleDetail[]
+}
+
+model SaleDetail {
+  id           Int       @id @default(autoincrement())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  metadata     Metadata  @relation(fields: [metadataId], references: [id])
+  metadataId   Int
+  price        Float
+  expiration   DateTime?
+  totalSupply  Int?
+  quantitySold Int?      @default(0)
+  sales        Sale[]
+}
+
+model Sale {
+  id           String     @id @default(uuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  saleDetail   SaleDetail @relation(fields: [saleDetailId], references: [id])
+  saleDetailId Int
 }
