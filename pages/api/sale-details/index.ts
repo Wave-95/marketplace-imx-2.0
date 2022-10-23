@@ -4,7 +4,15 @@ import { prisma } from '../../../lib/prisma';
 const handler: NextApiHandler = async (req, res) => {
   //TODO: Validation & Error handling
   if (req.method === 'POST') {
-    const { metadata_id, price = null, expiration = null, total_supply = null, quantity_sold = null, active = true } = req.body;
+    const {
+      metadata_id,
+      price = null,
+      start_at = null,
+      end_at = null,
+      total_supply = null,
+      quantity_sold = null,
+      active = true,
+    } = req.body;
     if (typeof metadata_id !== 'number') {
       res.status(400).json({ message: 'Invalid metadata_id.' });
     } else {
@@ -13,7 +21,7 @@ const handler: NextApiHandler = async (req, res) => {
         res.status(400).json({ message: `Metadata not found for metadata_id: ${metadata_id}` });
       } else {
         const newSaleDetail = await prisma.saleDetail.create({
-          data: { metadata_id, price, expiration, total_supply, quantity_sold, active },
+          data: { metadata_id, price, start_at, end_at, total_supply, quantity_sold, active },
         });
         res.json(newSaleDetail);
       }

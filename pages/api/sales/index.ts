@@ -52,12 +52,12 @@ const handler: NextApiHandler = async (req, res) => {
     const signer = new Wallet(process.env.MINTER_PRIVATE_KEY, provider) as EthSigner;
     const mintPayload = {
       contract_address: token_address,
-      users: [{ tokens: [{ id: asset.id.toString() }], user: address }],
+      users: [{ tokens: [{ id: asset.id.toString(), blueprint: asset.id.toString() }], user: address }],
     };
     //Mint asset in IMX
     await client.mint(signer, mintPayload);
 
-    const sale = await prisma.sale.create({ data: { user_id: user.id, sale_detail_id: saleDetail.id } });
+    const sale = await prisma.sale.create({ data: { user_id: user.id, sale_detail_id: saleDetail.id, asset_id: asset.id } });
     //Return Sale
     res.json(sale);
   }

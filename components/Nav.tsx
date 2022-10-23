@@ -22,13 +22,13 @@ export default function Nav({ ...props }) {
   const TradeCTA = () => (
     <Link href="/trade">
       <a>
-        <PrimaryButton className="font-semibold h-9">{'Trade'}</PrimaryButton>
+        <PrimaryButton className="font-semibold">{'Trade'}</PrimaryButton>
       </a>
     </Link>
   );
 
   return (
-    <Header className="sticky top-0 z-[100]" {...props}>
+    <Header className="sticky top-0 z-[100] border-b border-normal" {...props}>
       <LogoHome />
       <Centered className="space-x-2 lg:space-x-4 ml-auto">
         <TradeCTA />
