@@ -1,6 +1,6 @@
 import { token_address } from '@/constants/configs';
 import { formatWeiToNumber } from '@/helpers/formatters';
-import { client } from '@/helpers/imx';
+import { client } from 'lib/imx';
 import numeral from 'numeral';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';

@@ -2,9 +2,9 @@ import { ENVIRONMENTS } from '@imtbl/wallet-sdk-web';
 
 export const imx_env = process.env.NEXT_PUBLIC_IMX_ENV || 'SANDBOX';
 
-export const collection_name = process.env.NEXT_PUBLIC_COLLECTION_NAME || 'Gods Unchained';
+export const collection_name = process.env.NEXT_PUBLIC_COLLECTION_NAME || 'Test';
 
-export const chain_id = Number(process.env.NEXT_PUBLIC_CHAIN_ID) || 3;
+export const chain_id = Number(process.env.NEXT_PUBLIC_CHAIN_ID) || 5;
 
 export const wallet_sdk_environment = (process.env.NEXT_PUBLIC_WALLET_SDK_ENVIRONMENT as ENVIRONMENTS) || 'staging';
 

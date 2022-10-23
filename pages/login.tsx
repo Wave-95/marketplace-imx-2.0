@@ -7,7 +7,7 @@ import LayoutDefault from '@/components/LayoutDefault';
 import { collection_name } from '@/constants/configs';
 import Container from '@/components/Containers/Container';
 import IconButton from '@/components/Buttons/IconButton';
-import { client, buildWalletSDK } from '@/helpers/imx';
+import { client, buildWalletSDK } from '../lib/imx';
 import { useUser } from '@/providers/UserProvider';
 import { useRouter } from 'next/router';
 import { WalletConnection } from '@imtbl/core-sdk';

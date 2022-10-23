@@ -2,7 +2,7 @@ import ByUser from '@/components/ByUser';
 import LayoutDefault from '@/components/LayoutDefault';
 import Metadata from '@/components/modules/Metadata';
 import TabGroup from '@/components/TabGroup';
-import { getActiveOrder, getAsset } from '@/helpers/imx';
+import { getActiveOrder, getAsset } from 'lib/imx';
 import { useUser } from '@/providers/UserProvider';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';

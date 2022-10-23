@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useUser } from '@/providers/UserProvider';
 import { formatBalances, formatWeiToNumber } from '@/helpers/formatters';
 import { EthIcon } from '../Icons';
-import { client } from '@/helpers/imx';
+import { client } from 'lib/imx';
 import numeral from 'numeral';
 import { Contract } from 'ethers';
 import { erc20_contract_addresses } from '@/constants/configs';
@@ -70,7 +70,7 @@ const Balance = ({ ...props }) => {
         <EthIcon />
         <Link href="/balances">
           <a>
-            <SecondaryButton className="text-xs lg:text-base h-10">{'Balances'}</SecondaryButton>
+            <SecondaryButton>{'Balances'}</SecondaryButton>
           </a>
         </Link>
       </Centered>

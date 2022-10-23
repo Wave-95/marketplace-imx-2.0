@@ -5,7 +5,7 @@ export const metadata = [
     rarity: 'Epic',
     attack: 3,
     set: 'Genesis',
-    itemType: 'Two-Handed Weapon',
+    item_type: 'Two-Handed Weapon',
   },
   {
     name: 'Bone Pick',
@@ -13,7 +13,7 @@ export const metadata = [
     rarity: 'Rare',
     attack: 3,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Boomerang',
@@ -21,7 +21,7 @@ export const metadata = [
     rarity: 'Common',
     attack: 1,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Bow and Arrow',
@@ -29,7 +29,7 @@ export const metadata = [
     rarity: 'Lengedary',
     attack: 9,
     set: 'Genesis',
-    itemType: 'Two-Handed Weapon',
+    item_type: 'Two-Handed Weapon',
   },
   {
     name: 'Club',
@@ -37,7 +37,7 @@ export const metadata = [
     rarity: 'Common',
     attack: 2,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Slingshot',
@@ -45,7 +45,7 @@ export const metadata = [
     rarity: 'Rare',
     attack: 1,
     set: 'Genesis',
-    itemType: 'Two-Handed Weapon',
+    item_type: 'Two-Handed Weapon',
   },
   {
     name: 'Knife',
@@ -53,7 +53,7 @@ export const metadata = [
     rarity: 'Rare',
     attack: 4,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Rock',
@@ -61,7 +61,7 @@ export const metadata = [
     rarity: 'Common',
     attack: 2,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Stone Axe',
@@ -69,7 +69,7 @@ export const metadata = [
     rarity: 'Epic',
     attack: 6,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Stone Hammer',
@@ -77,7 +77,7 @@ export const metadata = [
     rarity: 'Epic',
     attack: 5,
     set: 'Genesis',
-    itemType: 'One-Handed Weapon',
+    item_type: 'One-Handed Weapon',
   },
   {
     name: 'Stone Spear',
@@ -85,6 +85,6 @@ export const metadata = [
     rarity: 'Legendary',
     attack: 7,
     set: 'Genesis',
-    itemType: 'Two-Handed Weapon',
+    item_type: 'Two-Handed Weapon',
   },
 ];

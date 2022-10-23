@@ -1,5 +1,5 @@
 import { formatAvailableFilters, formatQueryToFilterState } from '@/helpers/formatters';
-import { getAvailableFilters } from '@/helpers/imx';
+import { getAvailableFilters } from 'lib/imx';
 import { CollectionFilter } from '@imtbl/core-sdk';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react';

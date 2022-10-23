@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { collection_name } from '@/constants/configs';
 import AssetViewer from '@/components/modules/AssetViewer';
 import LayoutDefault from '@/components/LayoutDefault';
-import { listActiveOrders } from '@/helpers/imx';
+import { listActiveOrders } from 'lib/imx';
 import { formatActiveOrders, formatFiltersToOrdersApiRequest, FormattedActiveOrder } from '@/helpers/formatters';
 import MetadataFilters from '@/components/modules/MetadataFilters';
 import { useFilters } from '../../providers';

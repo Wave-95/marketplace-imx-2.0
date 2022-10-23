@@ -8,7 +8,7 @@ import { formatWeiToNumber } from '@/helpers/formatters';
 import { usePrices } from '@/providers/PricesProvider';
 import { useUser } from '@/providers/UserProvider';
 import { isSameAddress } from '@/helpers/index';
-import { client, getAsset } from '@/helpers/imx';
+import { client, getAsset } from 'lib/imx';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Loading from '../Loading';

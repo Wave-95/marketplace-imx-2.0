@@ -16,7 +16,7 @@ import {
   FormattedActiveOrder,
   FormattedAsset,
 } from '@/helpers/formatters';
-import { listActiveOrders, listAssetsByAddress } from '@/helpers/imx';
+import { listActiveOrders, listAssetsByAddress } from 'lib/imx';
 import { getNumSelectedFilters } from '@/helpers/index';
 import { useFilters } from '@/providers/FiltersProvider';
 import useWindowSize from 'hooks';

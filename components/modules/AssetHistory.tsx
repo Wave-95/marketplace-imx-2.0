@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Order, Transfer } from '@imtbl/core-sdk';
 import dayjs from 'dayjs';
 import { useAsset, usePrices } from '../../providers';
-import { listERC721FilledOrders, listERC721Transfers } from '@/helpers/imx';
+import { listERC721FilledOrders, listERC721Transfers } from 'lib/imx';
 import { Box, Send, ShoppingCart } from 'react-feather';
 import Loading from '../Loading';
 import EventCard from '../Cards/EventCard';

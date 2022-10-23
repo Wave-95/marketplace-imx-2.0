@@ -10,7 +10,7 @@ import TabGroup from '@/components/TabGroup';
 import BalancesTable from '@/components/Tables/BalancesTable';
 import DepositsTable from '@/components/Tables/DepositsTable';
 import WithdrawalsTable from '@/components/Tables/WithdrawalsTable';
-import { client } from '@/helpers/imx';
+import { client } from 'lib/imx';
 import { useUser } from '@/providers/UserProvider';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';

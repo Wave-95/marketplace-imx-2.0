@@ -4,7 +4,7 @@ import TextField from '../TextField';
 import { useAsset, useUser } from '@/providers';
 import { isSameAddress } from '../../helpers';
 import { toast } from 'react-toastify';
-import { client, getAsset } from '@/helpers/imx';
+import { client, getAsset } from 'lib/imx';
 import { token_address } from '@/constants/configs';
 import { AlertTriangle } from 'react-feather';
 import Loading from '../Loading';

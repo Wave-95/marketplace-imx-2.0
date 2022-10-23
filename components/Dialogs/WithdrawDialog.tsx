@@ -5,7 +5,7 @@ import TokenMenu from '../Menus/TokenMenu';
 import TextField from '../TextField';
 import Dialog from '.';
 import { formatCurrency, formatWeiToNumber } from '@/helpers/formatters';
-import { client } from '@/helpers/imx';
+import { client } from 'lib/imx';
 import { erc20_contract_addresses } from '@/constants/configs';
 import { ERC20Amount, ETHAmount } from '@imtbl/core-sdk';
 import { toast } from 'react-toastify';

@@ -22,7 +22,7 @@ export default function Nav({ ...props }) {
   const TradeCTA = () => (
     <Link href="/trade">
       <a>
-        <PrimaryButton className="font-semibold">{'Trade'}</PrimaryButton>
+        <PrimaryButton className="font-semibold h-9">{'Trade'}</PrimaryButton>
       </a>
     </Link>
   );

@@ -1,5 +1,5 @@
-import { client } from '@/helpers/imx';
-import { buildMagicAndProvider } from '@/helpers/magic';
+import { client } from 'lib/imx';
+import { buildMagicAndProvider } from 'lib/magic';
 import { useUser } from '@/providers/UserProvider';
 import { createStarkSigner, generateStarkPrivateKey, WalletConnection } from '@imtbl/core-sdk';
 import { useState } from 'react';

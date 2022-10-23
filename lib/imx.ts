@@ -30,7 +30,7 @@ export const buildWalletSDK = async () => {
           https://docs.walletconnect.com/quick-start/dapps/web3-provider#provider-options
         */
     rpc: {
-      [chain_id]: 'https://ropsten.mycustomnode.com',
+      [chain_id]: 'https://goerli.mycustomnode.com',
     },
     /*
           Will switch the chain based on this configured chainID when connecting to the wallet.(Optional)
