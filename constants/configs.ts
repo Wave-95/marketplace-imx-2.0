@@ -10,7 +10,8 @@ export const wallet_sdk_environment = (process.env.NEXT_PUBLIC_WALLET_SDK_ENVIRO
 
 export const token_address = process.env.NEXT_PUBLIC_TOKEN_ADDRESS || '0xc6185055ea9891d5d9020c927ff65229baebdef2';
 
-export const marketplace_royalty_address = process.env.NEXT_PUBLIC_MARKETPLACE_ROYALTY_ADDRESS || null;
+export const marketplace_royalty_address =
+  process.env.NEXT_PUBLIC_MARKETPLACE_ROYALTY_ADDRESS || '0xf57e7e7c23978c3caec3c3548e3d615c346e79ff';
 
 export const marketplace_royalty_percentage = process.env.NEXT_PUBLIC_MARKETPLACE_ROYALTY_PERCENTAGE || null;
 
@@ -23,3 +24,5 @@ export const erc20_contract_addresses = {
   USDC: process.env.NEXT_PUBLIC_USDC_TOKEN_ADDRESS || '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
   GODS: process.env.NEXT_PUBLIC_USDC_TOKEN_ADDRESS || '0xccc8cb5229b0ac8069c51fd58367fd1e622afd97',
 };
+
+export const server_base_uri = process.env.BASE_URI || 'http://localhost:3000/api';

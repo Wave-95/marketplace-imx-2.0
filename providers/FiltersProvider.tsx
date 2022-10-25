@@ -1,10 +1,10 @@
-import { formatAvailableFilters, formatQueryToFilterState } from '@/helpers/formatters';
+import { formatAvailableFilters, formatQueryToFilterState } from 'utils/formatters';
 import { getAvailableFilters } from 'lib/imx';
 import { CollectionFilter } from '@imtbl/core-sdk';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import { order_by_mapping } from '../constants';
-import { removeStringFromArray } from '../helpers';
+import { removeStringFromArray } from '@/utils';
 
 export type FilterValues = string[];
 

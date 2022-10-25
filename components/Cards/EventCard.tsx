@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import BaseCard from './BaseCard';
-import { toLocalTime } from '@/helpers/formatters';
+import { toLocalTime } from '@/utils/formatters';
 
 type Props = {
   icon: React.ReactNode;

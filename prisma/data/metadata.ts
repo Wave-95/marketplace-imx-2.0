@@ -1,3 +1,5 @@
+import { token_address } from '../../constants/configs';
+
 export const metadata = [
   {
     name: 'Blow Pipe',
@@ -6,6 +8,7 @@ export const metadata = [
     attack: 3,
     set: 'Genesis',
     item_type: 'Two-Handed Weapon',
+    token_address,
   },
   {
     name: 'Bone Pick',
@@ -14,6 +17,7 @@ export const metadata = [
     attack: 3,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Boomerang',
@@ -22,6 +26,7 @@ export const metadata = [
     attack: 1,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Bow and Arrow',
@@ -30,6 +35,7 @@ export const metadata = [
     attack: 9,
     set: 'Genesis',
     item_type: 'Two-Handed Weapon',
+    token_address,
   },
   {
     name: 'Club',
@@ -38,6 +44,7 @@ export const metadata = [
     attack: 2,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Slingshot',
@@ -46,6 +53,7 @@ export const metadata = [
     attack: 1,
     set: 'Genesis',
     item_type: 'Two-Handed Weapon',
+    token_address,
   },
   {
     name: 'Knife',
@@ -54,6 +62,7 @@ export const metadata = [
     attack: 4,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Rock',
@@ -62,6 +71,7 @@ export const metadata = [
     attack: 2,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Stone Axe',
@@ -70,6 +80,7 @@ export const metadata = [
     attack: 6,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Stone Hammer',
@@ -78,6 +89,7 @@ export const metadata = [
     attack: 5,
     set: 'Genesis',
     item_type: 'One-Handed Weapon',
+    token_address,
   },
   {
     name: 'Stone Spear',
@@ -86,5 +98,6 @@ export const metadata = [
     attack: 7,
     set: 'Genesis',
     item_type: 'Two-Handed Weapon',
+    token_address,
   },
 ];

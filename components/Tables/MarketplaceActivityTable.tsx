@@ -1,5 +1,5 @@
 import { token_address } from '@/constants/configs';
-import { formatWeiToNumber } from '@/helpers/formatters';
+import { formatWeiToNumber } from '@/utils/formatters';
 import { client } from 'lib/imx';
 import numeral from 'numeral';
 import dayjs from 'dayjs';

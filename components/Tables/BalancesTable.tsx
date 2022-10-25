@@ -1,4 +1,4 @@
-import { formatWeiToNumber } from '@/helpers/formatters';
+import { formatWeiToNumber } from '@/utils/formatters';
 import { useUser } from '@/providers/UserProvider';
 import numeral from 'numeral';
 import Table from '.';

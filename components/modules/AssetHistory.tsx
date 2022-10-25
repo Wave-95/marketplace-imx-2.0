@@ -8,7 +8,7 @@ import Loading from '../Loading';
 import EventCard from '../Cards/EventCard';
 import UserLink from '../Links/UserLink';
 import Price from '../Price';
-import { formatWeiToNumber } from '@/helpers/formatters';
+import { formatWeiToNumber } from '@/utils/formatters';
 
 type AssetHistoryProps = {
   className?: string;

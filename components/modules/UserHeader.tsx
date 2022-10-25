@@ -1,5 +1,5 @@
 import { base_path } from '@/constants/configs';
-import { formatAddressEllipse } from '@/helpers/formatters';
+import { formatAddressEllipse } from '@/utils/formatters';
 import { useRouter } from 'next/router';
 import { Copy, Link, MoreHorizontal } from 'react-feather';
 import { toast } from 'react-toastify';

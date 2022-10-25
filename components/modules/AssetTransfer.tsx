@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import TextField from '../TextField';
 import { useAsset, useUser } from '@/providers';
-import { isSameAddress } from '../../helpers';
+import { isSameAddress } from '@/utils';
 import { toast } from 'react-toastify';
 import { client, getAsset } from 'lib/imx';
 import { token_address } from '@/constants/configs';

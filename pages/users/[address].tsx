@@ -15,9 +15,9 @@ import {
   formatFiltersToOrdersApiRequest,
   FormattedActiveOrder,
   FormattedAsset,
-} from '@/helpers/formatters';
+} from 'utils/formatters';
 import { listActiveOrders, listAssetsByAddress } from 'lib/imx';
-import { getNumSelectedFilters } from '@/helpers/index';
+import { getNumSelectedFilters } from '@/utils';
 import { useFilters } from '@/providers/FiltersProvider';
 import useWindowSize from 'hooks';
 import { GetServerSideProps } from 'next';

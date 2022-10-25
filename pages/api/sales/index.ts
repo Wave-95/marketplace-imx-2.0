@@ -3,7 +3,6 @@ import { prisma } from '../../../lib/prisma';
 import { client } from '../../../lib/imx';
 import { Wallet, ethers } from 'ethers';
 import { EthSigner } from '@imtbl/core-sdk';
-import { token_address } from '@/constants/configs';
 
 const handler: NextApiHandler = async (req, res) => {
   //TODO: Validation & Error handling
@@ -16,13 +15,12 @@ const handler: NextApiHandler = async (req, res) => {
       return res.status(500).json({ message: `Provider not set up.` });
     }
 
-    const { sale_detail_id, transfer_signature, address } = req.body;
-    console.log(sale_detail_id, transfer_signature, address);
+    const { sale_detail_id, address, payment_id } = req.body;
     if (!sale_detail_id || !address) {
       res.status(400).json({ message: `Missing body param.` });
     }
     //Check if sale_detail_id exists
-    const saleDetail = await prisma.saleDetail.findUnique({ where: { id: sale_detail_id } });
+    const saleDetail = await prisma.saleDetail.findUnique({ where: { id: sale_detail_id }, include: { metadata: true } });
     if (!saleDetail) {
       return res.status(400).json({ message: `Invalid sale_detail_id: ${sale_detail_id}.` });
     }
@@ -34,7 +32,19 @@ const handler: NextApiHandler = async (req, res) => {
     }
 
     //Validate sale can happen
-    const { active, total_supply, quantity_sold, price, metadata_id } = saleDetail;
+    const {
+      active,
+      total_supply,
+      quantity_sold,
+      price,
+      metadata_id,
+      treasury_address,
+      currency_token_address,
+      metadata: { token_address },
+    } = saleDetail;
+    if (price && !payment_id) {
+      return res.status(400).json({ message: `You must provide a payment_id for sale_detail_id: ${sale_detail_id}.` });
+    }
     if (!active) {
       return res.status(400).json({ message: `Sale is no longer active for sale_detail_id: ${sale_detail_id}.` });
     }
@@ -44,10 +54,53 @@ const handler: NextApiHandler = async (req, res) => {
 
     //Valide if transfer is needed
     if (price) {
+      try {
+        const transfer = await client.getTransfer({ id: payment_id });
+        const {
+          receiver,
+          status,
+          user,
+          token: {
+            data: { quantity, token_address: transferTokenAddress },
+          },
+        } = transfer;
+        if (status !== 'success') {
+          return res.status(400).json({ message: `Invalid payment: Transfer was not successful.` });
+        }
+        if (receiver !== treasury_address) {
+          return res.status(400).json({ message: `Invalid payment: Transfer sent to ${receiver} instead of ${treasury_address}.` });
+        }
+        if (user !== address) {
+          return res.status(400).json({ message: `Invalid payment: Transfer sent from ${user} instead of ${address}.` });
+        }
+
+        if (quantity !== price) {
+          return res.status(400).json({ message: `Invalid payment: Transfer amount is ${quantity} instead of ${price}.` });
+        }
+
+        if (transferTokenAddress !== currency_token_address) {
+          return res.status(400).json({
+            message: `Invalid payment: Transfer currency address is ${transferTokenAddress} instead of ${currency_token_address}.`,
+          });
+        }
+
+        const sale = await prisma.sale.findUnique({ where: { payment_id } });
+        if (sale) {
+          return res.status(400).json({ message: `Invalid payment: Transfer has already been honored for sale with id ${sale.id}` });
+        }
+      } catch (e) {
+        return res.status(500).json({ message: `Issue resolving payment for this sale. Please try again.` });
+      }
     }
 
     //Create asset in internal & map to metadata ID
-    const asset = await prisma.asset.create({ data: { metadata_id } });
+    const mintsResponse = await client.listMints({ tokenAddress: token_address, orderBy: 'transaction_id', direction: 'desc' });
+    const mints = mintsResponse.result;
+    let lastTokenId = 1;
+    if (mints.length) {
+      lastTokenId = parseInt(mints[0].token.data.token_id!, 10);
+    }
+    const asset = await prisma.asset.create({ data: { id: lastTokenId + 1, metadata_id } });
     const provider = new ethers.providers.JsonRpcProvider(process.env.ETH_PROVIDER_URL);
     const signer = new Wallet(process.env.MINTER_PRIVATE_KEY, provider) as EthSigner;
     const mintPayload = {
@@ -57,8 +110,8 @@ const handler: NextApiHandler = async (req, res) => {
     //Mint asset in IMX
     await client.mint(signer, mintPayload);
 
-    const sale = await prisma.sale.create({ data: { user_id: user.id, sale_detail_id: saleDetail.id, asset_id: asset.id } });
-    //Return Sale
+    const sale = await prisma.sale.create({ data: { user_id: user.id, sale_detail_id: saleDetail.id, asset_id: asset.id, payment_id } });
+    await prisma.saleDetail.update({ where: { id: sale_detail_id }, data: { quantity_sold: quantity_sold + 1 } });
     res.json(sale);
   }
 
@@ -66,18 +119,6 @@ const handler: NextApiHandler = async (req, res) => {
     const sales = await prisma.sale.findMany();
     res.json(sales);
   }
-  //   const { sale_detail_id } = req.query;
-  //   if (typeof sale_detail_id !== 'string') {
-  //     res.status(400).json({ message: 'Invalid sale_detail_id.' });
-  //   } else {
-  //     const id = parseInt(sale_detail_id, 10);
-  //     const saleDetail = await prisma.saleDetail.findUnique({ where: { id }, include: { metadata: true } });
-  //     if (!saleDetail) {
-  //       res.status(404).send('Not found.');
-  //     } else {
-  //       res.json(saleDetail);
-  //     }
-  //   }
 };
 
 export default handler;

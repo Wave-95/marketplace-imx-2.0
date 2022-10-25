@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useUser } from '@/providers/UserProvider';
-import { formatBalances, formatWeiToNumber } from '@/helpers/formatters';
+import { formatBalances, formatWeiToNumber } from '@/utils/formatters';
 import { EthIcon } from '../Icons';
 import { client } from 'lib/imx';
 import numeral from 'numeral';

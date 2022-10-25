@@ -1,4 +1,4 @@
-import { formatCryptoPricesToState } from '@/helpers/formatters';
+import { formatCryptoPricesToState } from '@/utils/formatters';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
 type State = {

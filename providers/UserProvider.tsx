@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
 import { Deposit, WalletConnection, Withdrawal } from '@imtbl/core-sdk';
 import { buildWalletSDK } from 'lib/imx';
-import { FormattedBalances } from '@/helpers/formatters';
+import { FormattedBalances } from '@/utils/formatters';
 import { token_symbols } from '../constants';
 import { ValueOf } from 'types';
 

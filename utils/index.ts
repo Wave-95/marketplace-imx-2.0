@@ -2,6 +2,7 @@ import { NextRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { SelectedFilters } from '@/providers/FiltersProvider';
 import { formatObjValsToArrays } from './formatters';
+import { server_base_uri } from '@/constants/configs';
 
 export const clearQueryParams = (router: NextRouter) => {
   const { pathname, query } = router;
@@ -14,6 +15,10 @@ export const clearQueryParams = (router: NextRouter) => {
     });
   }
   router.replace({ pathname, query: newQuery }, undefined, { shallow: true });
+};
+
+export const fetchURL = async (endpoint: string) => {
+  return await fetch(`${server_base_uri}/${endpoint}`);
 };
 
 export const getNumSelectedFilters = (selectedFilters: SelectedFilters) => {

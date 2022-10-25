@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import TextField from '../TextField';
 import { useAsset, useOrder, usePrices, useUser } from '@/providers';
-import { isSameAddress } from '../../helpers';
+import { isSameAddress } from '@/utils';
 import { client } from 'lib/imx';
 import { toast } from 'react-toastify';
 import { marketplace_royalty_address, marketplace_royalty_percentage, token_address } from '@/constants/configs';
 import web3utils from 'web3-utils';
 import Price from '../Price';
-import { formatFees } from '@/helpers/formatters';
+import { formatFees } from 'utils/formatters';
 import Loading from '../Loading';
 import PrimaryButton from '../Buttons/PrimaryButton';
 

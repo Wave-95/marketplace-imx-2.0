@@ -29,32 +29,35 @@ model Asset {
 }
 
 model Metadata {
-  id           Int          @id @default(autoincrement())
-  created_at   DateTime     @default(now())
-  updated_at   DateTime     @updatedAt
-  name         String
-  image        String
-  rarity       String
-  attack       Int
-  set          String
-  item_type    String
-  assets       Asset[]
-  sale_details SaleDetail[]
+  id            Int          @id @default(autoincrement())
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  name          String
+  image         String
+  rarity        String
+  attack        Int
+  set           String
+  item_type     String
+  assets        Asset[]
+  sale_details  SaleDetail[]
+  token_address String
 }
 
 model SaleDetail {
-  id            Int       @id @default(autoincrement())
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  metadata      Metadata  @relation(fields: [metadata_id], references: [id])
-  metadata_id   Int
-  price         Float?
-  start_at      DateTime?
-  end_at        DateTime?
-  total_supply  Int?
-  quantity_sold Int?      @default(0)
-  sales         Sale[]
-  active        Boolean   @default(true)
+  id                     Int       @id @default(autoincrement())
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
+  metadata               Metadata  @relation(fields: [metadata_id], references: [id])
+  metadata_id            Int
+  price                  String?
+  currency_token_address String    @default("") //Check if "" is ETH
+  start_at               DateTime?
+  end_at                 DateTime?
+  total_supply           Int?
+  quantity_sold          Int       @default(0)
+  sales                  Sale[]
+  active                 Boolean   @default(true)
+  treasury_address       String
 }
 
 model Sale {
@@ -67,4 +70,5 @@ model Sale {
   sale_detail_id Int
   asset          Asset      @relation(fields: [asset_id], references: [id])
   asset_id       Int
+  payment_id     Int?       @unique //This is the transfer ID
 }

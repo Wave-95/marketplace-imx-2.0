@@ -3,7 +3,7 @@ import cx from 'classnames';
 import BaseCard from './BaseCard';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FormattedActiveOrder, FormattedAsset } from '@/helpers/formatters';
+import { FormattedActiveOrder, FormattedAsset } from '@/utils/formatters';
 import ByUser from '../ByUser';
 import Price from '../Price';
 import { usePrices } from '@/providers/PricesProvider';

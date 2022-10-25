@@ -11,7 +11,7 @@ import { ParsedUrlQuery } from 'querystring';
 import React, { FormEventHandler, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import AssetTransfer from '@/components/modules/AssetTransfer';
-import { isSameAddress } from '@/helpers/index';
+import { isSameAddress } from '@/utils';
 import List from '@/components/modules/List';
 import OrderModule from '@/components/modules/Order';
 import { useAsset } from '@/providers/AssetProvider';

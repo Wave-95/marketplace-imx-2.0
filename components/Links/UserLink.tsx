@@ -1,7 +1,7 @@
-import { formatAddress } from '@/helpers/formatters';
+import { formatAddress } from 'utils/formatters';
 import Link from 'next/link';
 import cx from 'classnames';
-import { isSameAddress } from '@/helpers/index';
+import { isSameAddress } from '@/utils/index';
 import { useUser } from '@/providers/UserProvider';
 
 type UserLinkProps = {

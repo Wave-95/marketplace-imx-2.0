@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { MetamaskIcon, WalletConnectIcon } from '../Icons';
 import MenuItem from './MenuItem';
 import Menu from '.';
-import { formatAddress } from '@/helpers/formatters';
+import { formatAddress } from '@/utils/formatters';
 import { useRouter } from 'next/router';
 import SecondaryButton from '../Buttons/SecondaryButton';
 

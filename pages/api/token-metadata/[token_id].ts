@@ -12,7 +12,7 @@ const handler: NextApiHandler = async (req, res) => {
       res.status(404).send('Not found.');
     } else {
       const { metadata } = asset;
-      const { id, created_at, updated_at, ...rest } = metadata;
+      const { id, created_at, updated_at, token_address, ...rest } = metadata;
       res.json(rest);
     }
   }

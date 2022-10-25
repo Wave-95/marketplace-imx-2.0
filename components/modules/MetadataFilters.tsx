@@ -1,7 +1,7 @@
 import { FilterValues, useFilters } from '@/providers/FiltersProvider';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/helpers';
+import { clearQueryParams, getNumSelectedFilters, isFilterSelected, toggleRouterQuery } from '@/utils';
 import Counter from '../Counter';
 import cx from 'classnames';
 import { Filter } from 'react-feather';
