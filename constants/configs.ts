@@ -25,4 +25,4 @@ export const erc20_contract_addresses = {
   GODS: process.env.NEXT_PUBLIC_USDC_TOKEN_ADDRESS || '0xccc8cb5229b0ac8069c51fd58367fd1e622afd97',
 };
 
-export const server_base_uri = process.env.BASE_URI || 'http://localhost:3000/api';
+export const server_base_uri = process.env.SERVER_BASE_URI || 'http://localhost:3000/api';
