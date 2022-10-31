@@ -28,8 +28,13 @@ First, install project dependencides:
 ```bash
 yarn
 ```
+Then generate prisma schema:
 
-Next, set up your local environment variables by creating a `.env.local` file in the project's root folder:
+```bash
+yarn postinstall
+```
+
+Next, set up your Next.js local environment variables by creating a `.env.local` file in the project's root folder:
 
 ```bash
 touch .env.local
