@@ -11,64 +11,103 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  email      String?  @unique
-  address    String   @unique
-  sales      Sale[]
-}
-
-model Asset {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  metadata    Metadata @relation(fields: [metadata_id], references: [id])
-  metadata_id Int
-  Sale        Sale[]
+  email       String?  @unique
+  eth_address String   @unique
+  orders      Order[]
+  mints       Mint[]
 }
 
 model Metadata {
-  id            Int          @id @default(autoincrement())
-  created_at    DateTime     @default(now())
-  updated_at    DateTime     @updatedAt
-  name          String
-  image         String
-  rarity        String
-  attack        Int
-  set           String
-  item_type     String
-  assets        Asset[]
-  sale_details  SaleDetail[]
-  token_address String
+  id                           String                    @id @default(uuid())
+  created_at                   DateTime                  @default(now())
+  updated_at                   DateTime                  @updatedAt
+  name                         String
+  image                        String
+  rarity                       String
+  attack                       Int
+  set                          String
+  item_type                    String
+  mints                        Mint[]
+  imx_token_address            String
+  product_to_metadata_rarities ProductToMetadataRarity[]
 }
 
-model SaleDetail {
-  id                     Int       @id @default(autoincrement())
-  created_at             DateTime  @default(now())
-  updated_at             DateTime  @updatedAt
-  metadata               Metadata  @relation(fields: [metadata_id], references: [id])
-  metadata_id            Int
-  price                  String?
-  currency_token_address String    @default("") //Check if "" is ETH
-  start_at               DateTime?
-  end_at                 DateTime?
-  total_supply           Int?
-  quantity_sold          Int       @default(0)
-  sales                  Sale[]
-  active                 Boolean   @default(true)
-  treasury_address       String
+model Product {
+  id                           String                    @id @default(uuid())
+  created_at                   DateTime                  @default(now())
+  updated_at                   DateTime                  @updatedAt
+  name                         String
+  description                  String?
+  price                        Float?
+  currency_token_address       String                    @default("") //TODO: Check if "" is ETH
+  image                        String
+  sale_start_at                DateTime?
+  sale_end_at                  DateTime?
+  total_supply                 Int?
+  quantity_sold                Int                       @default(0)
+  active                       Boolean                   @default(true)
+  treasury_address             String
+  order_products               OrderProduct[]
+  product_to_metadata_rarities ProductToMetadataRarity[]
 }
 
-model Sale {
-  id             String     @id @default(uuid())
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @updatedAt
-  user           User       @relation(fields: [user_id], references: [id])
+model ProductToMetadataRarity {
+  id          String   @id @default(uuid())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  String
+  metadata    Metadata @relation(fields: [metadata_id], references: [id])
+  metadata_id String
+  rarity      Int
+  max         Int?
+}
+
+model Order {
+  id             String         @id @default(uuid())
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+  user           User           @relation(fields: [user_id], references: [id])
   user_id        String
-  sale_detail    SaleDetail @relation(fields: [sale_detail_id], references: [id])
-  sale_detail_id Int
-  asset          Asset      @relation(fields: [asset_id], references: [id])
-  asset_id       Int
-  payment_id     Int?       @unique //This is the transfer ID
+  payment        Payment?       @relation(fields: [payment_id], references: [id])
+  payment_id     String?
+  order_products OrderProduct[]
+}
+
+model OrderProduct {
+  id               String   @id @default(uuid())
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+  order            Order    @relation(fields: [order_id], references: [id])
+  order_id         String
+  product          Product  @relation(fields: [product_id], references: [id])
+  product_id       String
+  quantity_ordered Int
+  quantity_minted  Int
+  status           String?
+  status_reason    String?
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  imx_transfer_id String
+  amount          Float
+  to_address      String
+  orders          Order[]
+}
+
+model Mint {
+  id                String   @id @default(uuid())
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  imx_token_address String
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           String
+  metadata          Metadata @relation(fields: [metadata_id], references: [id])
+  metadata_id       String
 }

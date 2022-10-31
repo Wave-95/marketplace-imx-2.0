@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { metadata, saleDetail } from './data';
+import { metadata, products } from './data';
 
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.metadata.createMany({ data: metadata });
-  await prisma.saleDetail.createMany({ data: saleDetail });
+  await prisma.product.createMany({ data: products });
 }
 
 main()

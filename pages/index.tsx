@@ -1,6 +1,6 @@
 import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
-import SaleCard from '@/components/Cards/SaleCard';
+import SaleCard from '@/components/Cards/ProductCard';
 import Centered from '@/components/Containers/Centered';
 import LayoutDefault from '@/components/LayoutDefault';
 import dayjs from 'dayjs';
@@ -10,9 +10,9 @@ import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { Page } from 'types/page';
 import { fetchURL } from '../utils';
-import { SaleDetailResponse } from './api/sale-details';
+import { Product } from '@prisma/client';
 
-type Props = { upcomingSales: SaleDetailResponse[]; ongoingSales: SaleDetailResponse[]; endedSales: SaleDetailResponse[] };
+type Props = { upcomingSales: Product[]; ongoingSales: Product[]; endedSales: Product[] };
 
 const Home: Page<Props> = ({ upcomingSales = [], ongoingSales = [], endedSales = [] }) => {
   const Introduction = () => (
@@ -50,8 +50,8 @@ const Home: Page<Props> = ({ upcomingSales = [], ongoingSales = [], endedSales =
         <>
           <h1 className="font-bold text-xl mb-8">{'Ongoing Sales'}</h1>
           <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mb-20">
-            {ongoingSales.map((saleDetail, idx) => (
-              <SaleCard saleDetail={saleDetail} type="ongoing" key={`sale-detail-${idx}`} />
+            {ongoingSales.map((product, idx) => (
+              <SaleCard product={product} type="ongoing" key={`product-${idx}`} />
             ))}
           </div>
         </>
@@ -61,8 +61,8 @@ const Home: Page<Props> = ({ upcomingSales = [], ongoingSales = [], endedSales =
         <>
           <h1 className="font-bold text-xl mb-8">{'Upcoming Sales'}</h1>
           <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mb-20">
-            {upcomingSales.map((saleDetail, idx) => (
-              <SaleCard saleDetail={saleDetail} type="upcoming" key={`sale-detail-${idx}`} />
+            {upcomingSales.map((product, idx) => (
+              <SaleCard product={product} type="upcoming" key={`product-${idx}`} />
             ))}
           </div>
         </>
@@ -72,8 +72,8 @@ const Home: Page<Props> = ({ upcomingSales = [], ongoingSales = [], endedSales =
         <>
           <h1 className="font-bold text-xl mb-8">{'Past Sales'}</h1>
           <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mb-20">
-            {endedSales.map((saleDetail, idx) => (
-              <SaleCard saleDetail={saleDetail} type="ended" key={`sale-detail-${idx}`} />
+            {endedSales.map((product, idx) => (
+              <SaleCard product={product} type="ended" key={`product-${idx}`} />
             ))}
           </div>
         </>
@@ -97,23 +97,23 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps<Props, ParsedUrlQuery> = async ({ req }) => {
   const nowUnix = dayjs(Date.now()).valueOf();
-  const saleDetailsResponse = await fetchURL('sale-details');
-  const saleDetails = (await saleDetailsResponse.json()) as SaleDetailResponse[];
-  const activeSaleDetails = saleDetails.filter(({ active }) => active);
+  const productsResponse = await fetchURL('products');
+  const products = (await productsResponse.json()) as Product[];
+  const activeSaleDetails = products.filter(({ active }) => active);
 
-  const upcomingSales = activeSaleDetails.filter(({ start_at }) => start_at && nowUnix < dayjs(start_at).valueOf());
-  const ongoingSales = activeSaleDetails.filter(({ start_at, end_at }) => {
-    if (start_at === null && end_at === null) {
+  const upcomingSales = activeSaleDetails.filter(({ sale_start_at }) => sale_start_at && nowUnix < dayjs(sale_start_at).valueOf());
+  const ongoingSales = activeSaleDetails.filter(({ sale_start_at, sale_end_at }) => {
+    if (sale_start_at === null && sale_end_at === null) {
       return true;
     }
 
-    if (start_at === null && end_at && nowUnix < dayjs(end_at).valueOf()) {
+    if (sale_start_at === null && sale_end_at && nowUnix < dayjs(sale_end_at).valueOf()) {
       return true;
     }
 
     return false;
   });
-  const endedSales = activeSaleDetails.filter(({ end_at }) => end_at && nowUnix > dayjs(end_at).valueOf());
+  const endedSales = activeSaleDetails.filter(({ sale_end_at }) => sale_end_at && nowUnix > dayjs(sale_end_at).valueOf());
   return {
     props: { upcomingSales, ongoingSales, endedSales },
   };

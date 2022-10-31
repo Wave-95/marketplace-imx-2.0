@@ -1,2 +1,2 @@
 export * from './metadata';
-export * from './saleDetail';
+export * from './products';

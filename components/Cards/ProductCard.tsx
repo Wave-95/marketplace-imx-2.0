@@ -1,41 +1,48 @@
 import React, { ReactNode, useState } from 'react';
 import cx from 'classnames';
 import BaseCard from './BaseCard';
-import Link from 'next/link';
 import Image from 'next/image';
-import { FormattedActiveOrder, FormattedAsset, formatWeiToNumber } from '@/utils/formatters';
-import ByUser from '../ByUser';
-import Price from '../Price';
-import { usePrices } from '@/providers/PricesProvider';
-import { SaleDetailResponse } from 'pages/api/sale-details';
+import { Product } from '@prisma/client';
 import PrimaryButton from '../Buttons/PrimaryButton';
-import SaleDialog from '../Dialogs/SaleDialog';
+import ProductDialog from '../Dialogs/ProductDialog';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 import Countdown, { CountdownRenderProps } from 'react-countdown';
 
 type Props = {
-  saleDetail: SaleDetailResponse;
+  product: Product;
   className?: string;
   type: 'upcoming' | 'ongoing' | 'ended';
 };
 
-const SaleCard: React.FC<Props> = ({ saleDetail, className, type, ...props }) => {
-  const { price, currency_token_address, start_at, end_at, total_supply, quantity_sold, treasury_address, metadata } = saleDetail;
+const ProductCard: React.FC<Props> = ({ product, className, type, ...props }) => {
+  const {
+    id,
+    name,
+    description,
+    image,
+    price,
+    currency_token_address,
+    sale_start_at,
+    sale_end_at,
+    total_supply,
+    quantity_sold,
+    treasury_address,
+  } = product;
   let saleTimeLabel = 'Sale ended';
-  let saleTimeValue: string | ReactNode = dayjs(end_at).fromNow();
+  let saleTimeValue: string | ReactNode = dayjs(sale_end_at).fromNow();
   const countdownRenderer = ({ formatted }: CountdownRenderProps) => (
     <span suppressHydrationWarning={true}>{`${formatted.days}d ${formatted.hours}h ${formatted.minutes}m`}</span>
   );
   switch (type) {
     case 'upcoming':
       saleTimeLabel = 'Sale starts in';
-      saleTimeValue = <Countdown date={dayjs(start_at).valueOf()} renderer={countdownRenderer} />;
+      saleTimeValue = <Countdown date={dayjs(sale_start_at).valueOf()} renderer={countdownRenderer} />;
       break;
     case 'ongoing':
       saleTimeLabel = 'Sale ends in';
-      saleTimeValue = end_at ? <Countdown date={dayjs(end_at).valueOf()} renderer={countdownRenderer} /> : '∞';
+      saleTimeValue = sale_end_at ? <Countdown date={dayjs(sale_end_at).valueOf()} renderer={countdownRenderer} /> : '∞';
       break;
     default:
       break;
@@ -45,20 +52,13 @@ const SaleCard: React.FC<Props> = ({ saleDetail, className, type, ...props }) =>
   const Item = () => (
     <div className="space-y-2 p-4 pt-0">
       <div className="relative min-h-[300px]">
-        <Image
-          src={metadata.image}
-          quality={100}
-          objectFit="contain"
-          objectPosition="center"
-          layout="fill"
-          alt={`metadata-id-${metadata.id}`}
-        />
+        <Image src={image} quality={100} objectFit="contain" objectPosition="center" layout="fill" alt={`product-id-${id}`} />
       </div>
-      <h4 className="font-medium text-center mt-2">{metadata.name}</h4>
+      <h4 className="font-medium text-center mt-2">{name}</h4>
     </div>
   );
 
-  const SaleDetails = () => {
+  const ProductDetails = () => {
     return (
       <div className="p-4 border-t border-card-secondary-normal">
         <div className="flex items-center justify-between py-2">
@@ -72,7 +72,7 @@ const SaleCard: React.FC<Props> = ({ saleDetail, className, type, ...props }) =>
           </div>
         </div>
         <PrimaryButton className="font-semibold w-full !max-h-12 !h-12" onClick={() => setDialogOpen(true)} disabled={type !== 'ongoing'}>
-          {price ? `${formatWeiToNumber(price)} ETH` : 'Free Mint'}
+          {price ? `${price} ETH` : 'Free Mint'}
         </PrimaryButton>
       </div>
     );
@@ -85,11 +85,11 @@ const SaleCard: React.FC<Props> = ({ saleDetail, className, type, ...props }) =>
     >
       <div>
         <Item />
-        <SaleDetails />
-        <SaleDialog saleDetail={saleDetail} isOpen={dialogOpen} closeDialog={() => setDialogOpen(false)} />
+        <ProductDetails />
+        <ProductDialog product={product} isOpen={dialogOpen} closeDialog={() => setDialogOpen(false)} />
       </div>
     </BaseCard>
   );
 };
 
-export default SaleCard;
+export default ProductCard;
