@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import cx from 'classnames';
 import BaseCard from './BaseCard';
 import Image from 'next/image';
@@ -9,6 +9,13 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 import Countdown, { CountdownRenderProps } from 'react-countdown';
+import Price from '../Price';
+import SecondaryButton from '../Buttons/SecondaryButton';
+import { isAddedToCart } from '@/utils/index';
+import IconButton from '../Buttons/IconButton';
+import { Trash, Trash2 } from 'react-feather';
+import { useRouter } from 'next/router';
+import { useCart } from '@/providers/CartProvider';
 
 type Props = {
   product: Product;
@@ -30,63 +37,93 @@ const ProductCard: React.FC<Props> = ({ product, className, type, ...props }) =>
     quantity_sold,
     treasury_address,
   } = product;
-  let saleTimeLabel = 'Sale ended';
-  let saleTimeValue: string | ReactNode = dayjs(sale_end_at).fromNow();
-  const countdownRenderer = ({ formatted }: CountdownRenderProps) => (
-    <span suppressHydrationWarning={true}>{`${formatted.days}d ${formatted.hours}h ${formatted.minutes}m`}</span>
-  );
-  switch (type) {
-    case 'upcoming':
-      saleTimeLabel = 'Sale starts in';
-      saleTimeValue = <Countdown date={dayjs(sale_start_at).valueOf()} renderer={countdownRenderer} />;
-      break;
-    case 'ongoing':
-      saleTimeLabel = 'Sale ends in';
-      saleTimeValue = sale_end_at ? <Countdown date={dayjs(sale_end_at).valueOf()} renderer={countdownRenderer} /> : '∞';
-      break;
-    default:
-      break;
-  }
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const {
+    state: { items: cartItems },
+    dispatch,
+  } = useCart();
+  console.log(cartItems);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!cartItems || !cartItems.length) {
+      setAddedToCart(false);
+    } else {
+      const ids = cartItems.map(({ id }: { id: string }) => id);
+      if (ids.includes(id)) {
+        setAddedToCart(true);
+      }
+    }
+  }, [cartItems]);
+
+  const addProductToCart = (product: Product) => () => {
+    let newCart;
+    if (!cartItems.length) {
+      newCart = [{ ...product, quantity: 1 }];
+    } else {
+      newCart = [{ ...product, quantity: 1 }, ...cartItems];
+    }
+    dispatch({ type: 'set_cart', payload: newCart });
+    setAddedToCart(true);
+  };
+
+  const removeProductFromCart = (productId: string) => () => {
+    if (!cartItems) {
+      return;
+    } else {
+      const newCart = cartItems.filter(({ id }: { id: string }) => id !== productId);
+      dispatch({ type: 'set_cart', payload: newCart });
+      setAddedToCart(false);
+    }
+  };
+
+  const goToCart = () => {
+    router.push('/cart');
+  };
+
+  const goToProduct = (id: string) => () => {
+    router.push(`/products/${id}`);
+  };
 
   const Item = () => (
-    <div className="space-y-2 p-4 pt-0">
+    <div className="p-4">
       <div className="relative min-h-[300px]">
         <Image src={image} quality={100} objectFit="contain" objectPosition="center" layout="fill" alt={`product-id-${id}`} />
       </div>
-      <h4 className="font-medium text-center mt-2">{name}</h4>
     </div>
   );
 
   const ProductDetails = () => {
     return (
       <div className="p-4 border-t border-card-secondary-normal">
-        <div className="flex items-center justify-between py-2">
-          <div className="flex flex-col justify-start items-start">
-            <span className="text-secondary text-xs">{saleTimeLabel}</span>
-            <span className="text-sm">{saleTimeValue}</span>
-          </div>
-          <div className="flex flex-col justify-end items-end">
-            <span className="text-secondary text-xs">{'Supply limited to'}</span>
-            <span className="text-sm">{total_supply || '∞'}</span>
-          </div>
+        <div className="flex items-center justify-between py-4">
+          <h4 className="font-semibold">{name}</h4>
+          {price ? <Price amount={price.toString()} symbol="ETH" /> : null}
         </div>
-        <PrimaryButton className="font-semibold w-full !max-h-12 !h-12" onClick={() => setDialogOpen(true)} disabled={type !== 'ongoing'}>
-          {price ? `${price} ETH` : 'Free Mint'}
-        </PrimaryButton>
+        <div className="flex flex-col space-y-2">
+          <div className="flex space-x-2">
+            <PrimaryButton
+              className="font-semibold w-full !max-h-12 !h-12"
+              onClick={addedToCart ? goToCart : addProductToCart(product)}
+              disabled={type !== 'ongoing'}
+            >
+              {addedToCart ? 'Go to cart' : 'Add to cart'}
+            </PrimaryButton>
+            {addedToCart ? <IconButton icon={<Trash2 />} className="!max-h-12 !h-12" handleClick={removeProductFromCart(id)} /> : null}
+          </div>
+          <SecondaryButton className="font-semibold w-full !max-h-12 !h-12" onClick={goToProduct(id)}>
+            {'View details'}
+          </SecondaryButton>
+        </div>
       </div>
     );
   };
 
   return (
-    <BaseCard
-      className={cx('hover:-translate-y-0.5 active:translate-y-0 hover:bg-card-secondary-hover active:bg-card-secondary-active', className)}
-      {...props}
-    >
+    <BaseCard className={className} {...props}>
       <div>
         <Item />
         <ProductDetails />
-        <ProductDialog product={product} isOpen={dialogOpen} closeDialog={() => setDialogOpen(false)} />
       </div>
     </BaseCard>
   );

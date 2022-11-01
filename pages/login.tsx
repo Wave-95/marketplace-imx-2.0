@@ -16,6 +16,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { Mail } from 'react-feather';
 import EmailLoginDialog from '@/components/Dialogs/EmailLoginDialog';
 import { Page } from 'types/page';
+import { getUserByAddress } from 'lib/sdk';
 
 type Props = {
   referer: string;
@@ -42,19 +43,26 @@ const LoginPage: Page<Props> = ({ referer }) => {
   const connectWallet = async (provider: L1_PROVIDERS) => {
     const walletSDK = await buildWalletSDK();
     try {
-      await walletSDK.connect({ provider });
-      const walletConnection = await walletSDK.getWalletConnection();
-      console.log(walletConnection);
+      const walletConnection = await walletSDK.connect({ provider });
       //TODO: Remove re-casting when wallet-sdk update is released
       if (walletConnection) {
         const walletConnectionNew: WalletConnection = {
           ethSigner: walletConnection?.l1Signer,
           starkSigner: walletConnection?.l2Signer,
         };
-        await client.registerOffchain(walletConnectionNew);
-        const address = await walletConnectionNew?.ethSigner?.getAddress();
         dispatch({ type: 'connect', payload: walletConnectionNew });
+
+        const address = await walletConnectionNew?.ethSigner?.getAddress();
         dispatch({ type: 'set_address', payload: address });
+
+        const user = await getUserByAddress(address);
+        if (!user) {
+          //TODO: Create new user
+          await client.registerOffchain(walletConnectionNew);
+        } else {
+          //Store user id into context
+        }
+
         if (referer.match(/login/)) {
           router.push('/');
         } else {
@@ -69,6 +77,7 @@ const LoginPage: Page<Props> = ({ referer }) => {
         console.error(e.message);
         toast.error('Could not connect to wallet provider.');
       }
+      console.error(e);
     }
   };
 

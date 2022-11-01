@@ -19,7 +19,7 @@ import {
 import { listActiveOrders, listAssetsByAddress } from 'lib/imx';
 import { getNumSelectedFilters } from '@/utils';
 import { useFilters } from '@/providers/FiltersProvider';
-import useWindowSize from 'hooks';
+import { useWindowSize } from 'hooks';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';

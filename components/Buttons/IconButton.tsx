@@ -4,7 +4,7 @@ import SecondaryButton from './SecondaryButton';
 
 type Props = {
   icon: React.ReactNode;
-  text: string;
+  text?: string;
   handleClick?: (param: any) => void;
   className?: string;
 };
@@ -13,7 +13,7 @@ const IconButton: React.FC<Props> = ({ icon, text, handleClick, className, ...pr
   return (
     <SecondaryButton onClick={handleClick} className={cx('space-x-2', className)} {...props}>
       {icon}
-      <span>{text}</span>
+      {text ? <span>{text}</span> : null}
     </SecondaryButton>
   );
 };

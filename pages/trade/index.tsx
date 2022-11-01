@@ -14,7 +14,7 @@ import OrderByMenu from '@/components/Menus/OrderByMenu';
 import { Filter } from 'react-feather';
 import Counter from '@/components/Counter';
 import { getNumSelectedFilters } from '@/utils';
-import useWindowSize from 'hooks';
+import { useWindowSize } from 'hooks';
 import { Page } from 'types/page';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Centered from '@/components/Containers/Centered';

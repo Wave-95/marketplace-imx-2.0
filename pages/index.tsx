@@ -97,6 +97,7 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps<Props, ParsedUrlQuery> = async ({ req }) => {
   const nowUnix = dayjs(Date.now()).valueOf();
+
   const productsResponse = await fetchURL('products');
   const products = (await productsResponse.json()) as Product[];
   const activeSaleDetails = products.filter(({ active }) => active);

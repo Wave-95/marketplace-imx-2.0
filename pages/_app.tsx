@@ -1,5 +1,6 @@
 import { AssetProvider, FiltersProvider, OrderProvider, PricesProvider, ThemeProvider, ToastProvider, UserProvider } from '@/providers';
-import useWindowSize from 'hooks';
+import { CartProvider } from '@/providers/CartProvider';
+import { useWindowSize } from 'hooks';
 import { AppProps } from 'next/app';
 import { Page } from 'types/page';
 
@@ -18,15 +19,17 @@ function MyApp({ Component, pageProps }: Props) {
     <>
       <ThemeProvider>
         <UserProvider>
-          <ToastProvider>
-            <AssetProvider>
-              <OrderProvider>
-                <FiltersProvider>
-                  <PricesProvider>{getLayout(<Component {...pageProps} />)}</PricesProvider>
-                </FiltersProvider>
-              </OrderProvider>
-            </AssetProvider>
-          </ToastProvider>
+          <CartProvider>
+            <ToastProvider>
+              <AssetProvider>
+                <OrderProvider>
+                  <FiltersProvider>
+                    <PricesProvider>{getLayout(<Component {...pageProps} />)}</PricesProvider>
+                  </FiltersProvider>
+                </OrderProvider>
+              </AssetProvider>
+            </ToastProvider>
+          </CartProvider>
         </UserProvider>
       </ThemeProvider>
       <style global jsx>{`

@@ -27,6 +27,19 @@ export const getNumSelectedFilters = (selectedFilters: SelectedFilters) => {
   return filterCount;
 };
 
+export const isAddedToCart = (productId: string) => {
+  if (typeof window !== 'undefined') {
+    const cart = localStorage.getItem('marketplace:CART_INFO');
+    if (!cart) {
+      return false;
+    } else {
+      const cartObj = JSON.parse(cart);
+      const ids = cartObj.map(({ id }: { id: string }) => id);
+      return ids.includes(productId);
+    }
+  }
+};
+
 export const isSameAddress = (addr1?: string | null, addr2?: string | null) => {
   if (typeof addr1 === 'string' && typeof addr2 === 'string') {
     return addr1.toLowerCase() === addr2.toLowerCase();

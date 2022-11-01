@@ -10,8 +10,13 @@ import { erc20_contract_addresses } from '@/constants/configs';
 import erc20ABI from '../../abis/erc20.json';
 import SecondaryButton from './SecondaryButton';
 import Centered from '../Containers/Centered';
+import cx from 'classnames';
 
-const Balance = ({ ...props }) => {
+type Props = {
+  className?: string;
+};
+
+const Balance: React.FC<Props> = ({ className, ...props }) => {
   const {
     state: {
       address,
@@ -64,8 +69,8 @@ const Balance = ({ ...props }) => {
   if (!address) return null;
 
   return (
-    <div className="h-10 border rounded-lg border-normal box-content" {...props}>
-      <Centered className="px-4 pr-0 space-x-2">
+    <div className={cx('h-9 lg:h-10 border rounded-lg border-normal box-content', className)} {...props}>
+      <Centered className="px-4 pr-0 space-x-2 h-full">
         <span>{l2BalanceETHFormatted}</span>
         <EthIcon />
         <Link href="/balances">

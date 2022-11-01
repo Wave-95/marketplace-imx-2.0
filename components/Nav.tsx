@@ -7,6 +7,7 @@ import BalanceButton from './Buttons/BalanceButton';
 import Header from './Header';
 import Centered from './Containers/Centered';
 import PrimaryButton from './Buttons/PrimaryButton';
+import CartButton from './Buttons/CartButton';
 
 export default function Nav({ ...props }) {
   const {
@@ -34,6 +35,7 @@ export default function Nav({ ...props }) {
         <TradeCTA />
         <BalanceButton className="hidden md:block" />
         {address ? <UserMenu /> : <ConnectWalletButton />}
+        <CartButton />
         <DarkModeToggle />
       </Centered>
     </Header>
