@@ -1,11 +1,10 @@
 import { Product } from '@prisma/client';
-import { Asset } from '@imtbl/core-sdk';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 
-type CartItem = Product & { quantity: number };
+export type CartItemType = Product & { quantity: number };
 
 export type CartState = {
-  items: CartItem[];
+  items: CartItemType[];
 };
 
 type Action = {
