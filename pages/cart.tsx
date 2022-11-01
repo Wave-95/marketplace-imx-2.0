@@ -1,4 +1,7 @@
+import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import QuarternaryButton from '@/components/Buttons/QuarternaryButton';
+import SecondaryButton from '@/components/Buttons/SecondaryButton';
+import Centered from '@/components/Containers/Centered';
 import LayoutDefault from '@/components/LayoutDefault';
 import Price from '@/components/Price';
 import { useCart, CartItemType } from '@/providers/CartProvider';
@@ -14,6 +17,15 @@ const Cart = () => {
   const clearAllItems = () => {
     dispatch({ type: 'clear_cart' });
   };
+
+  const totalQuantity = cartItems.reduce((prev, curr) => {
+    return prev + curr.quantity;
+  }, 0);
+
+  const totalCost = cartItems.reduce((prev, curr) => {
+    const cost = curr.price ? curr.quantity * curr.price : 0;
+    return prev + cost;
+  }, 0);
 
   const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
     console.log(cartItem);
@@ -56,7 +68,7 @@ const Cart = () => {
             alt={`product-id-${cartItem.id}`}
           />
         </div>
-        <div className="grow ml-8 flex flex-col justify-center space-y-2">
+        <Centered className="grow ml-8 space-y-2 !items-start" direction="col">
           <div>
             <h4 className="font-semibold">{cartItem.name}</h4>
             <p className="text-accent text-sm">{'Available'}</p>
@@ -72,36 +84,34 @@ const Cart = () => {
                 {options}
               </select>
             </div>
-            <QuarternaryButton className="!px-0 !py-0" onClick={handleRemoveItem}>
-              {'Remove item'}
-            </QuarternaryButton>
+            <SecondaryButton className="!text-xs" onClick={handleRemoveItem}>
+              {'Remove'}
+            </SecondaryButton>
           </div>
-        </div>
-        <div>
-          {cartItem.price ? (
-            <div className="space-y-4">
-              <Price amount={cartItem.price.toString()} symbol="ETH" />
-              <div className="flex-col flex items-end">
-                <span className="text-sm font-medium tracking-wider text-secondary">{`Subtotal (${cartItem.quantity} items)`}</span>
-                <span>{`${subtotal} ETH`}</span>
-              </div>
+        </Centered>
+        {cartItem.price ? (
+          <Centered className="space-y-4 !items-end" direction="col">
+            <Price amount={cartItem.price.toString()} symbol="ETH" />
+            <div className="flex-col flex items-end">
+              <span className="text-sm font-medium tracking-wider text-secondary">{`Subtotal (${cartItem.quantity} items)`}</span>
+              <span>{`${subtotal} ETH`}</span>
             </div>
-          ) : null}
-        </div>
+          </Centered>
+        ) : null}
       </div>
     );
   };
   return (
-    <div className="p-4 lg:p-6 ">
-      <div className="bg-card-secondary-normal p-4 border border-normal rounded-lg">
+    <div className="p-4 lg:p-6 flex space-x-4">
+      <div className="bg-card-secondary-normal p-4 border border-normal rounded-lg grow">
         <h2 className="font-bold text-xl">{'Shopping Cart'}</h2>
         {cartItems.length ? (
           <>
             <QuarternaryButton className="h-8 text-sm font-medium !px-0 !py-0 mb-8" onClick={clearAllItems}>
               {'Remove all items'}
             </QuarternaryButton>
-            {cartItems.map((cartItem) => (
-              <CartItem cartItem={cartItem} />
+            {cartItems.map((cartItem, idx) => (
+              <CartItem cartItem={cartItem} key={`cart-item-${idx}`} />
             ))}
           </>
         ) : (
@@ -110,6 +120,17 @@ const Cart = () => {
             <p className="text-secondary">{'What are you waiting for? Go fill up that cart!'}</p>
           </div>
         )}
+      </div>
+      <div>
+        <div className="bg-card-secondary-normal p-4 border border-normal rounded-lg space-y-4 min-w-[250px]">
+          <div>
+            <div className="flex justify-between items-center">
+              <span className="font-semibold">Total</span>
+              <span className="font-semibold">{`${totalCost} ETH`}</span>
+            </div>
+          </div>
+          <PrimaryButton className="w-full font-semibold !h-12 !max-h-12">{'Checkout'}</PrimaryButton>
+        </div>
       </div>
     </div>
   );
