@@ -9,17 +9,20 @@ const CartButton = () => {
   const {
     state: { items: cartItems },
   } = useCart();
-  const [numProducts, setNumProducts] = useState<number>(0);
+  const [numItems, setNumItems] = useState<number>(0);
 
   useEffect(() => {
-    setNumProducts(cartItems.length);
+    const num = cartItems.reduce((prev, curr) => {
+      return prev + curr.quantity;
+    }, 0);
+    setNumItems(num);
   }, [cartItems]);
   return (
     <Link href="/cart">
       <a>
         <SecondaryButton className="!px-2 !py-2 relative">
           <ShoppingCart size={20} />
-          {numProducts ? <Counter number={numProducts} className="absolute -top-2 -right-2" /> : null}
+          {numItems ? <Counter number={numItems} className="absolute -top-2 -right-2" /> : null}
         </SecondaryButton>
       </a>
     </Link>
