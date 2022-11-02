@@ -1,4 +1,4 @@
-import { fetchURL } from '../utils';
+import { fetchURL, postData } from '../utils';
 
 export const getUserByAddress = async (address: string) => {
   const userResponse = await fetchURL(`/user-by-address/${address}`);
@@ -10,4 +10,8 @@ export const getUserByAddress = async (address: string) => {
   }
 };
 
-export const createUser = async (address: string, email?: string, username?: string) => {};
+export const createUser = async (address: string) => {
+  const createUserResponse = await postData('/users', { eth_address: address });
+  const newUser = await createUserResponse.json();
+  return newUser;
+};

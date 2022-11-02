@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import DarkModeToggle from './ToggleTheme';
 import UserMenu from './Menus/UserMenu';
-import ConnectWalletButton from './Buttons/ConnectWalletButton';
+import LogInButton from './Buttons/LogInButton';
 import { useUser } from '@/providers/UserProvider';
 import BalanceButton from './Buttons/BalanceButton';
 import Header from './Header';
@@ -34,7 +34,7 @@ export default function Nav({ ...props }) {
       <Centered className="space-x-2 lg:space-x-4 ml-auto">
         <TradeCTA />
         <BalanceButton className="hidden md:block" />
-        {address ? <UserMenu /> : <ConnectWalletButton />}
+        {address ? <UserMenu /> : <LogInButton />}
         <CartButton />
         <DarkModeToggle />
       </Centered>

@@ -56,6 +56,16 @@ export const isFilterSelected = (selectedFilters: SelectedFilters, label: string
   }
 };
 
+export const postData = async (endpoint: string, data: any) => {
+  return await fetch(`${server_base_uri}/${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+};
+
 export const refreshData = (router: NextRouter) => {
   router.replace(router.asPath);
 };

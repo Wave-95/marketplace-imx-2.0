@@ -11,6 +11,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { Page } from 'types/page';
 import { fetchURL } from '../utils';
 import { Product } from '@prisma/client';
+import Head from 'next/head';
 
 type Props = { upcomingSales: Product[]; ongoingSales: Product[]; endedSales: Product[] };
 
@@ -81,11 +82,20 @@ const Home: Page<Props> = ({ upcomingSales = [], ongoingSales = [], endedSales =
     </div>
   );
 
+  const page_title = 'Home';
+
   return (
-    <div className="lg:px-6 px-4">
-      <Introduction />
-      <Store />
-    </div>
+    <>
+      <Head>
+        <title>{page_title}</title>
+        <meta name="description" content="Log in" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="lg:px-6 px-4">
+        <Introduction />
+        <Store />
+      </div>
+    </>
   );
 };
 

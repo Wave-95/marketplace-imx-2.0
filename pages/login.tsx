@@ -16,7 +16,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { Mail } from 'react-feather';
 import EmailLoginDialog from '@/components/Dialogs/EmailLoginDialog';
 import { Page } from 'types/page';
-import { getUserByAddress } from 'lib/sdk';
+import { createUser, getUserByAddress } from 'lib/sdk';
 
 type Props = {
   referer: string;
@@ -57,10 +57,11 @@ const LoginPage: Page<Props> = ({ referer }) => {
 
         const user = await getUserByAddress(address);
         if (!user) {
-          //TODO: Create new user
+          //TODO: Allow user to pass in email, username, etc
+          await createUser(address);
           await client.registerOffchain(walletConnectionNew);
         } else {
-          //Store user id into context
+          dispatch({ type: 'set_user_info', payload: user });
         }
 
         if (referer.match(/login/)) {
@@ -90,7 +91,7 @@ const LoginPage: Page<Props> = ({ referer }) => {
       </Head>
       <Container className="items-center justify-center min-h-headerless">
         <div className="flex flex-col items-center max-w-lg mb-[12rem] space-y-8">
-          <h2 className="text-page">{'Choose a login or register method'}</h2>
+          <h2 className="text-page">{'Choose a login or registration method'}</h2>
           <div className="flex flex-col space-y-6">
             <IconButton
               className="min-w-[300px] py-4 min-h-[55px]"

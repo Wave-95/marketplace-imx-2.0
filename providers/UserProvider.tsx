@@ -4,6 +4,7 @@ import { buildWalletSDK } from 'lib/imx';
 import { FormattedBalances } from '@/utils/formatters';
 import { token_symbols } from '../constants';
 import { ValueOf } from 'types';
+import { getUserByAddress } from 'lib/sdk';
 
 type BalanceL1 = {
   [key in ValueOf<typeof token_symbols>]?: string;
@@ -18,7 +19,15 @@ type State = {
 };
 
 type Action = {
-  type: 'connect' | 'disconnect' | 'set_address' | 'set_l1_balances' | 'set_l2_balances' | 'set_deposits' | 'set_withdrawals';
+  type:
+    | 'connect'
+    | 'disconnect'
+    | 'set_address'
+    | 'set_l1_balances'
+    | 'set_l2_balances'
+    | 'set_deposits'
+    | 'set_withdrawals'
+    | 'set_user_info';
   payload?: any;
 };
 
@@ -36,6 +45,7 @@ const INITIAL_STATE = {
   balances: { l1: {}, l2: {} },
   deposits: null,
   withdrawals: null,
+  user: null,
 };
 
 const userReducer = (state: State, action: Action) => {
@@ -54,6 +64,8 @@ const userReducer = (state: State, action: Action) => {
       return { ...state, deposits: action.payload };
     case 'set_withdrawals':
       return { ...state, withdrawals: action.payload };
+    case 'set_user_info':
+      return { ...state, user: action.payload };
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -76,6 +88,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const address = await walletConnectionNew?.ethSigner?.getAddress();
       dispatch({ type: 'connect', payload: walletConnectionNew });
       dispatch({ type: 'set_address', payload: address });
+      const user = await getUserByAddress(address);
+      if (user) {
+        dispatch({ type: 'set_user_info', payload: user });
+      }
     }
   };
 

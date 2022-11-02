@@ -3,7 +3,7 @@ import { Product } from '@prisma/client';
 import Dialog from '.';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import { useUser } from '@/providers/UserProvider';
-import ConnectWallet from '../Buttons/ConnectWalletButton';
+import LogInButton from '../Buttons/LogInButton';
 
 type Props = {
   product: Product;
@@ -62,7 +62,7 @@ const ProductDialog: React.FC<Props> = ({ product, isOpen, closeDialog }) => {
             {'Confirm Purchase'}
           </PrimaryButton>
         ) : (
-          <ConnectWallet className="w-full font-semibold !max-h-12 h-12" />
+          <LogInButton className="w-full font-semibold !max-h-12 h-12" />
         )}
       </div>
     </Dialog>

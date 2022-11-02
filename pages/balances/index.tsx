@@ -1,4 +1,4 @@
-import ConnectWalletButton from '@/components/Buttons/ConnectWalletButton';
+import LogInButton from '@/components/Buttons/LogInButton';
 import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Centered from '@/components/Containers/Centered';
@@ -86,7 +86,7 @@ const BalancesPage: Page = () => {
         </>
       ) : (
         <Centered className="min-h-[90vh]">
-          <ConnectWalletButton />
+          <LogInButton />
         </Centered>
       )}
     </>

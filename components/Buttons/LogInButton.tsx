@@ -7,7 +7,7 @@ type Props = {
   className?: string;
 };
 
-const ConnectWallet: React.FC<Props> = ({ className, ...props }) => {
+const LogInButton: React.FC<Props> = ({ className, ...props }) => {
   const router = useRouter();
 
   const redirectLogin = (e: SyntheticEvent) => {
@@ -17,9 +17,9 @@ const ConnectWallet: React.FC<Props> = ({ className, ...props }) => {
 
   return (
     <PrimaryButton className={cx('font-semibold', className)} onClick={redirectLogin} {...props}>
-      {'Connect Wallet'}
+      {'Log in'}
     </PrimaryButton>
   );
 };
 
-export default ConnectWallet;
+export default LogInButton;
