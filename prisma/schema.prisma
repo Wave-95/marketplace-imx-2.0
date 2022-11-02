@@ -55,15 +55,16 @@ model Product {
 }
 
 model ProductToMetadataRarity {
-  id          String   @id @default(uuid())
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  product     Product  @relation(fields: [product_id], references: [id])
-  product_id  String
-  metadata    Metadata @relation(fields: [metadata_id], references: [id])
-  metadata_id String
-  rarity      Int
-  max         Int?
+  id              String   @id @default(uuid())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  product         Product  @relation(fields: [product_id], references: [id])
+  product_id      String
+  metadata        Metadata @relation(fields: [metadata_id], references: [id])
+  metadata_id     String
+  rarity          Int
+  max             Int?
+  quantity_minted Int      @default(0)
 }
 
 model Order {

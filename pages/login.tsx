@@ -16,7 +16,8 @@ import { ParsedUrlQuery } from 'querystring';
 import { Mail } from 'react-feather';
 import EmailLoginDialog from '@/components/Dialogs/EmailLoginDialog';
 import { Page } from 'types/page';
-import { createUser, getUserByAddress } from 'lib/sdk';
+import { getUserByAddress, login } from 'lib/sdk';
+import Cookies from 'js-cookie';
 
 type Props = {
   referer: string;
@@ -50,19 +51,18 @@ const LoginPage: Page<Props> = ({ referer }) => {
           ethSigner: walletConnection?.l1Signer,
           starkSigner: walletConnection?.l2Signer,
         };
-        dispatch({ type: 'connect', payload: walletConnectionNew });
 
         const address = await walletConnectionNew?.ethSigner?.getAddress();
-        dispatch({ type: 'set_address', payload: address });
-
-        const user = await getUserByAddress(address);
-        if (!user) {
-          //TODO: Allow user to pass in email, username, etc
-          await createUser(address);
+        const existingUser = await getUserByAddress(address);
+        if (!existingUser) {
           await client.registerOffchain(walletConnectionNew);
-        } else {
-          dispatch({ type: 'set_user_info', payload: user });
         }
+        const rawSignature = await walletConnectionNew?.ethSigner?.signMessage(address);
+        const { user, token } = await login(address, rawSignature);
+        Cookies.set('marketplace:token', token, { expires: 3 });
+        dispatch({ type: 'connect', payload: walletConnectionNew });
+        dispatch({ type: 'set_address', payload: address });
+        dispatch({ type: 'set_user_info', payload: user });
 
         if (referer.match(/login/)) {
           router.push('/');

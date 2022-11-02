@@ -1,17 +1,18 @@
-import { fetchURL, postData } from '../utils';
+import { User } from '@prisma/client';
+import { fetchURL, postData } from '../utils/http';
 
-export const getUserByAddress = async (address: string) => {
+export const getUserByAddress = async (address: string): Promise<null | User> => {
   const userResponse = await fetchURL(`/user-by-address/${address}`);
   if (userResponse.status === 404) {
     return null;
-  } else if (userResponse.status === 404) {
-    const user = await userResponse.json();
-    return user;
   }
+  const user = await userResponse.json();
+  return user;
 };
 
-export const createUser = async (address: string) => {
-  const createUserResponse = await postData('/users', { eth_address: address });
-  const newUser = await createUserResponse.json();
-  return newUser;
+export const login = async (address: string, signature: string): Promise<{ token: string; user: User }> => {
+  const loginResponse = await postData('/login', { eth_address: address, signature });
+  const loginPayload = await loginResponse.json();
+  //Set token...
+  return loginPayload;
 };

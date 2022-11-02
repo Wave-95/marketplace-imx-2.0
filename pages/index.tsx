@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { Page } from 'types/page';
-import { fetchURL } from '../utils';
+import { fetchURL } from '../utils/http';
 import { Product } from '@prisma/client';
 import Head from 'next/head';
 

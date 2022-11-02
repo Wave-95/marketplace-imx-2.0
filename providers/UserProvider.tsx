@@ -5,6 +5,7 @@ import { FormattedBalances } from '@/utils/formatters';
 import { token_symbols } from '../constants';
 import { ValueOf } from 'types';
 import { getUserByAddress } from 'lib/sdk';
+import Cookies from 'js-cookie';
 
 type BalanceL1 = {
   [key in ValueOf<typeof token_symbols>]?: string;
@@ -86,10 +87,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         starkSigner: walletConnection.l2Signer,
       };
       const address = await walletConnectionNew?.ethSigner?.getAddress();
-      dispatch({ type: 'connect', payload: walletConnectionNew });
-      dispatch({ type: 'set_address', payload: address });
       const user = await getUserByAddress(address);
-      if (user) {
+      const token = Cookies.get('marketplace:token');
+      if (user && token) {
+        dispatch({ type: 'connect', payload: walletConnectionNew });
+        dispatch({ type: 'set_address', payload: address });
         dispatch({ type: 'set_user_info', payload: user });
       }
     }

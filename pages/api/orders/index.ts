@@ -3,6 +3,7 @@ import { prisma } from '../../../lib/prisma';
 import { client } from '../../../lib/imx';
 import { Wallet, ethers } from 'ethers';
 import { EthSigner } from '@imtbl/core-sdk';
+import { authenticateUser } from 'lib/auth';
 
 const handler: NextApiHandler = async (req, res) => {
   //TODO: Validation & Error handling
@@ -104,10 +105,8 @@ const handler: NextApiHandler = async (req, res) => {
   //   await prisma.saleDetail.update({ where: { id: sale_detail_id }, data: { quantity_sold: quantity_sold + 1 } });
   //   res.json(sale);
   // }
-  // if (req.method === 'GET') {
-  //   const sales = await prisma.sale.findMany();
-  //   res.json(sales);
-  // }
+  if (req.method === 'GET') {
+  }
 };
 
 export default handler;
