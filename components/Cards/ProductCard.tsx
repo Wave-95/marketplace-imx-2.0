@@ -16,6 +16,7 @@ import IconButton from '../Buttons/IconButton';
 import { Trash, Trash2 } from 'react-feather';
 import { useRouter } from 'next/router';
 import { useCart } from '@/providers/CartProvider';
+import { fromWei } from 'web3-utils';
 
 type Props = {
   product: Product;
@@ -98,7 +99,7 @@ const ProductCard: React.FC<Props> = ({ product, className, type, ...props }) =>
       <div className="p-4 border-t border-card-secondary-normal">
         <div className="flex items-center justify-between py-4">
           <h4 className="font-semibold">{name}</h4>
-          {price ? <Price amount={price.toString()} symbol="ETH" /> : null}
+          {price ? <Price amount={fromWei(price)} symbol="ETH" /> : null}
         </div>
         <div className="flex flex-col space-y-2">
           <div className="flex space-x-2">

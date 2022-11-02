@@ -7,6 +7,7 @@ import Price from '@/components/Price';
 import { useCart, CartItemType } from '@/providers/CartProvider';
 import Image from 'next/image';
 import { ChangeEventHandler } from 'react';
+import { fromWei, toBN } from 'web3-utils';
 
 const Cart = () => {
   const {
@@ -18,17 +19,12 @@ const Cart = () => {
     dispatch({ type: 'clear_cart' });
   };
 
-  const totalQuantity = cartItems.reduce((prev, curr) => {
-    return prev + curr.quantity;
-  }, 0);
-
   const totalCost = cartItems.reduce((prev, curr) => {
-    const cost = curr.price ? curr.quantity * curr.price : 0;
-    return prev + cost;
-  }, 0);
+    const cost = curr.price ? toBN(curr.quantity).mul(toBN(curr.price)) : toBN(0);
+    return prev.add(cost);
+  }, toBN(0));
 
   const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
-    console.log(cartItem);
     const options = [];
     for (let i = 1; i < 11; i++) {
       options.push(<option value={i}>{i}</option>);
@@ -54,7 +50,7 @@ const Cart = () => {
       dispatch({ type: 'set_cart', payload: newCartItems });
     };
 
-    const subtotal = cartItem.price && cartItem.price * cartItem.quantity;
+    const subtotal = cartItem.price && toBN(cartItem.price).mul(toBN(cartItem.quantity));
 
     return (
       <div className="p-4 flex border border-normal rounded-lg">
@@ -89,12 +85,12 @@ const Cart = () => {
             </SecondaryButton>
           </div>
         </Centered>
-        {cartItem.price ? (
+        {cartItem.price && subtotal ? (
           <Centered className="space-y-4 !items-end" direction="col">
-            <Price amount={cartItem.price.toString()} symbol="ETH" />
+            <Price amount={fromWei(cartItem.price)} symbol="ETH" />
             <div className="flex-col flex items-end">
               <span className="text-sm font-medium tracking-wider text-secondary">{`Subtotal (${cartItem.quantity} items)`}</span>
-              <span>{`${subtotal} ETH`}</span>
+              <span>{`${fromWei(subtotal)} ETH`}</span>
             </div>
           </Centered>
         ) : null}
@@ -126,7 +122,7 @@ const Cart = () => {
           <div>
             <div className="flex justify-between items-center">
               <span className="font-semibold">Total</span>
-              <span className="font-semibold">{`${totalCost} ETH`}</span>
+              <span className="font-semibold">{`${fromWei(totalCost)} ETH`}</span>
             </div>
           </div>
           <PrimaryButton className="w-full font-semibold !h-12 !max-h-12">{'Checkout'}</PrimaryButton>

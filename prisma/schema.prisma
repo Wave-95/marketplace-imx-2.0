@@ -41,7 +41,7 @@ model Product {
   updated_at                   DateTime                  @updatedAt
   name                         String
   description                  String?
-  price                        Float?
+  price                        String?
   currency_token_address       String                    @default("") //TODO: Check if "" is ETH
   image                        String
   sale_start_at                DateTime?
@@ -96,7 +96,7 @@ model Payment {
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
   imx_transfer_id String
-  amount          Float
+  amount          String
   to_address      String
   orders          Order[]
 }
