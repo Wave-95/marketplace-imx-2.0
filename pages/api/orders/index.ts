@@ -3,10 +3,41 @@ import { prisma } from '../../../lib/prisma';
 import { client } from '../../../lib/imx';
 import { Wallet, ethers } from 'ethers';
 import { EthSigner } from '@imtbl/core-sdk';
-import { authenticateUser } from 'lib/auth';
+import { authenticateUser, RequestWithUser } from 'lib/auth';
 
-const handler: NextApiHandler = async (req, res) => {
+type Item = { product_id: string; quantity: number };
+const handler: NextApiHandler = async (req: RequestWithUser, res) => {
   //TODO: Validation & Error handling
+
+  if (req.method === 'POST') {
+    const { items }: { items: Item[] } = req.body;
+    authenticateUser(req, res);
+    const userId = req.userId!;
+    let orderId;
+    try {
+      await prisma.$transaction(async (tx) => {
+        const newOrder = await tx.order.create({
+          data: {
+            user_id: userId,
+          },
+        });
+        orderId = newOrder.id;
+        const itemsData = items.map((item) => ({
+          ...item,
+          order_id: newOrder.id,
+        }));
+        await tx.item.createMany({
+          data: itemsData,
+        });
+      });
+      const order = await prisma.order.findUnique({ where: { id: orderId }, include: { user: true, items: true } });
+      res.json(order);
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ message: 'Issue creating order.' });
+    }
+  }
+
   // if (req.method === 'POST') {
   //   if (!process.env.MINTER_PRIVATE_KEY) {
   //     return res.status(500).json({ message: `Minter not set up.` });

@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 
-export const authenticateUser = (req: NextApiRequest, res: NextApiResponse): string | void => {
+export type RequestWithUser = NextApiRequest & { userId?: string };
+
+export const authenticateUser = (req: RequestWithUser, res: NextApiResponse): void => {
   const auth = req.headers.authorization;
   if (!auth) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -13,7 +15,7 @@ export const authenticateUser = (req: NextApiRequest, res: NextApiResponse): str
     if (!userId) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
-    return userId;
+    req.userId = userId;
   } catch (e) {
     return res.status(401).json({ message: 'Unauthorized' });
   }

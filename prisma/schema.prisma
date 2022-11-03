@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -50,7 +51,7 @@ model Product {
   quantity_sold                Int                       @default(0)
   active                       Boolean                   @default(true)
   treasury_address             String
-  order_products               OrderProduct[]
+  items                        Item[]
   product_to_metadata_rarities ProductToMetadataRarity[]
 }
 
@@ -64,32 +65,32 @@ model ProductToMetadataRarity {
   metadata_id     String
   rarity          Int
   max             Int?
-  quantity_minted Int      @default(0)
+  quantity_minted Int?     @default(0)
 }
 
 model Order {
-  id             String         @id @default(uuid())
-  created_at     DateTime       @default(now())
-  updated_at     DateTime       @updatedAt
-  user           User           @relation(fields: [user_id], references: [id])
-  user_id        String
-  payment        Payment?       @relation(fields: [payment_id], references: [id])
-  payment_id     String?
-  order_products OrderProduct[]
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  payment    Payment? @relation(fields: [payment_id], references: [id])
+  payment_id String?
+  items      Item[]
 }
 
-model OrderProduct {
-  id               String   @id @default(uuid())
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
-  order            Order    @relation(fields: [order_id], references: [id])
-  order_id         String
-  product          Product  @relation(fields: [product_id], references: [id])
-  product_id       String
-  quantity_ordered Int
-  quantity_minted  Int
-  status           String?
-  status_reason    String?
+model Item {
+  id            String   @id @default(uuid())
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  order         Order    @relation(fields: [order_id], references: [id])
+  order_id      String
+  product       Product  @relation(fields: [product_id], references: [id])
+  product_id    String
+  quantity      Int
+  minted        Int?     @default(0)
+  status        String?
+  status_reason String?
 }
 
 model Payment {
