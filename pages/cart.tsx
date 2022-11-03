@@ -2,11 +2,12 @@ import PrimaryButton from '@/components/Buttons/PrimaryButton';
 import QuarternaryButton from '@/components/Buttons/QuarternaryButton';
 import SecondaryButton from '@/components/Buttons/SecondaryButton';
 import Centered from '@/components/Containers/Centered';
+import CheckoutDialog from '@/components/Dialogs/CheckoutDialog';
 import LayoutDefault from '@/components/LayoutDefault';
 import Price from '@/components/Price';
 import { useCart, CartItemType } from '@/providers/CartProvider';
 import Image from 'next/image';
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { fromWei, toBN } from 'web3-utils';
 
 const Cart = () => {
@@ -15,8 +16,14 @@ const Cart = () => {
     dispatch,
   } = useCart();
 
+  const [isCheckoutDialogOpen, setIsCheckoutDialogOpen] = useState(false);
+
   const clearAllItems = () => {
     dispatch({ type: 'clear_cart' });
+  };
+
+  const beginCheckout = () => {
+    setIsCheckoutDialogOpen(true);
   };
 
   const totalCost = cartItems.reduce((prev, curr) => {
@@ -125,11 +132,14 @@ const Cart = () => {
         <div className="bg-card-secondary-normal p-4 border border-normal rounded-lg space-y-4 min-w-[250px]">
           <div>
             <div className="flex justify-between items-center">
-              <span className="font-semibold">Total</span>
+              <span className="font-semibold">{'Order Total'}</span>
               <span className="font-semibold">{`${fromWei(totalCost)} ETH`}</span>
             </div>
           </div>
-          <PrimaryButton className="w-full font-semibold !h-12 !max-h-12">{'Checkout'}</PrimaryButton>
+          <PrimaryButton className="w-full font-semibold !h-12 !max-h-12" onClick={beginCheckout}>
+            {'Checkout'}
+          </PrimaryButton>
+          <CheckoutDialog isOpen={isCheckoutDialogOpen} closeDialog={() => setIsCheckoutDialogOpen(false)} />
         </div>
       </div>
     </div>

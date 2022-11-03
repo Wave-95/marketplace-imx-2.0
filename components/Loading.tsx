@@ -1,10 +1,13 @@
 import React from 'react';
 import { Loader } from 'react-feather';
 
-const Loading = () => {
+type Props = {
+  size?: number;
+};
+const Loading: React.FC<Props> = ({ size }) => {
   return (
     <div className="flex items-center justify-center w-5 h-5 animate-spin">
-      <Loader />
+      <Loader size={size} />
     </div>
   );
 };

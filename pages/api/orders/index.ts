@@ -7,10 +7,8 @@ import { authenticateUser, RequestWithUser } from 'lib/auth';
 import { createOrderRequestSchema } from 'schemas';
 import { toBN } from 'web3-utils';
 
-type Item = { product_id: string; quantity: number };
+export type Item = { product_id: string; quantity: number };
 const handler: NextApiHandler = async (req: RequestWithUser, res) => {
-  //TODO: Validation & Error handling
-
   if (req.method === 'POST') {
     authenticateUser(req, res);
     createOrderRequestSchema.validate(req.body).catch((err: any) => {

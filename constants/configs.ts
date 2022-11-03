@@ -26,3 +26,5 @@ export const erc20_contract_addresses = {
 };
 
 export const server_base_uri = process.env.SERVER_BASE_URI || 'http://localhost:3000/api';
+
+export const treasury_address = process.env.NEXT_PUBLIC_TREASURY_ADDRESS;
