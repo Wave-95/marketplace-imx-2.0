@@ -4,34 +4,53 @@ import { client } from '../../../lib/imx';
 import { Wallet, ethers } from 'ethers';
 import { EthSigner } from '@imtbl/core-sdk';
 import { authenticateUser, RequestWithUser } from 'lib/auth';
+import { createOrderRequestSchema } from 'schemas';
+import { toBN } from 'web3-utils';
 
 type Item = { product_id: string; quantity: number };
 const handler: NextApiHandler = async (req: RequestWithUser, res) => {
   //TODO: Validation & Error handling
 
   if (req.method === 'POST') {
-    const { items }: { items: Item[] } = req.body;
     authenticateUser(req, res);
+    createOrderRequestSchema.validate(req.body).catch((err: any) => {
+      res.status(400).json({ message: 'Validation Error', errors: err.errors });
+    });
+    const { items }: { items: Item[] } = req.body;
+    const productIds = items.map((item) => item.product_id);
     const userId = req.userId!;
-    let orderId;
     try {
       await prisma.$transaction(async (tx) => {
+        const products = await tx.product.findMany({ where: { id: { in: productIds } } });
+        const itemsData = items.map((item) => {
+          const product = products.filter((product) => product.id === item.product_id)[0];
+          const price = product.price;
+          return {
+            ...item,
+            price,
+          };
+        });
+        const totalCost = itemsData.reduce((prev, curr) => {
+          const cost = curr.price ? toBN(curr.price).mul(toBN(curr.quantity)) : toBN(0);
+          return prev.add(cost);
+        }, toBN(0));
         const newOrder = await tx.order.create({
           data: {
             user_id: userId,
+            state: 'AWAITING_PAYMENT',
+            total_cost: totalCost.toString(),
           },
         });
-        orderId = newOrder.id;
-        const itemsData = items.map((item) => ({
-          ...item,
-          order_id: newOrder.id,
-        }));
+        const itemsDataWithOrderIds = itemsData.map((item) => ({ ...item, order_id: newOrder.id }));
         await tx.item.createMany({
-          data: itemsData,
+          data: itemsDataWithOrderIds,
         });
+        const orderResponse = await tx.order.findUnique({
+          where: { id: newOrder.id },
+          include: { user: true, items: { include: { product: true } } },
+        });
+        res.json(orderResponse);
       });
-      const order = await prisma.order.findUnique({ where: { id: orderId }, include: { user: true, items: true } });
-      res.json(order);
     } catch (e) {
       console.log(e);
       res.status(500).json({ message: 'Issue creating order.' });

@@ -6,7 +6,7 @@ export type RequestWithUser = NextApiRequest & { userId?: string };
 export const authenticateUser = (req: RequestWithUser, res: NextApiResponse): void => {
   const auth = req.headers.authorization;
   if (!auth) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: 'No authorization token provided.' });
   }
   const token = auth.split(' ').reverse()[0];
   try {

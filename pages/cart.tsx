@@ -27,7 +27,11 @@ const Cart = () => {
   const CartItem = ({ cartItem }: { cartItem: CartItemType }) => {
     const options = [];
     for (let i = 1; i < 11; i++) {
-      options.push(<option value={i}>{i}</option>);
+      options.push(
+        <option value={i} key={`qty-option-${i}`}>
+          {i}
+        </option>
+      );
     }
 
     const handleQtyChange: ChangeEventHandler<HTMLSelectElement> = (e) => {

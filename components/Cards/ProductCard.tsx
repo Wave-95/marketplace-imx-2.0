@@ -1,19 +1,15 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import cx from 'classnames';
+import React, { useEffect, useState } from 'react';
 import BaseCard from './BaseCard';
 import Image from 'next/image';
 import { Product } from '@prisma/client';
 import PrimaryButton from '../Buttons/PrimaryButton';
-import ProductDialog from '../Dialogs/ProductDialog';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
-import Countdown, { CountdownRenderProps } from 'react-countdown';
 import Price from '../Price';
 import SecondaryButton from '../Buttons/SecondaryButton';
-import { isAddedToCart } from '@/utils/index';
 import IconButton from '../Buttons/IconButton';
-import { Trash, Trash2 } from 'react-feather';
+import { Trash2 } from 'react-feather';
 import { useRouter } from 'next/router';
 import { useCart } from '@/providers/CartProvider';
 import { fromWei } from 'web3-utils';
@@ -25,25 +21,12 @@ type Props = {
 };
 
 const ProductCard: React.FC<Props> = ({ product, className, type, ...props }) => {
-  const {
-    id,
-    name,
-    description,
-    image,
-    price,
-    currency_token_address,
-    sale_start_at,
-    sale_end_at,
-    total_supply,
-    quantity_sold,
-    treasury_address,
-  } = product;
+  const { id, name, image, price } = product;
   const [addedToCart, setAddedToCart] = useState(false);
   const {
     state: { items: cartItems },
     dispatch,
   } = useCart();
-  console.log(cartItems);
   const router = useRouter();
 
   useEffect(() => {

@@ -13,11 +13,10 @@ const handler: NextApiHandler = async (req, res) => {
       total_supply = null,
       quantity_sold = undefined,
       active = true,
-      treasury_address,
     } = req.body;
 
     const newProduct = await prisma.product.create({
-      data: { name, image, price, sale_start_at, sale_end_at, total_supply, quantity_sold, active, treasury_address },
+      data: { name, image, price, sale_start_at, sale_end_at, total_supply, quantity_sold, active },
     });
     res.json(newProduct);
   }

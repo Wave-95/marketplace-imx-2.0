@@ -1,5 +1,3 @@
-import { marketplace_royalty_address } from '../../constants/configs';
-
 export const products = [
   {
     name: 'Genesis Weapons',
@@ -9,6 +7,5 @@ export const products = [
     sale_start_at: null,
     sale_end_at: '2023-01-16T19:20:30.451Z',
     total_supply: null,
-    treasury_address: marketplace_royalty_address,
   },
 ];

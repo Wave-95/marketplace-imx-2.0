@@ -41,7 +41,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const cart = localStorage.getItem('marketplace:CART_INFO');
-    console.log(cart);
     if (cart) {
       const cartObj = JSON.parse(cart);
       dispatch({ type: 'set_cart', payload: cartObj });

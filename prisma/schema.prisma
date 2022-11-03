@@ -50,7 +50,6 @@ model Product {
   total_supply                 Int?
   quantity_sold                Int                       @default(0)
   active                       Boolean                   @default(true)
-  treasury_address             String
   items                        Item[]
   product_to_metadata_rarities ProductToMetadataRarity[]
 }
@@ -76,6 +75,8 @@ model Order {
   user_id    String
   payment    Payment? @relation(fields: [payment_id], references: [id])
   payment_id String?
+  total_cost String?
+  state      String
   items      Item[]
 }
 
@@ -87,6 +88,7 @@ model Item {
   order_id      String
   product       Product  @relation(fields: [product_id], references: [id])
   product_id    String
+  price         String?
   quantity      Int
   minted        Int?     @default(0)
   status        String?

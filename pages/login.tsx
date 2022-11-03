@@ -59,6 +59,7 @@ const LoginPage: Page<Props> = ({ referer }) => {
         }
         const rawSignature = await walletConnectionNew?.ethSigner?.signMessage(address);
         const { user, token } = await login(address, rawSignature);
+        console.log(token);
         Cookies.set('marketplace:token', token, { expires: 3 });
         dispatch({ type: 'connect', payload: walletConnectionNew });
         dispatch({ type: 'set_address', payload: address });
